@@ -1,219 +1,179 @@
--- Created by Vertabelo (http://vertabelo.com)
--- Last modification date: 2022-09-09 11:05:04.995
-
--- tables
--- Table: Address
-CREATE TABLE Address (
-    id int NOT NULL AUTO_INCREMENT,
-    Country varchar(255) NOT NULL,
-    City varchar(255) NOT NULL,
-    Zip varchar(10) NOT NULL,
-    Street varchar(255) NOT NULL,
-    CONSTRAINT Address_pk PRIMARY KEY (id)
+CREATE TABLE ADDRESS (
+    ID INT NOT NULL AUTO_INCREMENT,
+    COUNTRY VARCHAR(255) NOT NULL,
+    CITY VARCHAR(255) NOT NULL,
+    ZIP VARCHAR(10) NOT NULL,
+    STREET VARCHAR(255) NOT NULL,
+    CONSTRAINT ADDRESS_PK PRIMARY KEY (ID)
 );
 
--- Table: Application
-CREATE TABLE Application (
-    id int NOT NULL AUTO_INCREMENT,
-    Offer_id int NOT NULL,
-    User_id int NOT NULL,
-    application_date date NOT NULL,
-    CV blob NOT NULL,
-    CONSTRAINT Application_pk PRIMARY KEY (id)
+CREATE TABLE APPLICATION (
+    ID INT NOT NULL AUTO_INCREMENT,
+    OFFER_ID INT NOT NULL,
+    USER_ID INT NOT NULL,
+    APPLICATION_DATE DATE NOT NULL,
+    CV BLOB NOT NULL,
+    CONSTRAINT APPLICATION_PK PRIMARY KEY (ID)
 );
 
--- Table: Authority
-CREATE TABLE Authority (
-    id int NOT NULL AUTO_INCREMENT,
-    name varchar(255) NOT NULL,
-    CONSTRAINT Authority_pk PRIMARY KEY (id)
+CREATE TABLE AUTHORITY (
+    ID INT NOT NULL AUTO_INCREMENT,
+    NAME VARCHAR(255) NOT NULL,
+    CONSTRAINT AUTHORITY_PK PRIMARY KEY (ID)
 );
 
--- Table: Category
-CREATE TABLE Category (
-    id int NOT NULL AUTO_INCREMENT,
-    title varchar(255) NOT NULL,
-    CONSTRAINT Category_pk PRIMARY KEY (id)
+CREATE TABLE CATEGORY (
+    ID INT NOT NULL AUTO_INCREMENT,
+    TITLE VARCHAR(255) NOT NULL,
+    CONSTRAINT CATEGORY_PK PRIMARY KEY (ID)
 );
 
--- Table: Company
-CREATE TABLE Company (
-    id int NOT NULL AUTO_INCREMENT,
-    name varchar(255) NOT NULL,
-    description text NOT NULL,
-    Logo_photo blob NULL,
-    CONSTRAINT Company_pk PRIMARY KEY (id)
+CREATE TABLE COMPANY (
+    ID INT NOT NULL AUTO_INCREMENT,
+    NAME VARCHAR(255) NOT NULL,
+    DESCRIPTION TEXT NOT NULL,
+    LOGO_PHOTO BLOB NULL,
+    CONSTRAINT COMPANY_PK PRIMARY KEY (ID)
 );
 
--- Table: Education
-CREATE TABLE Education (
-    id int NOT NULL AUTO_INCREMENT,
-    start_date date NOT NULL,
-    end_date date NULL,
-    university_name varchar(255) NOT NULL,
-    major varchar(255) NOT NULL,
-    specialisation varchar(255) NULL,
-    User_id int NOT NULL,
-    CONSTRAINT Education_pk PRIMARY KEY (id)
+CREATE TABLE EDUCATION (
+    ID INT NOT NULL AUTO_INCREMENT,
+    START_DATE DATE NOT NULL,
+    END_DATE DATE NULL,
+    UNIVERSITY_NAME VARCHAR(255) NOT NULL,
+    MAJOR VARCHAR(255) NOT NULL,
+    SPECIALIZATION VARCHAR(255) NULL,
+    USER_ID INT NOT NULL,
+    CONSTRAINT EDUCATION_PK PRIMARY KEY (ID)
 );
 
--- Table: Expectation
-CREATE TABLE Expectation (
-    id int NOT NULL AUTO_INCREMENT,
-    description text NOT NULL,
-    required bool NOT NULL,
-    Offer_id int NOT NULL,
-    CONSTRAINT Expectation_pk PRIMARY KEY (id)
+CREATE TABLE EXPECTATION (
+    ID INT NOT NULL AUTO_INCREMENT,
+    DESCRIPTION TEXT NOT NULL,
+    REQUIRED BOOL NOT NULL,
+    OFFER_ID INT NOT NULL,
+    CONSTRAINT EXPECTATION_PK PRIMARY KEY (ID)
 );
 
--- Table: Experience
-CREATE TABLE Experience (
-    id int NOT NULL AUTO_INCREMENT,
-    start_date int NOT NULL,
-    end_date int NULL,
-    job varchar(255) NOT NULL,
-    company_name varchar(255) NOT NULL,
-    description text NOT NULL,
-    User_id int NOT NULL,
-    still_working bool NOT NULL,
-    CONSTRAINT Experience_pk PRIMARY KEY (id)
+CREATE TABLE EXPERIENCE (
+    ID INT NOT NULL AUTO_INCREMENT,
+    START_DATE INT NOT NULL,
+    END_DATE INT NULL,
+    JOB VARCHAR(255) NOT NULL,
+    COMPANY_NAME VARCHAR(255) NOT NULL,
+    DESCRIPTION TEXT NOT NULL,
+    USER_ID INT NOT NULL,
+    STILL_WORKING BOOL NOT NULL,
+    CONSTRAINT EXPERIENCE_PK PRIMARY KEY (ID)
 );
 
--- Table: Offer
-CREATE TABLE Offer (
-    id int NOT NULL AUTO_INCREMENT,
-    description text NOT NULL,
-    Address_id int NOT NULL,
-    Company_id int NOT NULL,
-    creation_date date NOT NULL,
-    closing_date date NOT NULL,
-    User_id int NOT NULL,
-    CONSTRAINT Offer_pk PRIMARY KEY (id)
+CREATE TABLE OFFER (
+    ID INT NOT NULL AUTO_INCREMENT,
+    DESCRIPTION TEXT NOT NULL,
+    ADDRESS_ID INT NOT NULL,
+    COMPANY_ID INT NOT NULL,
+    CREATION_DATE DATE NOT NULL,
+    CLOSING_DATE DATE NOT NULL,
+    USER_ID INT NOT NULL,
+    CONSTRAINT OFFER_PK PRIMARY KEY (ID)
 );
 
--- Table: Offer_Advantage
-CREATE TABLE Offer_Advantage (
-    id int NOT NULL AUTO_INCREMENT,
-    description text NOT NULL,
-    Offer_id int NOT NULL,
-    CONSTRAINT Offer_Advantage_pk PRIMARY KEY (id)
+CREATE TABLE OFFER_ADVANTAGE (
+    ID INT NOT NULL AUTO_INCREMENT,
+    DESCRIPTION TEXT NOT NULL,
+    OFFER_ID INT NOT NULL,
+    CONSTRAINT OFFER_ADVANTAGE_PK PRIMARY KEY (ID)
 );
 
--- Table: Offer_Category
-CREATE TABLE Offer_Category (
-    Offer_id int NOT NULL,
-    Job_Category_id int NOT NULL,
-    CONSTRAINT Offer_Category_pk PRIMARY KEY (Offer_id,Job_Category_id)
+CREATE TABLE OFFER_CATEGORY (
+    OFFER_ID INT NOT NULL,
+    JOB_CATEGORY_ID INT NOT NULL,
+    CONSTRAINT OFFER_CATEGORY_PK PRIMARY KEY (OFFER_ID,JOB_CATEGORY_ID)
 );
 
--- Table: Recruiter
-CREATE TABLE Recruiter (
-    User_id int NOT NULL,
-    Company_id int NOT NULL,
-    CONSTRAINT Recruiter_pk PRIMARY KEY (User_id,Company_id)
+CREATE TABLE RECRUITER (
+    USER_ID INT NOT NULL,
+    COMPANY_ID INT NOT NULL,
+    CONSTRAINT RECRUITER_PK PRIMARY KEY (USER_ID,COMPANY_ID)
 );
 
--- Table: Saved_Offer
-CREATE TABLE Saved_Offer (
-    User_id int NOT NULL,
-    Offer_id int NOT NULL,
-    CONSTRAINT Saved_Offer_pk PRIMARY KEY (User_id,Offer_id)
+CREATE TABLE SAVED_OFFER (
+    USER_ID INT NOT NULL,
+    OFFER_ID INT NOT NULL,
+    CONSTRAINT SAVED_OFFER_PK PRIMARY KEY (USER_ID,OFFER_ID)
 );
 
--- Table: User
-CREATE TABLE User (
-    id int NOT NULL AUTO_INCREMENT,
-    password varchar(20) NOT NULL,
-    first_name varchar(255) NOT NULL,
-    last_name varchar(255) NOT NULL,
-    birthdate date NOT NULL,
-    email varchar(255) NOT NULL,
-    Address_id int NOT NULL,
-    Identifier varchar(255) NOT NULL,
-    Photo blob NULL,
-    Description text NULL,
-    CONSTRAINT User_pk PRIMARY KEY (id)
+CREATE TABLE USER (
+    ID INT NOT NULL AUTO_INCREMENT,
+    PASSWORD VARCHAR(20) NOT NULL,
+    FIRST_NAME VARCHAR(255) NOT NULL,
+    LAST_NAME VARCHAR(255) NOT NULL,
+    BIRTHDATE DATE NOT NULL,
+    EMAIL VARCHAR(255) NOT NULL,
+    ADDRESS_ID INT NOT NULL,
+    IDENTIFIER VARCHAR(255) NOT NULL,
+    PHOTO BLOB NULL,
+    DESCRIPTION TEXT NULL,
+    CONSTRAINT USER_PK PRIMARY KEY (ID)
 );
 
--- Table: User_Authority
-CREATE TABLE User_Authority (
-    Authority_id int NOT NULL,
-    User_id int NOT NULL,
-    CONSTRAINT User_Authority_pk PRIMARY KEY (Authority_id,User_id)
+CREATE TABLE USER_AUTHORITY (
+    AUTHORITY_ID INT NOT NULL,
+    USER_ID INT NOT NULL,
+    CONSTRAINT USER_AUTHORITY_PK PRIMARY KEY (AUTHORITY_ID,USER_ID)
 );
 
--- foreign keys
--- Reference: Application_Offer (table: Application)
-ALTER TABLE Application ADD CONSTRAINT Application_Offer FOREIGN KEY (Offer_id)
-    REFERENCES Offer (id);
 
--- Reference: Application_User (table: Application)
-ALTER TABLE Application ADD CONSTRAINT Application_User FOREIGN KEY (User_id)
-    REFERENCES User (id);
+ALTER TABLE APPLICATION ADD CONSTRAINT APPLICATION_OFFER FOREIGN KEY (OFFER_ID)
+    REFERENCES OFFER (ID);
 
--- Reference: Education_User (table: Education)
-ALTER TABLE Education ADD CONSTRAINT Education_User FOREIGN KEY (User_id)
-    REFERENCES User (id);
+ALTER TABLE APPLICATION ADD CONSTRAINT APPLICATION_USER FOREIGN KEY (USER_ID)
+    REFERENCES USER (ID);
 
--- Reference: Expectation_Offer (table: Expectation)
-ALTER TABLE Expectation ADD CONSTRAINT Expectation_Offer FOREIGN KEY (Offer_id)
-    REFERENCES Offer (id);
+ALTER TABLE EDUCATION ADD CONSTRAINT EDUCATION_USER FOREIGN KEY (USER_ID)
+    REFERENCES USER (ID);
 
--- Reference: Experience_User (table: Experience)
-ALTER TABLE Experience ADD CONSTRAINT Experience_User FOREIGN KEY (User_id)
-    REFERENCES User (id);
+ALTER TABLE EXPECTATION ADD CONSTRAINT EXPECTATION_OFFER FOREIGN KEY (OFFER_ID)
+    REFERENCES OFFER (ID);
 
--- Reference: Offer_Address (table: Offer)
-ALTER TABLE Offer ADD CONSTRAINT Offer_Address FOREIGN KEY (Address_id)
-    REFERENCES Address (id);
+ALTER TABLE EXPERIENCE ADD CONSTRAINT EXPERIENCE_USER FOREIGN KEY (USER_ID)
+    REFERENCES USER (ID);
 
--- Reference: Offer_Advantage_Offer (table: Offer_Advantage)
-ALTER TABLE Offer_Advantage ADD CONSTRAINT Offer_Advantage_Offer FOREIGN KEY (Offer_id)
-    REFERENCES Offer (id);
+ALTER TABLE OFFER ADD CONSTRAINT OFFER_ADDRESS FOREIGN KEY (ADDRESS_ID)
+    REFERENCES ADDRESS (ID);
 
--- Reference: Offer_Company (table: Offer)
-ALTER TABLE Offer ADD CONSTRAINT Offer_Company FOREIGN KEY (Company_id)
-    REFERENCES Company (id);
+ALTER TABLE OFFER_ADVANTAGE ADD CONSTRAINT OFFER_ADVANTAGE_OFFER FOREIGN KEY (OFFER_ID)
+    REFERENCES OFFER (ID);
 
--- Reference: Offer_User (table: Offer)
-ALTER TABLE Offer ADD CONSTRAINT Offer_User FOREIGN KEY (User_id)
-    REFERENCES User (id);
+ALTER TABLE OFFER ADD CONSTRAINT OFFER_COMPANY FOREIGN KEY (COMPANY_ID)
+    REFERENCES COMPANY (ID);
 
--- Reference: Recruiter_Company (table: Recruiter)
-ALTER TABLE Recruiter ADD CONSTRAINT Recruiter_Company FOREIGN KEY (Company_id)
-    REFERENCES Company (id);
+ALTER TABLE OFFER ADD CONSTRAINT OFFER_USER FOREIGN KEY (USER_ID)
+    REFERENCES USER (ID);
 
--- Reference: Recruiter_User (table: Recruiter)
-ALTER TABLE Recruiter ADD CONSTRAINT Recruiter_User FOREIGN KEY (User_id)
-    REFERENCES User (id);
+ALTER TABLE RECRUITER ADD CONSTRAINT RECRUITER_COMPANY FOREIGN KEY (COMPANY_ID)
+    REFERENCES COMPANY (ID);
 
--- Reference: Saved_Offer_Offer (table: Saved_Offer)
-ALTER TABLE Saved_Offer ADD CONSTRAINT Saved_Offer_Offer FOREIGN KEY (Offer_id)
-    REFERENCES Offer (id);
+ALTER TABLE RECRUITER ADD CONSTRAINT RECRUITER_USER FOREIGN KEY (USER_ID)
+    REFERENCES USER (ID);
 
--- Reference: Saved_Offer_User (table: Saved_Offer)
-ALTER TABLE Saved_Offer ADD CONSTRAINT Saved_Offer_User FOREIGN KEY (User_id)
-    REFERENCES User (id);
+ALTER TABLE SAVED_OFFER ADD CONSTRAINT SAVED_OFFER_OFFER FOREIGN KEY (OFFER_ID)
+    REFERENCES OFFER (ID);
 
--- Reference: Table_18_Job_Category (table: Offer_Category)
-ALTER TABLE Offer_Category ADD CONSTRAINT Table_18_Job_Category FOREIGN KEY (Job_Category_id)
-    REFERENCES Category (id);
+ALTER TABLE SAVED_OFFER ADD CONSTRAINT SAVED_OFFER_USER FOREIGN KEY (USER_ID)
+    REFERENCES USER (ID);
 
--- Reference: Table_18_Offer (table: Offer_Category)
-ALTER TABLE Offer_Category ADD CONSTRAINT Table_18_Offer FOREIGN KEY (Offer_id)
-    REFERENCES Offer (id);
+ALTER TABLE OFFER_CATEGORY ADD CONSTRAINT TABLE_18_JOB_CATEGORY FOREIGN KEY (JOB_CATEGORY_ID)
+    REFERENCES CATEGORY (ID);
 
--- Reference: User_Address (table: User)
-ALTER TABLE User ADD CONSTRAINT User_Address FOREIGN KEY (Address_id)
-    REFERENCES Address (id);
+ALTER TABLE OFFER_CATEGORY ADD CONSTRAINT TABLE_18_OFFER FOREIGN KEY (OFFER_ID)
+    REFERENCES OFFER (ID);
 
--- Reference: User_Authority_Authority (table: User_Authority)
-ALTER TABLE User_Authority ADD CONSTRAINT User_Authority_Authority FOREIGN KEY (Authority_id)
-    REFERENCES Authority (id);
+ALTER TABLE USER ADD CONSTRAINT USER_ADDRESS FOREIGN KEY (ADDRESS_ID)
+    REFERENCES ADDRESS (ID);
 
--- Reference: User_Authority_User (table: User_Authority)
-ALTER TABLE User_Authority ADD CONSTRAINT User_Authority_User FOREIGN KEY (User_id)
-    REFERENCES User (id);
+ALTER TABLE USER_AUTHORITY ADD CONSTRAINT USER_AUTHORITY_AUTHORITY FOREIGN KEY (AUTHORITY_ID)
+    REFERENCES AUTHORITY (ID);
 
--- End of file.
-
+ALTER TABLE USER_AUTHORITY ADD CONSTRAINT USER_AUTHORITY_USER FOREIGN KEY (USER_ID)
+    REFERENCES USER (ID);
