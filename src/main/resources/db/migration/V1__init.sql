@@ -144,75 +144,75 @@ CREATE TABLE User_Authority (
 
 -- foreign keys
 -- Reference: Application_Offer (table: Application)
-ALTER TABLE Application ADD CONSTRAINT Application_Offer FOREIGN KEY Application_Offer (Offer_id)
+ALTER TABLE Application ADD CONSTRAINT Application_Offer FOREIGN KEY (Offer_id)
     REFERENCES Offer (id);
 
 -- Reference: Application_User (table: Application)
-ALTER TABLE Application ADD CONSTRAINT Application_User FOREIGN KEY Application_User (User_id)
+ALTER TABLE Application ADD CONSTRAINT Application_User FOREIGN KEY (User_id)
     REFERENCES User (id);
 
 -- Reference: Education_User (table: Education)
-ALTER TABLE Education ADD CONSTRAINT Education_User FOREIGN KEY Education_User (User_id)
+ALTER TABLE Education ADD CONSTRAINT Education_User FOREIGN KEY (User_id)
     REFERENCES User (id);
 
 -- Reference: Expectation_Offer (table: Expectation)
-ALTER TABLE Expectation ADD CONSTRAINT Expectation_Offer FOREIGN KEY Expectation_Offer (Offer_id)
+ALTER TABLE Expectation ADD CONSTRAINT Expectation_Offer FOREIGN KEY (Offer_id)
     REFERENCES Offer (id);
 
 -- Reference: Experience_User (table: Experience)
-ALTER TABLE Experience ADD CONSTRAINT Experience_User FOREIGN KEY Experience_User (User_id)
+ALTER TABLE Experience ADD CONSTRAINT Experience_User FOREIGN KEY (User_id)
     REFERENCES User (id);
 
 -- Reference: Offer_Address (table: Offer)
-ALTER TABLE Offer ADD CONSTRAINT Offer_Address FOREIGN KEY Offer_Address (Address_id)
+ALTER TABLE Offer ADD CONSTRAINT Offer_Address FOREIGN KEY (Address_id)
     REFERENCES Address (id);
 
 -- Reference: Offer_Advantage_Offer (table: Offer_Advantage)
-ALTER TABLE Offer_Advantage ADD CONSTRAINT Offer_Advantage_Offer FOREIGN KEY Offer_Advantage_Offer (Offer_id)
+ALTER TABLE Offer_Advantage ADD CONSTRAINT Offer_Advantage_Offer FOREIGN KEY (Offer_id)
     REFERENCES Offer (id);
 
 -- Reference: Offer_Company (table: Offer)
-ALTER TABLE Offer ADD CONSTRAINT Offer_Company FOREIGN KEY Offer_Company (Company_id)
+ALTER TABLE Offer ADD CONSTRAINT Offer_Company FOREIGN KEY (Company_id)
     REFERENCES Company (id);
 
 -- Reference: Offer_User (table: Offer)
-ALTER TABLE Offer ADD CONSTRAINT Offer_User FOREIGN KEY Offer_User (User_id)
+ALTER TABLE Offer ADD CONSTRAINT Offer_User FOREIGN KEY (User_id)
     REFERENCES User (id);
 
 -- Reference: Recruiter_Company (table: Recruiter)
-ALTER TABLE Recruiter ADD CONSTRAINT Recruiter_Company FOREIGN KEY Recruiter_Company (Company_id)
+ALTER TABLE Recruiter ADD CONSTRAINT Recruiter_Company FOREIGN KEY (Company_id)
     REFERENCES Company (id);
 
 -- Reference: Recruiter_User (table: Recruiter)
-ALTER TABLE Recruiter ADD CONSTRAINT Recruiter_User FOREIGN KEY Recruiter_User (User_id)
+ALTER TABLE Recruiter ADD CONSTRAINT Recruiter_User FOREIGN KEY (User_id)
     REFERENCES User (id);
 
 -- Reference: Saved_Offer_Offer (table: Saved_Offer)
-ALTER TABLE Saved_Offer ADD CONSTRAINT Saved_Offer_Offer FOREIGN KEY Saved_Offer_Offer (Offer_id)
+ALTER TABLE Saved_Offer ADD CONSTRAINT Saved_Offer_Offer FOREIGN KEY (Offer_id)
     REFERENCES Offer (id);
 
 -- Reference: Saved_Offer_User (table: Saved_Offer)
-ALTER TABLE Saved_Offer ADD CONSTRAINT Saved_Offer_User FOREIGN KEY Saved_Offer_User (User_id)
+ALTER TABLE Saved_Offer ADD CONSTRAINT Saved_Offer_User FOREIGN KEY (User_id)
     REFERENCES User (id);
 
 -- Reference: Table_18_Job_Category (table: Offer_Category)
-ALTER TABLE Offer_Category ADD CONSTRAINT Table_18_Job_Category FOREIGN KEY Table_18_Job_Category (Job_Category_id)
+ALTER TABLE Offer_Category ADD CONSTRAINT Table_18_Job_Category FOREIGN KEY (Job_Category_id)
     REFERENCES Category (id);
 
 -- Reference: Table_18_Offer (table: Offer_Category)
-ALTER TABLE Offer_Category ADD CONSTRAINT Table_18_Offer FOREIGN KEY Table_18_Offer (Offer_id)
+ALTER TABLE Offer_Category ADD CONSTRAINT Table_18_Offer FOREIGN KEY (Offer_id)
     REFERENCES Offer (id);
 
 -- Reference: User_Address (table: User)
-ALTER TABLE User ADD CONSTRAINT User_Address FOREIGN KEY User_Address (Address_id)
+ALTER TABLE User ADD CONSTRAINT User_Address FOREIGN KEY (Address_id)
     REFERENCES Address (id);
 
 -- Reference: User_Authority_Authority (table: User_Authority)
-ALTER TABLE User_Authority ADD CONSTRAINT User_Authority_Authority FOREIGN KEY User_Authority_Authority (Authority_id)
+ALTER TABLE User_Authority ADD CONSTRAINT User_Authority_Authority FOREIGN KEY (Authority_id)
     REFERENCES Authority (id);
 
 -- Reference: User_Authority_User (table: User_Authority)
-ALTER TABLE User_Authority ADD CONSTRAINT User_Authority_User FOREIGN KEY User_Authority_User (User_id)
+ALTER TABLE User_Authority ADD CONSTRAINT User_Authority_User FOREIGN KEY (User_id)
     REFERENCES User (id);
 
 -- End of file.
