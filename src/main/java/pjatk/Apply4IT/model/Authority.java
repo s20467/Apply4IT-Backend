@@ -27,4 +27,8 @@ public class Authority {
             inverseJoinColumns = @JoinColumn(name = "USER_ID")
     )
     private List<User> users = new ArrayList<>();
+
+    public Authority(String name) {
+        this.name = name;
+    }
 }
