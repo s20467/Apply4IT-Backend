@@ -6,6 +6,7 @@ import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.exceptions.JWTVerificationException;
 import com.auth0.jwt.interfaces.DecodedJWT;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.stereotype.Service;
 import pjatk.Apply4IT.model.Authority;
 import pjatk.Apply4IT.model.User;
 import pjatk.Apply4IT.service.UserService;
@@ -14,6 +15,7 @@ import java.util.Arrays;
 import java.util.Date;
 import java.util.stream.Collectors;
 
+@Service
 public class JwtServiceImpl implements JwtService{
 
     private final UserService userService;

@@ -1,6 +1,5 @@
 package pjatk.Apply4IT.security;
 
-import com.auth0.jwt.algorithms.Algorithm;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.http.MediaType;
 import org.springframework.security.authentication.AuthenticationCredentialsNotFoundException;
@@ -35,7 +34,10 @@ public class CustomAuthenticationFilter extends UsernamePasswordAuthenticationFi
             String postObjectString = request.getReader().lines().collect(Collectors.joining(System.lineSeparator()));
             ObjectMapper mapper = new ObjectMapper();
             Map<String, Object> userCredentialsMap = mapper.readValue(postObjectString, Map.class);
-            return authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(userCredentialsMap.get("email"), userCredentialsMap.get("password")));
+            return authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(
+                    userCredentialsMap.getOrDefault("username", userCredentialsMap.get("email")),
+                    userCredentialsMap.get("password"))
+            );
         } catch (IOException e) {
             e.printStackTrace();
             throw new AuthenticationCredentialsNotFoundException(e.getMessage());
