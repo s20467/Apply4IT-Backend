@@ -18,12 +18,13 @@ public class Application {
     private Integer id;
 
     @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.REFRESH, CascadeType.MERGE})
+    @JoinColumn(name="OFFER_ID")
     private Offer targetOffer;
 
     @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.REFRESH, CascadeType.MERGE})
     private User user;
 
     private LocalDate applicationDate;
-    private Byte[] pdf;
+    private Byte[] cv;
 
 }

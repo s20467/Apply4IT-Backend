@@ -32,6 +32,7 @@ public class Offer {
     private LocalDate closingDate;
 
     @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.REFRESH, CascadeType.MERGE})
+    @JoinColumn(name="USER_ID")
     private User author;
 
     @Builder.Default
