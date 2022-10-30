@@ -34,15 +34,19 @@ public class Offer {
     @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.REFRESH, CascadeType.MERGE})
     private User author;
 
+    @Builder.Default
     @OneToMany(mappedBy = "targetOffer", cascade = {CascadeType.PERSIST, CascadeType.REFRESH, CascadeType.MERGE})
     private List<Application> applications = new ArrayList<>();
 
+    @Builder.Default
     @OneToMany(mappedBy = "offer", cascade = {CascadeType.PERSIST, CascadeType.REFRESH, CascadeType.MERGE})
     private List<Expectation> expectations = new ArrayList<>();
 
+    @Builder.Default
     @OneToMany(mappedBy = "offer", cascade = {CascadeType.PERSIST, CascadeType.REFRESH, CascadeType.MERGE})
     private List<OfferAdvantage> offerAdvantages = new ArrayList<>();
 
+    @Builder.Default
     @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.REFRESH, CascadeType.MERGE})
     @JoinTable(
             name = "OFFER_CATEGORY",
@@ -53,6 +57,7 @@ public class Offer {
 
     private Boolean remotePossibility;
 
+    @Builder.Default
     @ManyToMany(mappedBy = "savedOffers", cascade = {CascadeType.PERSIST, CascadeType.REFRESH, CascadeType.MERGE})
     private List<User> users = new ArrayList<>();
 }

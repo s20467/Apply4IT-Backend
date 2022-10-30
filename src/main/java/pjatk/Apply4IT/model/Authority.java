@@ -20,6 +20,7 @@ public class Authority {
 
     private String name;
 
+    @Builder.Default
     @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.REFRESH, CascadeType.MERGE})
     @JoinTable(
             name = "USER_AUTHORITY",

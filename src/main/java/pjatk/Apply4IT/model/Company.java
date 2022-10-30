@@ -22,9 +22,11 @@ public class Company {
     private String description;
     private Byte[] logoPhoto;
 
+    @Builder.Default
     @OneToMany(mappedBy = "company", cascade = {CascadeType.PERSIST, CascadeType.REFRESH, CascadeType.MERGE})
     private List<Offer> offers = new ArrayList<>();
 
+    @Builder.Default
     @ManyToMany(mappedBy = "isRecruiterFor", cascade = {CascadeType.PERSIST, CascadeType.REFRESH, CascadeType.MERGE})
     private List<User> recruiters = new ArrayList<>();
 }

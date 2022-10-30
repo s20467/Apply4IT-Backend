@@ -20,6 +20,7 @@ public class Category {
 
     private String title;
 
+    @Builder.Default
     @ManyToMany(mappedBy = "categories", cascade = {CascadeType.PERSIST, CascadeType.REFRESH, CascadeType.MERGE})
     private List<Offer> offers = new ArrayList<>();
 }
