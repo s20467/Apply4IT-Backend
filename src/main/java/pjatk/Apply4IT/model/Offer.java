@@ -18,6 +18,8 @@ public class Offer {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
+
+    private String title;
     private String description;
 
     @Embedded
@@ -48,6 +50,8 @@ public class Offer {
             inverseJoinColumns = @JoinColumn(name = "JOB_CATEGORY_ID")
     )
     private List<Category> categories = new ArrayList<>();
+
+    private Boolean remotePossibility;
 
     @ManyToMany(mappedBy = "savedOffers", cascade = {CascadeType.PERSIST, CascadeType.REFRESH, CascadeType.MERGE})
     private List<User> users = new ArrayList<>();
