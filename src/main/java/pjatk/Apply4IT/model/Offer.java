@@ -28,6 +28,9 @@ public class Offer {
     private Address address;
 
     @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.REFRESH, CascadeType.MERGE})
+    private Localization localization;
+
+    @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.REFRESH, CascadeType.MERGE})
     private Company company;
 
     private LocalDate creationDate;
