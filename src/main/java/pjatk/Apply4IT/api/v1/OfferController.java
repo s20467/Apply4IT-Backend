@@ -28,7 +28,7 @@ public class OfferController {
         return offerService.getOffers(pageable);
     }
 
-    @GetMapping("/search/{searchString}") // todo make it override getOffers with same path without search just with search string path variable
+    @GetMapping("/{searchString}") // todo maybe different path for search
     public Page<OfferMinimalDto> searchOffers(
             @PathVariable String searchString,
             @PageableDefault(size = 10, page = 0) @SortDefault(sort = "creationDate", direction = Sort.Direction.ASC) Pageable pageable
