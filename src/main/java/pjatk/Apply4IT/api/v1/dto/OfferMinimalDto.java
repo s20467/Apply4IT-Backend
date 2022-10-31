@@ -19,6 +19,7 @@ public class OfferMinimalDto {
     private String title;
     private String description;
     private Address address;
+    private String localization;
     private Company company;
     private LocalDate creationDate;
     private LocalDate closingDate;
