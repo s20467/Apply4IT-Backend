@@ -1,6 +1,8 @@
 package pjatk.Apply4IT.model;
 
 import lombok.*;
+import org.hibernate.annotations.LazyCollection;
+import org.hibernate.annotations.LazyCollectionOption;
 
 import javax.persistence.*;
 import java.time.LocalDate;
@@ -41,10 +43,12 @@ public class Offer {
 
     @Builder.Default
     @OneToMany(mappedBy = "offer", cascade = {CascadeType.PERSIST, CascadeType.REFRESH, CascadeType.MERGE})
+    @LazyCollection(LazyCollectionOption.FALSE)
     private List<Expectation> expectations = new ArrayList<>();
 
     @Builder.Default
     @OneToMany(mappedBy = "offer", cascade = {CascadeType.PERSIST, CascadeType.REFRESH, CascadeType.MERGE})
+    @LazyCollection(LazyCollectionOption.FALSE)
     private List<OfferAdvantage> offerAdvantages = new ArrayList<>();
 
     @Builder.Default
@@ -54,6 +58,7 @@ public class Offer {
             joinColumns = @JoinColumn(name = "OFFER_ID"),
             inverseJoinColumns = @JoinColumn(name = "JOB_CATEGORY_ID")
     )
+    @LazyCollection(LazyCollectionOption.FALSE)
     private List<Category> categories = new ArrayList<>();
 
     private Boolean remotePossibility;
