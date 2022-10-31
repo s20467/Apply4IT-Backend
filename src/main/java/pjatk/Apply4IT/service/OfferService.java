@@ -8,5 +8,5 @@ import pjatk.Apply4IT.model.Offer;
 
 public interface OfferService {
     Page<OfferMinimalDto> getOffers(Pageable pageable);
-    Page<OfferMinimalDto> getOffers(Pageable pageable, Specification<Offer> specification);
+    Page<OfferMinimalDto> getOffers(Specification<Offer> specification, Pageable pageable);
 }

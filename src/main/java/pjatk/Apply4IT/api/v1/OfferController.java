@@ -33,7 +33,7 @@ public class OfferController {
             @PathVariable String searchString,
             @PageableDefault(size = 10, page = 0) @SortDefault(sort = "creationDate", direction = Sort.Direction.ASC) Pageable pageable
     ) {
-        return offerService.getOffers(pageable, OfferSpecifications.search(searchString));
+        return offerService.getOffers(OfferSpecifications.search(searchString), pageable);
     }
 
 }
