@@ -36,6 +36,11 @@ public class Offer {
     private LocalDate creationDate;
     private LocalDate closingDate;
 
+    private Integer minSalaryPln;
+    private Integer maxSalaryPln;
+
+    private Boolean firstJob;
+
     @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.REFRESH, CascadeType.MERGE})
     @JoinColumn(name="USER_ID")
     private User author;
