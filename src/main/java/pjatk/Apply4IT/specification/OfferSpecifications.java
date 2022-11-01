@@ -1,13 +1,14 @@
 package pjatk.Apply4IT.specification;
 
 import org.springframework.data.jpa.domain.Specification;
-import pjatk.Apply4IT.model.Expectation;
-import pjatk.Apply4IT.model.Offer;
-import pjatk.Apply4IT.model.OfferAdvantage;
+import pjatk.Apply4IT.api.v1.dto.OfferSearchSpecification;
+import pjatk.Apply4IT.model.*;
+
 import javax.persistence.criteria.Expression;
 import javax.persistence.criteria.Root;
 import javax.persistence.criteria.Subquery;
 import java.util.Collection;
+import java.util.List;
 
 public class OfferSpecifications {
 
@@ -31,53 +32,125 @@ public class OfferSpecifications {
                         "%" + description.toLowerCase() + "%");
     }
 
-    public static Specification<Offer> likeAnyExpectation(String expectationDescription) {
+    public static Specification<Offer> likeCompanyName(String companyName) {
+        if(companyName == null) {
+            return null;
+        }
+        return (root, query, criteriaBuilder) ->
+                criteriaBuilder.like(
+                        criteriaBuilder.lower(root.get("company").get("name")),
+                        "%" + companyName + "%"
+                );
+
+    }
+
+
+    public static Specification<Offer> likeAnyCategoryTitle(String categoryTitle) {
+        if(categoryTitle == null) {
+            return Specification.where(null);
+        }
+        return (root, query, criteriaBuilder) -> {
+            query.distinct(true);
+            Root<Offer> offerRoot = root;
+            Subquery<Category> categorySubquery = query.subquery(Category.class);
+            Root<Category> categoryRoot = categorySubquery.from(Category.class);
+            Expression<Collection<Category>> categoriesExpression = offerRoot.get("categories");
+            categorySubquery.select(categoryRoot);
+            categorySubquery.where(
+                    criteriaBuilder.like(
+                            criteriaBuilder.lower(categoryRoot.get("title")),
+                            "%" + categoryTitle.toLowerCase() + "%"
+                    ),
+                    criteriaBuilder.isMember(
+                            categoryRoot,
+                            categoriesExpression
+                    )
+            );
+            return criteriaBuilder.exists(categorySubquery);
+        };
+    }
+
+    public static Specification<Offer> likeAnyExpectationDescription(String expectationDescription) {
         if(expectationDescription == null) {
             return Specification.where(null);
         }
         return (root, query, criteriaBuilder) -> {
             query.distinct(true);
-            Root<Offer> offer = root;
+            Root<Offer> offerRoot = root;
             Subquery<Expectation> expectationSubquery = query.subquery(Expectation.class);
-            Root<Expectation> expectation = expectationSubquery.from(Expectation.class);
-            Expression<Collection<Expectation>> expectations = offer.get("expectations");
-            expectationSubquery.select(expectation);
+            Root<Expectation> expectationRoot = expectationSubquery.from(Expectation.class);
+            Expression<Collection<Expectation>> expectationsExpression = offerRoot.get("expectations");
+            expectationSubquery.select(expectationRoot);
             expectationSubquery.where(
                     criteriaBuilder.like(
-                            criteriaBuilder.lower(expectation.get("description")),
+                            criteriaBuilder.lower(expectationRoot.get("description")),
                             "%" + expectationDescription.toLowerCase() + "%"
                     ),
                     criteriaBuilder.isMember(
-                            expectation,
-                            expectations
+                            expectationRoot,
+                            expectationsExpression
                     )
             );
             return criteriaBuilder.exists(expectationSubquery);
         };
     }
 
-    public static Specification<Offer> likeAnyOfferAdvantage(String offerAdvantageDescription) {
+    public static Specification<Offer> likeAnyOfferAdvantageDescription(String offerAdvantageDescription) {
         if(offerAdvantageDescription == null) {
             return Specification.where(null);
         }
         return (root, query, criteriaBuilder) -> {
             query.distinct(true);
-            Root<Offer> offer = root;
+            Root<Offer> offerRoot = root;
             Subquery<OfferAdvantage> offerAdvantageSubquery = query.subquery(OfferAdvantage.class);
-            Root<OfferAdvantage> offerAdvantage = offerAdvantageSubquery.from(OfferAdvantage.class);
-            Expression<Collection<OfferAdvantage>> offerAdvantages = offer.get("offerAdvantages");
-            offerAdvantageSubquery.select(offerAdvantage);
+            Root<OfferAdvantage> offerAdvantageRoot = offerAdvantageSubquery.from(OfferAdvantage.class);
+            Expression<Collection<OfferAdvantage>> offerAdvantagesExpression = offerRoot.get("offerAdvantages");
+            offerAdvantageSubquery.select(offerAdvantageRoot);
             offerAdvantageSubquery.where(
                     criteriaBuilder.like(
-                            criteriaBuilder.lower(offerAdvantage.get("description")),
+                            criteriaBuilder.lower(offerAdvantageRoot.get("description")),
                             "%" + offerAdvantageDescription.toLowerCase() + "%"
                     ),
                     criteriaBuilder.isMember(
-                            offerAdvantage,
-                            offerAdvantages
+                            offerAdvantageRoot,
+                            offerAdvantagesExpression
                     )
             );
             return criteriaBuilder.exists(offerAdvantageSubquery);
+        };
+    }
+
+    public static Specification<Offer> equalAnyCategoryId(List<Integer> categoryIds) {
+        if(categoryIds == null || categoryIds.isEmpty()) {
+            return Specification.where(null);
+        }
+        return (root, query, criteriaBuilder) -> {
+            query.distinct(true);
+            Root<Offer> offerRoot = root;
+            Subquery<Category> categorySubquery = query.subquery(Category.class);
+            Root<Category> categoryRoot = categorySubquery.from(Category.class);
+            Expression<Collection<Category>> categoriesExpression = offerRoot.get("categories");
+            categorySubquery.select(categoryRoot);
+            categorySubquery.where(
+                    categoryRoot.get("id").in(categoryIds),
+                    criteriaBuilder.isMember(
+                            categoryRoot,
+                            categoriesExpression
+                    )
+            );
+            return criteriaBuilder.exists(categorySubquery);
+        };
+    }
+
+    public static Specification<Offer> equalAnyLocalizationId(List<Integer> localizationIds) {
+        if(localizationIds == null || localizationIds.isEmpty()) {
+            return Specification.where(null);
+        }
+        return (root, query, criteriaBuilder) -> {
+            query.distinct(true);
+            Root<Offer> offerRoot = root;
+            Expression<Localization> localizationIdExpression = offerRoot.get("localization").get("id");
+            return criteriaBuilder.isTrue(localizationIdExpression.in(localizationIds));
         };
     }
 
@@ -89,13 +162,20 @@ public class OfferSpecifications {
                 criteriaBuilder.equal(root.get("remotePossibility"), remotePossibility);
     }
 
-    public static Specification<Offer> search(String searchString) {
-        if(searchString == null) {
-            return Specification.where(null);
+    public static Specification<Offer> searchByOfferSearchSpecification(OfferSearchSpecification offerSearchSpecification) {
+        if(offerSearchSpecification.getStringSearchSection() == null) {
+            return equalRemotePossibility(offerSearchSpecification.getRemotePossibilityEqual())
+                    .and(equalAnyCategoryId(offerSearchSpecification.getAnyCategoryIdEqual()))
+                    .and(equalAnyLocalizationId(offerSearchSpecification.getAnyLocalizationIdEqual()));
         }
-        return likeTitle(searchString)
-                .or(likeDescription(searchString))
-                .or(likeAnyExpectation(searchString))
-                .or(likeAnyOfferAdvantage(searchString));
+        return (likeTitle(offerSearchSpecification.getStringSearchSection().getTitleLike())
+                    .or(likeDescription(offerSearchSpecification.getStringSearchSection().getDescriptionLike()))
+                    .or(likeAnyExpectationDescription(offerSearchSpecification.getStringSearchSection().getAnyExpectationLike()))
+                    .or(likeAnyOfferAdvantageDescription(offerSearchSpecification.getStringSearchSection().getAnyOfferAdvantageLike()))
+                    .or(likeAnyCategoryTitle(offerSearchSpecification.getStringSearchSection().getAnyCategoryNameLike()))
+                    .or(likeCompanyName(offerSearchSpecification.getStringSearchSection().getCompanyNameLike())))
+                .and(equalRemotePossibility(offerSearchSpecification.getRemotePossibilityEqual()))
+                .and(equalAnyCategoryId(offerSearchSpecification.getAnyCategoryIdEqual()))
+                .and(equalAnyLocalizationId(offerSearchSpecification.getAnyLocalizationIdEqual()));
     }
 }
