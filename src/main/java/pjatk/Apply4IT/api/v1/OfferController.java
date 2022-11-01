@@ -6,11 +6,11 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.data.web.SortDefault;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+import pjatk.Apply4IT.api.v1.dto.OfferFullDto;
 import pjatk.Apply4IT.api.v1.dto.OfferMinimalDto;
+import pjatk.Apply4IT.api.v1.dto.OfferSearchSpecification;
+import pjatk.Apply4IT.model.Offer;
 import pjatk.Apply4IT.service.OfferService;
 import pjatk.Apply4IT.specification.OfferSpecifications;
 
@@ -28,12 +28,16 @@ public class OfferController {
         return offerService.getOffers(pageable);
     }
 
-    @GetMapping("/search/{searchString}") // todo make it override getOffers with same path without search just with search string path variable
+    @PostMapping("/search")
     public Page<OfferMinimalDto> searchOffers(
-            @PathVariable String searchString,
+            @RequestBody OfferSearchSpecification offerSearchSpecification,
             @PageableDefault(size = 10, page = 0) @SortDefault(sort = "creationDate", direction = Sort.Direction.ASC) Pageable pageable
     ) {
-        return offerService.getOffers(OfferSpecifications.search(searchString), pageable);
+        return offerService.getOffers(OfferSpecifications.searchByOfferSearchSpecification(offerSearchSpecification), pageable);
     }
 
+    @GetMapping("/{offerId}")
+    public OfferFullDto getOfferById(@PathVariable Integer offerId) {
+        return offerService.getById(offerId);
+    }
 }
