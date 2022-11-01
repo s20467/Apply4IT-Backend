@@ -39,7 +39,7 @@ public class Offer {
     private Integer minSalaryPln;
     private Integer maxSalaryPln;
 
-    private Boolean firstJob;
+    private Boolean firstJobPossibility;
 
     @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.REFRESH, CascadeType.MERGE})
     @JoinColumn(name="USER_ID")

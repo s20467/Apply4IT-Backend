@@ -27,7 +27,7 @@ public class OfferFullDto {
     private LocalDate closingDate;
     private Integer minSalaryPln;
     private Integer maxSalaryPln;
-    private Boolean firstJob;
+    private Boolean firstJobPossibility;
     private Integer applicationsNumber;
 
     @Builder.Default

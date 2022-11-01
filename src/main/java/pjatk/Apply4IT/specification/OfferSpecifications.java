@@ -41,7 +41,22 @@ public class OfferSpecifications {
                         criteriaBuilder.lower(root.get("company").get("name")),
                         "%" + companyName + "%"
                 );
+    }
 
+    public static Specification<Offer> equalRemotePossibility(Boolean remotePossibility) {
+        if(remotePossibility == null) {
+            return Specification.where(null);
+        }
+        return (root, query, criteriaBuilder) ->
+                criteriaBuilder.equal(root.get("remotePossibility"), remotePossibility);
+    }
+
+    public static Specification<Offer> equalFirstJobPossibility(Boolean firstJobPossibility) {
+        if(firstJobPossibility == null) {
+            return Specification.where(null);
+        }
+        return (root, query, criteriaBuilder) ->
+                criteriaBuilder.equal(root.get("firstJobPossibility"), firstJobPossibility);
     }
 
 
@@ -154,14 +169,6 @@ public class OfferSpecifications {
         };
     }
 
-    public static Specification<Offer> equalRemotePossibility(Boolean remotePossibility) {
-        if(remotePossibility == null) {
-            return Specification.where(null);
-        }
-        return (root, query, criteriaBuilder) ->
-                criteriaBuilder.equal(root.get("remotePossibility"), remotePossibility);
-    }
-
     public static Specification<Offer> searchByOfferSearchSpecification(OfferSearchSpecification offerSearchSpecification) {
         if(offerSearchSpecification.getStringSearchSection() == null) {
             return equalRemotePossibility(offerSearchSpecification.getRemotePossibilityEqual())
@@ -176,6 +183,7 @@ public class OfferSpecifications {
                     .or(likeCompanyName(offerSearchSpecification.getStringSearchSection().getCompanyNameLike())))
                 .and(equalRemotePossibility(offerSearchSpecification.getRemotePossibilityEqual()))
                 .and(equalAnyCategoryId(offerSearchSpecification.getAnyCategoryIdEqual()))
-                .and(equalAnyLocalizationId(offerSearchSpecification.getAnyLocalizationIdEqual()));
+                .and(equalAnyLocalizationId(offerSearchSpecification.getAnyLocalizationIdEqual()))
+                .and(equalFirstJobPossibility(offerSearchSpecification.getFirstJobPossibilityEqual()));
     }
 }

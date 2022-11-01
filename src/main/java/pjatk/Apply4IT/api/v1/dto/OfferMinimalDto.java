@@ -25,7 +25,7 @@ public class OfferMinimalDto {
     private LocalDate closingDate;
     private Integer minSalaryPln;
     private Integer maxSalaryPln;
-    private Boolean firstJob;
+    private Boolean firstJobPossibility;
     private List<String> categories = new ArrayList<>();
     private Boolean remotePossibility;
 }

@@ -14,6 +14,7 @@ public class OfferSearchSpecification {
         private Boolean remotePossibilityEqual;
         private List<Integer> anyCategoryIdEqual;
         private List<Integer> anyLocalizationIdEqual;
+        private Boolean firstJobPossibilityEqual;
 
 
         @Getter
