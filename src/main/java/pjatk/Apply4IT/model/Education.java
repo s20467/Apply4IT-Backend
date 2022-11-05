@@ -19,6 +19,7 @@ public class Education {
 
     private LocalDate startDate;
     private LocalDate endDate;
+    private Boolean stillStudying;
     private String universityName;
     private String major;
     private String specialization;

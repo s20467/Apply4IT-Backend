@@ -22,7 +22,7 @@ public class Application {
     private Offer targetOffer;
 
     @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.REFRESH, CascadeType.MERGE})
-    private User user;
+    private User user;//todo candidate
 
     private LocalDate applicationDate;
     private Byte[] cv;

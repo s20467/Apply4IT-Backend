@@ -15,32 +15,10 @@ import java.util.List;
 
 @SpringBootApplication
 @RequiredArgsConstructor
-public class Apply4ItApplication implements CommandLineRunner {
-
-	private final UserRepository userRepository;
-	private final PasswordEncoder passwordEncoder;
+public class Apply4ItApplication {
 
 	public static void main(String[] args) {
 		SpringApplication.run(Apply4ItApplication.class, args);
 	}
 
-	@Override
-	public void run(String... args) throws Exception {
-		userRepository.save(User.builder()
-				.firstName("imie")
-				.lastName("nazwisko")
-				.email("email@email.com")
-				.password(passwordEncoder.encode("pass"))
-				.birthdate(LocalDate.now())
-				.authorities(List.of(new Authority("permission")))
-				.address(Address.builder()
-						.country("kraj")
-						.city("miasto")
-						.zip("zip")
-						.street("ulica")
-						.build())
-				.description("")
-				.build()
-		);
-	}
 }

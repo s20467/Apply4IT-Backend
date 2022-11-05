@@ -48,7 +48,7 @@ public class User implements UserDetails {
     private List<Experience> experiences = new ArrayList<>();
 
     @Builder.Default
-    @OneToMany(mappedBy = "author", cascade = {CascadeType.PERSIST, CascadeType.REFRESH, CascadeType.MERGE})
+    @OneToMany(mappedBy = "user", cascade = {CascadeType.PERSIST, CascadeType.REFRESH, CascadeType.MERGE})
     private List<Offer> offers = new ArrayList<>();
 
     @Builder.Default
