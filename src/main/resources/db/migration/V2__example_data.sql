@@ -7,8 +7,8 @@ insert into user (id, account_non_expired, account_non_locked, city, country, st
     values (2, true, true, 'Miasto', 'Kraj', 'Ulica', 'ZIPCODE', '2022-11-05', true,
             'DescripTION2 DescripTION2 DescripTION2 DescripTION2 DescripTION2 DescripTION2 DescripTION2 DescripTION2DescripTION2 DescripTION2 DescripTION2 DescripTION2 DescripTION2 DescripTION2 DescripTION2 DescripTION2 DescripTION2DescripTION2 DescripTION2 DescripTION2 DescripTION2 DescripTION2',
             'email2@email.com', true, 'imie2', 'nazwisko2', '$2a$10$iAQ2bLCT/bNO4CS8VUSh8emMTwa0QMX1D32srzHhK9okrsR4pohwS', null);
-insert into application (application_date, cv, offer_id, user_id) values ('2022-11-05', null, null, 2);
-insert into application (application_date, cv, offer_id, user_id) values ('2022-11-05', null, null, 2);
+insert into application (application_date, cv, offer_id, candidate_id) values ('2022-11-05', null, null, 2);
+insert into application (application_date, cv, offer_id, candidate_id) values ('2022-11-05', null, null, 2);
 insert into authority (name) values ('ROLE_USER');
 insert into education (end_date, major, specialization, start_date, still_studying, university_name, user_id)
     values (null, 'KieruNEk1 KieruNEk1 KieruNEk1 KieruNEk1', 'Specjalizacja1 specjalizacja1 specjalizacja1', '2022-11-05', true, 'UniversitY1 UniversitY1 UniversitY1 UniversitY1', 2);
@@ -32,7 +32,7 @@ insert into user (account_non_expired, account_non_locked, city, country, street
     values (true, true, 'Miasto', 'Kraj', 'Ulica', 'ZIPCODE', '2022-11-05', true,
             'DescripTION3 DescripTION3 DescripTION3 DescripTION3 DescripTION3 DescripTION3 DescripTION3 DescripTION3DescripTION3 DescripTION3 DescripTION3 DescripTION3 DescripTION3 DescripTION3 DescripTION3 DescripTION3 DescripTION3DescripTION3 DescripTION3 DescripTION3 DescripTION3 DescripTION3',
             'email3@email.com', true, 'imie3', 'nazwisko3', '$2a$10$SDDh8BnWIBkryGP1ps/7jOyW17/uSLAecmS/81PUsUHHfM0IE8Fda', null);
-insert into application (application_date, cv, offer_id, user_id) values ('2022-11-05', null, null, 3);
+insert into application (application_date, cv, offer_id, candidate_id) values ('2022-11-05', null, null, 3);
 insert into education (end_date, major, specialization, start_date, still_studying, university_name, user_id)
     values ('2022-11-05', 'KieruNEk3 KieruNEk3 KieruNEk3 KieruNEk3', 'Specjalizacja3 specjalizacja3 specjalizacja3', '2022-11-05', false, 'UniversitY3 UniversitY3 UniversitY3 UniversitY3', 3);
 insert into experience (company_name, description, end_date, job, start_date, still_working, user_id)
@@ -68,9 +68,9 @@ insert into category (title) values ('cAtEgOry1 cAtEgOry1 cAtEgOry1');
 insert into expectation (description, offer_id, required) values ('dEsCrIption1 dEsCrIption1 dEsCrIption1 dEsCrIption1 dEsCrIption1 dEsCrIption1', 3, false);
 insert into offer_advantage (description, offer_id) values ('dEsCrIpTION1 dEsCrIpTION1 dEsCrIpTION1 dEsCrIpTION1 dEsCrIpTION1 dEsCrIpTION1dEsCrIpTION1 dEsCrIpTION1 dEsCrIpTION1 dEsCrIpTION1 dEsCrIpTION1 dEsCrIpTION1 dEsCrIpTION1', 3);
 insert into offer_advantage (description, offer_id) values ('dEsCrIpTION2 dEsCrIpTION2 dEsCrIpTION2 dEsCrIpTION2 dEsCrIpTION2 dEsCrIpTION2dEsCrIpTION2', 3);
-update application set application_date='2022-11-05', cv=null, offer_id=3, user_id=2 where id=1;
-update application set application_date='2022-11-05', cv=null, offer_id=3, user_id=2 where id=2;
-update application set application_date='2022-11-05', cv=null, offer_id=3, user_id=3 where id=3;
+update application set application_date='2022-11-05', cv=null, offer_id=3, candidate_id=2 where id=1;
+update application set application_date='2022-11-05', cv=null, offer_id=3, candidate_id=2 where id=2;
+update application set application_date='2022-11-05', cv=null, offer_id=3, candidate_id=3 where id=3;
 insert into user_authority (authority_id, user_id) values (1, 1);
 insert into recruiter (user_id, company_id) values (2, 1);
 insert into saved_offer (user_id, offer_id) values (2, 3);
