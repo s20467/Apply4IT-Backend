@@ -43,7 +43,7 @@ insert into company (description, logo_photo, name) values ('desCRiption3 desCRi
 insert into localization (name) values ('lOcAlIzAtIoN2');
 insert into offer (city, country, street, zip, user_id, closing_date, company_id, creation_date, description, first_job_possibility, localization_id, max_salary_pln, min_salary_pln, remote_possibility, title)
     values ('Miasto', 'Kraj', 'Ulica', 'ZIP', 3, '2022-12-05', 3, '2022-11-05', 'DeScRiption3 DeScRiption3 DeScRiption3 DeScRiption3 DeScRiption3 DeScRiption3 DeScRiption3',
-            'false', 1, 12000, 8000, true, 'tItLe3');
+            false, 1, 12000, 8000, true, 'tItLe3');
 insert into category (title) values ('cAtEgOry2 cAtEgOry2');
 insert into category (title) values ('cAtEgOry3');
 insert into expectation (description, offer_id, required)
