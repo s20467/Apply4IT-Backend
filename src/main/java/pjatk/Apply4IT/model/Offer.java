@@ -73,5 +73,5 @@ public class Offer {
 
     @Builder.Default
     @ManyToMany(mappedBy = "savedOffers", cascade = {CascadeType.PERSIST, CascadeType.REFRESH, CascadeType.MERGE})
-    private List<User> users = new ArrayList<>(); //todo usersWhoSaved
+    private List<User> usersWhoSaved = new ArrayList<>();
 }

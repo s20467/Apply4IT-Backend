@@ -36,7 +36,7 @@ public class User implements UserDetails {
     private String description;
 
     @Builder.Default
-    @OneToMany(mappedBy = "user", cascade = {CascadeType.PERSIST, CascadeType.REFRESH, CascadeType.MERGE})
+    @OneToMany(mappedBy = "candidate", cascade = {CascadeType.PERSIST, CascadeType.REFRESH, CascadeType.MERGE})
     private List<Application> applications = new ArrayList<>();
 
     @Builder.Default
@@ -49,7 +49,7 @@ public class User implements UserDetails {
 
     @Builder.Default
     @OneToMany(mappedBy = "author", cascade = {CascadeType.PERSIST, CascadeType.REFRESH, CascadeType.MERGE})
-    private List<Offer> offers = new ArrayList<>();
+    private List<Offer> createdOffers = new ArrayList<>();
 
     @Builder.Default
     @Getter(AccessLevel.NONE)
