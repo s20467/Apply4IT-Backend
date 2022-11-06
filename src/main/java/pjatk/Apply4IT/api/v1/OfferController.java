@@ -23,7 +23,7 @@ public class OfferController {
 
     @GetMapping
     public Page<OfferMinimalDto> getOffers(
-            @PageableDefault(size = 10, page = 0) @SortDefault(sort = "creationDate", direction = Sort.Direction.ASC) Pageable pageable
+            @PageableDefault(size = 10, page = 0) @SortDefault(sort = "creationDate", direction = Sort.Direction.DESC) Pageable pageable
     ) {
         return offerService.getOffers(pageable);
     }
@@ -31,7 +31,7 @@ public class OfferController {
     @PostMapping("/search")
     public Page<OfferMinimalDto> searchOffers(
             @RequestBody OfferSearchSpecification offerSearchSpecification,
-            @PageableDefault(size = 10, page = 0) @SortDefault(sort = "creationDate", direction = Sort.Direction.ASC) Pageable pageable
+            @PageableDefault(size = 10, page = 0) @SortDefault(sort = "creationDate", direction = Sort.Direction.DESC) Pageable pageable
     ) {
         return offerService.getOffers(OfferSpecifications.searchByOfferSearchSpecification(offerSearchSpecification), pageable);
     }

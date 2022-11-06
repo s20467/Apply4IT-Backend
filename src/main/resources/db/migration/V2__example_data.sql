@@ -52,7 +52,7 @@ insert into experience (company_name, description, end_date, job, start_date, st
 insert into company (description, logo_photo, name) values ('desCRiption3 desCRiption3 desCRiption3 desCRiption3 desCRiption3 desCRiption3', null, 'cOmPaNy3 cOmPaNy3');
 insert into localization (name) values ('lOcAlIzAtIoN2');
 insert into offer (city, country, street, zip, user_id, closing_date, company_id, creation_date, description, first_job_possibility, localization_id, max_salary_pln, min_salary_pln, remote_possibility, title)
-    values ('Miasto', 'Kraj', 'Ulica', 'ZIP', 3, '2022-12-05', 3, '2022-11-05', 'DeScRiption3 DeScRiption3 DeScRiption3 DeScRiption3 DeScRiption3 DeScRiption3 DeScRiption3',
+    values ('Miasto', 'Kraj', 'Ulica', 'ZIP', 3, '2022-12-06', 3, '2022-11-06', 'DeScRiption3 DeScRiption3 DeScRiption3 DeScRiption3 DeScRiption3 DeScRiption3 DeScRiption3',
             false, 1, 12000, 8000, true, 'tItLe3');
 insert into category (title) values ('cAtEgOry2 cAtEgOry2');
 insert into category (title) values ('cAtEgOry3');
@@ -64,7 +64,7 @@ insert into user (account_non_expired, account_non_locked, city, country, street
         'DescripTION4 DescripTION4 DescripTION4 DescripTION4 DescripTION4 DescripTION4 DescripTION4 DescripTION4DescripTION4 DescripTION4 DescripTION4 DescripTION4 DescripTION4 DescripTION4 DescripTION4 DescripTION4 DescripTION4DescripTION4 DescripTION4 DescripTION4 DescripTION4 DescripTION4',
         'email4@email.com', true, 'imie4', 'nazwisko4', '$2a$10$lill8ex1EzwXePPngmO3Xe95ZAEdOP4.9.KL/XLyz1AD2IOxdubCS', null);
 insert into offer (city, country, street, zip, user_id, closing_date, company_id, creation_date, description, first_job_possibility, localization_id, max_salary_pln, min_salary_pln, remote_possibility, title)
-    values ('Miasto miasto miasto miasto', 'Kraj kraj kraj kraj', 'Ulica ulica ulica ulica','ZIPZIPZIP' , 2, '2022-12-05', 2, '2022-11-05',
+    values ('Miasto miasto miasto miasto', 'Kraj kraj kraj kraj', 'Ulica ulica ulica ulica','ZIPZIPZIP' , 2, '2022-12-07', 2, '2022-11-07',
             'DeScRiption2 DeScRiption2 DeScRiption2 DeScRiption2 DeScRiption2 DeScRiption2 DeScRiption2 DeScRiption2 DeScRiption2 DeScRiption2 DeScRiption2 DeScRiption2 DeScRiption2 DeScRiption2 DeScRiption2 DeScRiption2 DeScRiption2DeScRiption2 DeScRiption2 DeScRiption2 DeScRiption2 DeScRiption2 DeScRiption2 DeScRiption2 DeScRiption2 DeScRiption2DeScRiption2 DeScRiption2 DeScRiption2 DeScRiption2',
             true, 1, 24000, 12000, false, 'tItLe2 tItLe2');
 insert into expectation (description, offer_id, required) values ('dESCripTIOn2 dESCripTIOn2 dESCripTIOn2 dESCripTIOn2 dESCripTIOn2 dESCripTIOn2dESCripTIOn2 dESCripTIOn2', 2, true);
