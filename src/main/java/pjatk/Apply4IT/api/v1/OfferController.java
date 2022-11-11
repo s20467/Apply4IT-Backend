@@ -6,6 +6,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.data.web.SortDefault;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import pjatk.Apply4IT.api.v1.dto.OfferFullDto;
 import pjatk.Apply4IT.api.v1.dto.OfferMinimalDto;
@@ -21,6 +22,7 @@ public class OfferController {
 
     private final OfferService offerService;
 
+    @PreAuthorize("permitAll()")
     @GetMapping
     public Page<OfferMinimalDto> getOffers(
             @PageableDefault(size = 10, page = 0) @SortDefault(sort = "creationDate", direction = Sort.Direction.DESC) Pageable pageable
@@ -28,6 +30,7 @@ public class OfferController {
         return offerService.getOffers(pageable);
     }
 
+    @PreAuthorize("permitAll()")
     @PostMapping("/search")
     public Page<OfferMinimalDto> searchOffers(
             @RequestBody OfferSearchSpecification offerSearchSpecification,
@@ -36,6 +39,7 @@ public class OfferController {
         return offerService.getOffers(OfferSpecifications.searchByOfferSearchSpecification(offerSearchSpecification), pageable);
     }
 
+    @PreAuthorize("permitAll()")
     @GetMapping("/{offerId}")
     public OfferFullDto getOfferById(@PathVariable Integer offerId) {
         return offerService.getById(offerId);
