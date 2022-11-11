@@ -1,7 +1,6 @@
 package pjatk.Apply4IT.service;
 
 import lombok.RequiredArgsConstructor;
-import org.apache.commons.lang3.ArrayUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import pjatk.Apply4IT.exception.ImageUploadException;
