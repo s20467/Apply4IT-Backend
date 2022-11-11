@@ -18,6 +18,6 @@ public class CompanyMinimalDto {
 
     private Integer id;
     private String name;
-    private Byte[] logoPhoto;
+    private String logoPhoto;
 
 }

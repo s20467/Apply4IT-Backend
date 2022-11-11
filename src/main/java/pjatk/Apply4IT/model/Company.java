@@ -20,7 +20,8 @@ public class Company {
 
     private String name;
     private String description;
-    private Byte[] logoPhoto;
+
+    private String logoPhoto;
 
     @Builder.Default
     @OneToMany(mappedBy = "company", cascade = {CascadeType.PERSIST, CascadeType.REFRESH, CascadeType.MERGE})
