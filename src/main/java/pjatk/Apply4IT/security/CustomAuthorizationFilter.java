@@ -22,7 +22,7 @@ public class CustomAuthorizationFilter extends OncePerRequestFilter {
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
-        if (!request.getServletPath().equals("/login") && !request.getServletPath().equals("/api/users/create") && !request.getServletPath().equals("/api/refresh-token")) {
+        if (!request.getServletPath().equals("/login") && !request.getServletPath().equals("/api/users/create") && !request.getServletPath().equals("/refresh-token")) {
             String authorizationHeader = request.getHeader(HttpHeaders.AUTHORIZATION);
             if (authorizationHeader != null && authorizationHeader.startsWith("Bearer ")) {
                 try {

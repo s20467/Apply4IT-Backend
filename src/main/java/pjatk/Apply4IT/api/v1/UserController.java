@@ -22,7 +22,6 @@ import java.io.IOException;
 import java.util.Map;
 
 @RestController
-@RequestMapping("")
 @RequiredArgsConstructor
 public class UserController {
 
