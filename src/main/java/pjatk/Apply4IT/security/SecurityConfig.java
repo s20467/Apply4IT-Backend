@@ -39,7 +39,9 @@ public class SecurityConfig implements WebMvcConfigurer {
     public SecurityFilterChain filterChain(HttpSecurity http, AuthenticationManager authenticationManager, JwtService jwtService) throws Exception {
         return http
             .csrf().disable()
-            .headers().frameOptions().sameOrigin() //todo or disable
+            .headers().frameOptions().disable()
+            .and()
+            .cors()
             .and()
             .authorizeRequests()
                 .requestMatchers(PathRequest.toH2Console()).permitAll()
@@ -57,20 +59,4 @@ public class SecurityConfig implements WebMvcConfigurer {
         registry.addMapping("/**").allowedMethods("*").allowedOrigins("*");
     }
 
-
-//    @Override
-//    protected void configure(HttpSecurity http) throws Exception {
-//        http.csrf().disable();
-////        http.cors();
-////        http.csrf().disable().authorizeRequests().antMatchers("/h2-console/**").permitAll();
-////        http.headers().frameOptions().disable();
-//                .requestMatchers(PathRequest.toH2Console()).permitAll()
-//                .anyRequest().authenticated();
-//        http.exceptionHandling().authenticationEntryPoint(new HttpStatusEntryPoint(HttpStatus.UNAUTHORIZED));
-//        http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
-//        CustomAuthenticationFilter customAuthenticationFilter = new CustomAuthenticationFilter(authenticationManagerBean(), jwtService);
-////        customAuthenticationFilter.setFilterProcessesUrl("/login");
-//        http.addFilter(customAuthenticationFilter);
-//        http.addFilterBefore(new CustomAuthorizationFilter(jwtService), UsernamePasswordAuthenticationFilter.class);
-//    }
 }
