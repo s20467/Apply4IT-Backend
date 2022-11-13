@@ -59,8 +59,8 @@ insert into localization (name) values ('lOcAlIzAtIoN2');
 insert into offer (city, country, street, zip, user_id, closing_date, company_id, creation_date, description, first_job_possibility, localization_id, max_salary_pln, min_salary_pln, remote_possibility, title)
     values ('Miasto', 'Kraj', 'Ulica', 'ZIP', 3, '2022-12-06', 3, '2022-11-06', 'DeScRiption3 DeScRiption3 DeScRiption3 DeScRiption3 DeScRiption3 DeScRiption3 DeScRiption3',
             false, 1, 12000, 8000, true, 'tItLe3');
-insert into category (title) values ('cAtEgOry2 cAtEgOry2');
-insert into category (title) values ('cAtEgOry3');
+insert into category (title) values ('cAtEgOry1 cAtEgOry1');
+insert into category (title) values ('cAtEgOry2');
 insert into expectation (description, offer_id, required)
     values ('dESCRPtion3 dESCRPtion3 dESCRPtion3 dESCRPtion3 dESCRPtion3 dESCRPtion3 dESCRPtion3 dESCRPtion3 dESCRPtion3 dESCRPtion3 dESCRPtion3 dESCRPtion3 dESCRPtion3 dESCRPtion3 dESCRPtion3 dESCRPtion3 dESCRPtion3 dESCRPtion3 dESCRPtion3',
         1, false);
@@ -79,7 +79,7 @@ insert into offer (city, country, street, zip, user_id, closing_date, company_id
     values ('Miasto', 'Kraj', 'Ulica', 'ZIP', 2, '2022-12-05', 1, '2022-11-05',
             'DeScRiption1 DeScRiption1 DeScRiption1 DeScRiption1 DeScRiption1 DeScRiption1 DeScRiption1 DeScRiption1DeScRiption1 DeScRiption1 DeScRiption1 DeScRiption1 DeScRiption1 DeScRiption1 DeScRiption1 DeScRiption1 DeScRiption1DeScRiption1 DeScRiption1 DeScRiption1 DeScRiption1',
             true, 2, 10000, 6000, true, 'tItLe1 tItLe1 tItLe1 tItLe1 tItLe1 tItLe1 tItLe1');
-insert into category (title) values ('cAtEgOry1 cAtEgOry1 cAtEgOry1');
+insert into category (title) values ('cAtEgOry3 cAtEgOry3 cAtEgOry3');
 insert into expectation (description, offer_id, required) values ('dEsCrIption1 dEsCrIption1 dEsCrIption1 dEsCrIption1 dEsCrIption1 dEsCrIption1', 3, false);
 insert into offer_advantage (description, offer_id) values ('dEsCrIpTION1 dEsCrIpTION1 dEsCrIpTION1 dEsCrIpTION1 dEsCrIpTION1 dEsCrIpTION1dEsCrIpTION1 dEsCrIpTION1 dEsCrIpTION1 dEsCrIpTION1 dEsCrIpTION1 dEsCrIpTION1 dEsCrIpTION1', 3);
 insert into offer_advantage (description, offer_id) values ('dEsCrIpTION2 dEsCrIpTION2 dEsCrIpTION2 dEsCrIpTION2 dEsCrIpTION2 dEsCrIpTION2dEsCrIpTION2', 3);
