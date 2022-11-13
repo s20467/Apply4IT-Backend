@@ -1,6 +1,7 @@
 package pjatk.Apply4IT.security;
 
 import com.auth0.jwt.exceptions.JWTVerificationException;
+import com.auth0.jwt.exceptions.TokenExpiredException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpHeaders;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -33,8 +34,9 @@ public class CustomAuthorizationFilter extends OncePerRequestFilter {
                     UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken = new UsernamePasswordAuthenticationToken(currentUser, null, currentUser.getAuthorities());
                     SecurityContextHolder.getContext().setAuthentication(usernamePasswordAuthenticationToken);
                     filterChain.doFilter(request, response);
-                } catch (JWTVerificationException exception) {
-                    JWTVerificationExceptionHandler.handleJWTVerificationException(exception, request, response);
+                }
+                catch (JWTVerificationException exception) {
+                    filterChain.doFilter(request, response);
                 }
             } else {
                 filterChain.doFilter(request, response);
