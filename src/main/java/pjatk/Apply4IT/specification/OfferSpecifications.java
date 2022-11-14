@@ -172,6 +172,7 @@ public class OfferSpecifications {
     public static Specification<Offer> searchByOfferSearchSpecification(OfferSearchSpecification offerSearchSpecification) {
         if(offerSearchSpecification.getStringSearchSection() == null) {
             return equalRemotePossibility(offerSearchSpecification.getRemotePossibilityEqual())
+                    .and(equalFirstJobPossibility(offerSearchSpecification.getFirstJobPossibilityEqual()))
                     .and(equalAnyCategoryId(offerSearchSpecification.getAnyCategoryIdEqual()))
                     .and(equalAnyLocalizationId(offerSearchSpecification.getAnyLocalizationIdEqual()));
         }
@@ -182,8 +183,8 @@ public class OfferSpecifications {
                     .or(likeAnyCategoryTitle(offerSearchSpecification.getStringSearchSection().getAnyCategoryNameLike()))
                     .or(likeCompanyName(offerSearchSpecification.getStringSearchSection().getCompanyNameLike())))
                 .and(equalRemotePossibility(offerSearchSpecification.getRemotePossibilityEqual()))
+                .and(equalFirstJobPossibility(offerSearchSpecification.getFirstJobPossibilityEqual()))
                 .and(equalAnyCategoryId(offerSearchSpecification.getAnyCategoryIdEqual()))
-                .and(equalAnyLocalizationId(offerSearchSpecification.getAnyLocalizationIdEqual()))
-                .and(equalFirstJobPossibility(offerSearchSpecification.getFirstJobPossibilityEqual()));
+                .and(equalAnyLocalizationId(offerSearchSpecification.getAnyLocalizationIdEqual()));
     }
 }
