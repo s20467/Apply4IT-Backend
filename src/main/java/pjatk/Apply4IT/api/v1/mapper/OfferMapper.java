@@ -3,13 +3,11 @@ package pjatk.Apply4IT.api.v1.mapper;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.Named;
-import org.springframework.beans.factory.annotation.Autowired;
-import pjatk.Apply4IT.api.v1.dto.CompanyMinimalDto;
 import pjatk.Apply4IT.api.v1.dto.OfferFullDto;
 import pjatk.Apply4IT.api.v1.dto.OfferMinimalDto;
 import pjatk.Apply4IT.model.*;
 
-import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 @Mapper(
@@ -36,22 +34,22 @@ public interface OfferMapper {
     }
 
     @Named("categoriesToStrings")
-    static List<String> categoriesToStrings(List<Category> categories) {
-        return categories.stream().map(Category::getTitle).collect(Collectors.toList());
+    static Set<String> categoriesToStrings(Set<Category> categories) {
+        return categories.stream().map(Category::getTitle).collect(Collectors.toSet());
     }
 
     @Named("applicationsToApplicationsNumber")
-    static Integer applicationsToApplicationsNumber(List<Application> applications) {
+    static Integer applicationsToApplicationsNumber(Set<Application> applications) {
         return applications.size();
     }
 
     @Named("expectationsToStrings")
-    static List<String> expectationsToStrings(List<Expectation> expectations) {
-        return expectations.stream().map(Expectation::getDescription).collect(Collectors.toList());
+    static Set<String> expectationsToStrings(Set<Expectation> expectations) {
+        return expectations.stream().map(Expectation::getDescription).collect(Collectors.toSet());
     }
 
     @Named("offerAdvantagesToStrings")
-    static List<String> offerAdvantagesToStrings(List<OfferAdvantage> offerAdvantages) {
-        return offerAdvantages.stream().map(OfferAdvantage::getDescription).collect(Collectors.toList());
+    static Set<String> offerAdvantagesToStrings(Set<OfferAdvantage> offerAdvantages) {
+        return offerAdvantages.stream().map(OfferAdvantage::getDescription).collect(Collectors.toSet());
     }
 }

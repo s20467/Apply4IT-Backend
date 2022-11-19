@@ -7,9 +7,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Entity
@@ -37,24 +35,24 @@ public class User implements UserDetails {
 
     @Builder.Default
     @OneToMany(mappedBy = "candidate", cascade = {CascadeType.PERSIST, CascadeType.REFRESH, CascadeType.MERGE})
-    private List<Application> applications = new ArrayList<>();
+    private Set<Application> applications = new HashSet<>();
 
     @Builder.Default
     @OneToMany(mappedBy = "user", cascade = {CascadeType.PERSIST, CascadeType.REFRESH, CascadeType.MERGE})
-    private List<Education> educations = new ArrayList<>();
+    private Set<Education> educations = new HashSet<>();
 
     @Builder.Default
     @OneToMany(mappedBy = "user", cascade = {CascadeType.PERSIST, CascadeType.REFRESH, CascadeType.MERGE})
-    private List<Experience> experiences = new ArrayList<>();
+    private Set<Experience> experiences = new HashSet<>();
 
     @Builder.Default
     @OneToMany(mappedBy = "author", cascade = {CascadeType.PERSIST, CascadeType.REFRESH, CascadeType.MERGE})
-    private List<Offer> createdOffers = new ArrayList<>();
+    private Set<Offer> createdOffers = new HashSet<>();
 
     @Builder.Default
     @Getter(AccessLevel.NONE)
     @ManyToMany(mappedBy = "users", cascade = {CascadeType.PERSIST, CascadeType.REFRESH, CascadeType.MERGE}, fetch = FetchType.EAGER)
-    private List<Authority> authorities = new ArrayList<>();
+    private Set<Authority> authorities = new HashSet<>();
 
     @Builder.Default
     @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.REFRESH, CascadeType.MERGE})
@@ -63,7 +61,7 @@ public class User implements UserDetails {
             joinColumns = @JoinColumn(name = "USER_ID"),
             inverseJoinColumns = @JoinColumn(name = "COMPANY_ID")
     )
-    private List<Company> isRecruiterFor = new ArrayList<>();
+    private Set<Company> isRecruiterFor = new HashSet<>();
 
     @Builder.Default
     @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.REFRESH, CascadeType.MERGE})
@@ -72,7 +70,7 @@ public class User implements UserDetails {
             joinColumns = @JoinColumn(name = "USER_ID"),
             inverseJoinColumns = @JoinColumn(name = "OFFER_ID")
     )
-    private List<Offer> savedOffers = new ArrayList<>();
+    private Set<Offer> savedOffers = new HashSet<>();
 
     @Builder.Default
     private boolean accountNonExpired = true;

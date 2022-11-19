@@ -65,7 +65,7 @@ public class JwtServiceImpl implements JwtService{
                             Arrays.stream(authorities)
                                     .sequential()
                                     .map(Authority::new)
-                                    .collect(Collectors.toList())
+                                    .collect(Collectors.toSet())
                     )
                     .build();
     }

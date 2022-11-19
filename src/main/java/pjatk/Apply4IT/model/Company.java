@@ -3,8 +3,8 @@ package pjatk.Apply4IT.model;
 import lombok.*;
 
 import javax.persistence.*;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 @Builder
@@ -25,9 +25,9 @@ public class Company {
 
     @Builder.Default
     @OneToMany(mappedBy = "company", cascade = {CascadeType.PERSIST, CascadeType.REFRESH, CascadeType.MERGE})
-    private List<Offer> offers = new ArrayList<>();
+    private Set<Offer> offers = new HashSet<>();
 
     @Builder.Default
     @ManyToMany(mappedBy = "isRecruiterFor", cascade = {CascadeType.PERSIST, CascadeType.REFRESH, CascadeType.MERGE})
-    private List<User> recruiters = new ArrayList<>();
+    private Set<User> recruiters = new HashSet<>();
 }

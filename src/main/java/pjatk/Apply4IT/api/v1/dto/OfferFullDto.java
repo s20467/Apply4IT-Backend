@@ -1,14 +1,11 @@
 package pjatk.Apply4IT.api.v1.dto;
 
 import lombok.*;
-import org.hibernate.annotations.LazyCollection;
-import org.hibernate.annotations.LazyCollectionOption;
 import pjatk.Apply4IT.model.*;
 
-import javax.persistence.*;
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 @Builder
 @NoArgsConstructor
@@ -31,11 +28,11 @@ public class OfferFullDto {
     private Integer applicationsNumber;
 
     @Builder.Default
-    private List<String> expectations = new ArrayList<>();
+    private Set<String> expectations = new HashSet<>();
     @Builder.Default
-    private List<String> offerAdvantages = new ArrayList<>();
+    private Set<String> offerAdvantages = new HashSet<>();
     @Builder.Default
-    private List<String> categories = new ArrayList<>();
+    private Set<String> categories = new HashSet<>();
 
     private Boolean remotePossibility;
 }

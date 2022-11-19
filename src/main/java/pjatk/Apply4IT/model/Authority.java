@@ -3,8 +3,8 @@ package pjatk.Apply4IT.model;
 import lombok.*;
 
 import javax.persistence.*;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 @Builder
@@ -27,7 +27,7 @@ public class Authority {
             joinColumns = @JoinColumn(name = "AUTHORITY_ID"),
             inverseJoinColumns = @JoinColumn(name = "USER_ID")
     )
-    private List<User> users = new ArrayList<>();
+    private Set<User> users = new HashSet<>();
 
     public Authority(String name) {
         this.name = name;

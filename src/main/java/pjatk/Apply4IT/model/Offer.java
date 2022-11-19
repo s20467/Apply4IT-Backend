@@ -1,13 +1,11 @@
 package pjatk.Apply4IT.model;
 
 import lombok.*;
-import org.hibernate.annotations.LazyCollection;
-import org.hibernate.annotations.LazyCollectionOption;
 
 import javax.persistence.*;
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 @Builder
@@ -47,31 +45,28 @@ public class Offer {
 
     @Builder.Default
     @OneToMany(mappedBy = "targetOffer", cascade = {CascadeType.PERSIST, CascadeType.REFRESH, CascadeType.MERGE})
-    private List<Application> applications = new ArrayList<>();
+    private Set<Application> applications = new HashSet<>();
 
     @Builder.Default
     @OneToMany(mappedBy = "offer", cascade = {CascadeType.PERSIST, CascadeType.REFRESH, CascadeType.MERGE})
-    @LazyCollection(LazyCollectionOption.FALSE)
-    private List<Expectation> expectations = new ArrayList<>();
+    private Set<Expectation> expectations = new HashSet<>();
 
     @Builder.Default
     @OneToMany(mappedBy = "offer", cascade = {CascadeType.PERSIST, CascadeType.REFRESH, CascadeType.MERGE})
-    @LazyCollection(LazyCollectionOption.FALSE)
-    private List<OfferAdvantage> offerAdvantages = new ArrayList<>();
+    private Set<OfferAdvantage> offerAdvantages = new HashSet<>();
 
     @Builder.Default
-    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.REFRESH, CascadeType.MERGE})
+    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.REFRESH, CascadeType.MERGE}, fetch = FetchType.EAGER)
     @JoinTable(
             name = "OFFER_CATEGORY",
             joinColumns = @JoinColumn(name = "OFFER_ID"),
             inverseJoinColumns = @JoinColumn(name = "JOB_CATEGORY_ID")
     )
-    @LazyCollection(LazyCollectionOption.FALSE)
-    private List<Category> categories = new ArrayList<>();
+    private Set<Category> categories = new HashSet<>();
 
     private Boolean remotePossibility;
 
     @Builder.Default
     @ManyToMany(mappedBy = "savedOffers", cascade = {CascadeType.PERSIST, CascadeType.REFRESH, CascadeType.MERGE})
-    private List<User> usersWhoSaved = new ArrayList<>();
+    private Set<User> usersWhoSaved = new HashSet<>();
 }

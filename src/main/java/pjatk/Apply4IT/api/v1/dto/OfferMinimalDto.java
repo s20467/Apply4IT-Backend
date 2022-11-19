@@ -4,8 +4,8 @@ import lombok.*;
 import pjatk.Apply4IT.model.*;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 
 @Builder
@@ -26,6 +26,6 @@ public class OfferMinimalDto {
     private Integer minSalaryPln;
     private Integer maxSalaryPln;
     private Boolean firstJobPossibility;
-    private List<String> categories = new ArrayList<>();
+    private Set<String> categories = new HashSet<>();
     private Boolean remotePossibility;
 }
