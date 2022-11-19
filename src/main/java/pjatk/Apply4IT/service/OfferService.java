@@ -11,4 +11,5 @@ public interface OfferService {
     Page<OfferMinimalDto> getOffers(Pageable pageable);
     Page<OfferMinimalDto> getOffers(Specification<Offer> specification, Pageable pageable);
     OfferFullDto getById(Integer offerId);
+    Boolean checkIfUserIsOfferAuthor(Integer offerId, String email);
 }

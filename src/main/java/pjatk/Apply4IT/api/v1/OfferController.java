@@ -7,11 +7,12 @@ import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.data.web.SortDefault;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 import pjatk.Apply4IT.api.v1.dto.OfferFullDto;
 import pjatk.Apply4IT.api.v1.dto.OfferMinimalDto;
 import pjatk.Apply4IT.api.v1.dto.OfferSearchSpecification;
-import pjatk.Apply4IT.model.Offer;
+import pjatk.Apply4IT.model.User;
 import pjatk.Apply4IT.service.OfferService;
 import pjatk.Apply4IT.specification.OfferSpecifications;
 
@@ -43,5 +44,18 @@ public class OfferController {
     @GetMapping("/{offerId}")
     public OfferFullDto getOfferById(@PathVariable Integer offerId) {
         return offerService.getById(offerId);
+    }
+
+    @PreAuthorize("permitAll()")
+    @GetMapping("/{offerId}/am-i-author")
+    public Boolean checkIfCurrentUserIsOfferAuthor(Integer offerId) {
+        User currentUser = (User)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        if(currentUser == null) {
+            return false;
+        }
+        return offerService.checkIfUserIsOfferAuthor(
+                offerId,
+                currentUser.getEmail()
+        );
     }
 }

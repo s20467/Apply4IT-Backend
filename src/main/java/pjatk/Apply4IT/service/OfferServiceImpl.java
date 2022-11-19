@@ -12,8 +12,6 @@ import pjatk.Apply4IT.exception.ResourceNotFoundException;
 import pjatk.Apply4IT.model.Offer;
 import pjatk.Apply4IT.repository.OfferRepository;
 
-import java.util.Optional;
-
 @Service
 @RequiredArgsConstructor
 public class OfferServiceImpl implements OfferService{
@@ -33,9 +31,15 @@ public class OfferServiceImpl implements OfferService{
 
     @Override
     public OfferFullDto getById(Integer offerId) {
-        Optional<Offer> offerOptional = offerRepository.findById(offerId);
         return offerMapper.offerToOfferFullDto(
-                offerOptional.orElseThrow(() -> new ResourceNotFoundException("Offer with id: " + offerId + " not found"))
+                offerRepository.findOfferFullDtoBaseById(offerId).orElseThrow(
+                        () -> new ResourceNotFoundException("Offer with id: " + offerId + " not found")
+                )
         );
+    }
+
+    @Override
+    public Boolean checkIfUserIsOfferAuthor(Integer offerId, String email) {
+        return offerRepository.existsByIdAndAuthor_Email(offerId, email);
     }
 }
