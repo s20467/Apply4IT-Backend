@@ -28,4 +28,5 @@ public class OfferMinimalDto {
     private Boolean firstJobPossibility;
     private Set<String> categories = new HashSet<>();
     private Boolean remotePossibility;
+    private Boolean isSavedByCurrentUser;
 }

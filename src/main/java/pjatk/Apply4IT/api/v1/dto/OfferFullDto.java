@@ -25,7 +25,7 @@ public class OfferFullDto {
     private Integer minSalaryPln;
     private Integer maxSalaryPln;
     private Boolean firstJobPossibility;
-    private Integer applicationsNumber;
+    private Integer applicationsNumber = null;
 
     @Builder.Default
     private Set<String> expectations = new HashSet<>();
@@ -35,4 +35,5 @@ public class OfferFullDto {
     private Set<String> categories = new HashSet<>();
 
     private Boolean remotePossibility;
+    private Boolean isSavedByCurrentUser;
 }

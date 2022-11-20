@@ -170,6 +170,9 @@ public class OfferSpecifications {
     }
 
     public static Specification<Offer> searchByOfferSearchSpecification(OfferSearchSpecification offerSearchSpecification) {
+        if(offerSearchSpecification == null) {
+            return Specification.where(null);
+        }
         if(offerSearchSpecification.getStringSearchSection() == null) {
             return equalRemotePossibility(offerSearchSpecification.getRemotePossibilityEqual())
                     .and(equalFirstJobPossibility(offerSearchSpecification.getFirstJobPossibilityEqual()))
