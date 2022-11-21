@@ -72,7 +72,7 @@ public class OfferController {
         offerService.unsaveOffer(offerId, currentUser);
     }
 
-    @PreAuthorize("permitAll()")
+    @PreAuthorize("hasRole('ADMIN') or (hasRole('USER') and @customAuthenticationManager.isOfferOwner(authentication, #offerId))")
     @DeleteMapping("/{offerId}")
     public void deleteOffer(@PathVariable Integer offerId) {
         offerService.deleteById(offerId);
