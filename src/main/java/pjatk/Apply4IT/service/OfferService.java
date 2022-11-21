@@ -14,4 +14,5 @@ public interface OfferService {
     Boolean checkIfUserIsOfferAuthor(Integer offerId, String email);
     void saveOffer(Integer offerId, User user);
     void unsaveOffer(Integer offerId, User currentUser);
+    void deleteById(Integer offerId);
 }

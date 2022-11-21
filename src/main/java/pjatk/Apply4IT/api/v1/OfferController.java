@@ -71,4 +71,10 @@ public class OfferController {
         User currentUser = getCurrentUser();
         offerService.unsaveOffer(offerId, currentUser);
     }
+
+    @PreAuthorize("permitAll()")
+    @DeleteMapping("/{offerId}")
+    public void deleteOffer(@PathVariable Integer offerId) {
+        offerService.deleteById(offerId);
+    }
 }

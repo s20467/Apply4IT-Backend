@@ -45,15 +45,15 @@ public class Offer {
     private User author;
 
     @Builder.Default
-    @OneToMany(mappedBy = "targetOffer", cascade = {CascadeType.PERSIST, CascadeType.REFRESH, CascadeType.MERGE})
+    @OneToMany(mappedBy = "targetOffer", cascade = CascadeType.ALL)
     private Set<Application> applications = new HashSet<>();
 
     @Builder.Default
-    @OneToMany(mappedBy = "offer", cascade = {CascadeType.PERSIST, CascadeType.REFRESH, CascadeType.MERGE})
+    @OneToMany(mappedBy = "offer", cascade = CascadeType.ALL)
     private Set<Expectation> expectations = new HashSet<>();
 
     @Builder.Default
-    @OneToMany(mappedBy = "offer", cascade = {CascadeType.PERSIST, CascadeType.REFRESH, CascadeType.MERGE})
+    @OneToMany(mappedBy = "offer", cascade = CascadeType.ALL)
     private Set<OfferAdvantage> offerAdvantages = new HashSet<>();
 
     @Builder.Default

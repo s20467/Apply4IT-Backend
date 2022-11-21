@@ -11,6 +11,8 @@ import pjatk.Apply4IT.api.v1.dto.OfferMinimalDto;
 import pjatk.Apply4IT.api.v1.mapper.OfferMapper;
 import pjatk.Apply4IT.exception.ResourceConflictException;
 import pjatk.Apply4IT.exception.ResourceNotFoundException;
+import pjatk.Apply4IT.model.Application;
+import pjatk.Apply4IT.model.Category;
 import pjatk.Apply4IT.model.Offer;
 import pjatk.Apply4IT.model.User;
 import pjatk.Apply4IT.repository.OfferRepository;
@@ -51,14 +53,14 @@ public class OfferServiceImpl implements OfferService{
         );
         OfferFullDto offerDto = offerMapper.offerToOfferFullDto(foundOffer);
 
-        if(currentUser != null) {
+        if(currentUser == null) {
+            offerDto.setApplicationsNumber(null);
+        }
+        else {
             User foundUser = userRepository.getUserWithSavedOffersByEmail(currentUser.getEmail());
             offerDto.setIsSavedByCurrentUser(
                     foundUser.getSavedOffers().contains(foundOffer)
             );
-            if(!foundOffer.getAuthor().equals(foundUser)) {
-                offerDto.setApplicationsNumber(null);
-            }
         }
         return offerDto;
     }
@@ -96,5 +98,24 @@ public class OfferServiceImpl implements OfferService{
         foundOffer.getUsersWhoSaved().remove(foundUser);
         foundUser.getSavedOffers().remove(foundOffer);
         offerRepository.save(foundOffer);
+    }
+
+    @Override
+    @Transactional
+    public void deleteById(Integer offerId) {
+        Offer foundOffer = offerRepository.findOfferFullDtoBaseById(offerId).orElseThrow(
+                () -> new ResourceNotFoundException("Offer with id: " + offerId + " not found")
+        );
+        foundOffer.getCompany().getOffers().remove(foundOffer);
+        foundOffer.getAuthor().getCreatedOffers().remove(foundOffer);
+        foundOffer.getApplications().forEach((Application application) ->
+            application.getCandidate().getApplications().remove(application)
+        );
+        foundOffer.getCategories().forEach((Category category) ->
+                category.getOffers().remove(foundOffer));
+        foundOffer.getUsersWhoSaved().forEach((User user) ->
+                user.getSavedOffers().remove(foundOffer));
+
+        offerRepository.delete(foundOffer);
     }
 }
