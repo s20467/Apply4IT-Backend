@@ -32,6 +32,10 @@ public class Company {
     @ManyToMany(mappedBy = "isRecruiterFor", cascade = {CascadeType.PERSIST, CascadeType.REFRESH, CascadeType.MERGE})
     private Set<User> recruiters = new HashSet<>();
 
+    @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.REFRESH, CascadeType.MERGE})
+    @JoinColumn(name = "USER_ID")
+    private User owner;
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

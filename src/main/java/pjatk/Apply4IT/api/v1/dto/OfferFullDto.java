@@ -28,7 +28,7 @@ public class OfferFullDto {
     private Integer applicationsNumber = null;
 
     @Builder.Default
-    private Set<String> expectations = new HashSet<>();
+    private Set<ExpectationMinimalDto> expectations = new HashSet<>();
     @Builder.Default
     private Set<String> offerAdvantages = new HashSet<>();
     @Builder.Default

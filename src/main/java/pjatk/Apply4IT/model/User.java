@@ -72,6 +72,9 @@ public class User implements UserDetails {
     )
     private Set<Offer> savedOffers = new HashSet<>();
 
+    @OneToMany(mappedBy = "owner", cascade = {CascadeType.PERSIST, CascadeType.REFRESH, CascadeType.MERGE})
+    private Set<Company> ownedCompanies;
+
     @Builder.Default
     private boolean accountNonExpired = true;
     @Builder.Default
