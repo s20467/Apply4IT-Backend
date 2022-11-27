@@ -18,7 +18,7 @@ public class OfferFullDto {
     private String title;
     private String description;
     private Address address;
-    private String localization;
+    private LocalizationFullDto localization;
     private CompanyMinimalDto company;
     private LocalDate creationDate;
     private LocalDate closingDate;
@@ -32,7 +32,7 @@ public class OfferFullDto {
     @Builder.Default
     private Set<OfferAdvantageMinimalDto> offerAdvantages = new HashSet<>();
     @Builder.Default
-    private Set<String> categories = new HashSet<>();
+    private Set<CategoryFullDto> categories = new HashSet<>();
 
     private Boolean remotePossibility;
     private Boolean isSavedByCurrentUser;

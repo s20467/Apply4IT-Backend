@@ -17,4 +17,5 @@ public interface OfferService {
     void unsaveOffer(Integer offerId, User currentUser);
     void deleteById(Integer offerId);
     Integer createOffer(OfferCreationRequestDto offerCreationDto, User currentUser);
+    Integer updateOffer(Integer offerId, OfferCreationRequestDto offerCreationDto);
 }

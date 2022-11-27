@@ -11,7 +11,7 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 @Mapper(
-        uses = {CompanyMapper.class}
+        uses = {CompanyMapper.class, CategoryMapper.class, LocalizationMapper.class}
 )
 public interface OfferMapper {
 
@@ -19,8 +19,6 @@ public interface OfferMapper {
     @Mapping(source = "categories", target = "categories", qualifiedByName = "categoriesToStrings")
     OfferMinimalDto offerToOfferMinimalDto(Offer offer);
 
-    @Mapping(source = "localization", target = "localization", qualifiedByName = "localizationToString")
-    @Mapping(source = "categories", target = "categories", qualifiedByName = "categoriesToStrings")
     @Mapping(source = "applications", target = "applicationsNumber", qualifiedByName = "applicationsToApplicationsNumber")
     OfferFullDto offerToOfferFullDto(Offer offer);
 

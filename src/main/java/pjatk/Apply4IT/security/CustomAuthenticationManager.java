@@ -39,4 +39,12 @@ public class CustomAuthenticationManager {
 
         return isRecruiter || isOwner;
     }
+
+    public boolean getIsOfferAuthor(Authentication authentication, Integer offerId) {
+        User authenticatedUser = (User) authentication.getPrincipal();
+        Offer foundOffer = offerRepository.findById(offerId).orElseThrow(
+                () -> new ResourceNotFoundException("Offer with id: " + offerId + " not found")
+        );
+        return foundOffer.getAuthor().getEmail().equals(authenticatedUser.getEmail());
+    }
 }

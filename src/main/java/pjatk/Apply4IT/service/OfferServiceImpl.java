@@ -6,6 +6,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 import pjatk.Apply4IT.api.v1.dto.OfferCreationRequestDto;
 import pjatk.Apply4IT.api.v1.dto.OfferFullDto;
@@ -128,60 +129,79 @@ public class OfferServiceImpl implements OfferService{
     @Override
     @Transactional
     public Integer createOffer(OfferCreationRequestDto offerCreationDto, User currentUser) {
-        Offer newOffer = new Offer();
+        User foundCurrentUser = userRepository.getByEmail(currentUser.getEmail());
 
-        Company foundCompany = companyRepository.findById(offerCreationDto.getCompanyId()).orElseThrow(
-                () -> new ResourceNotFoundException("Company with id: " + offerCreationDto.getCompanyId() + " not found")
+        Offer newOffer = updateOfferWithOfferCreationRequestDto(new Offer(), offerCreationDto);
+
+        newOffer.setAuthor(foundCurrentUser);
+        foundCurrentUser.getCreatedOffers().add(newOffer);
+
+        return offerRepository.save(newOffer).getId();
+    }
+
+    @Override
+    @Transactional
+    public Integer updateOffer(Integer offerId, OfferCreationRequestDto offerCreationDto) {
+        Offer updatedOffer = offerRepository.findById(offerId).orElseThrow(
+                () -> new ResourceNotFoundException("Offer with id: " + offerId + " not found")
         );
-        Localization foundLocalization = localizationRepository.findById(offerCreationDto.getLocalizationId()).orElseThrow(
-                () -> new ResourceNotFoundException("Localization with id: " + offerCreationDto.getLocalizationId() + " not found")
+        return offerRepository.save(
+                updateOfferWithOfferCreationRequestDto(updatedOffer, offerCreationDto)
+        ).getId();
+    }
+
+
+
+    Offer updateOfferWithOfferCreationRequestDto(Offer updatedOffer, OfferCreationRequestDto offerDto) {
+        Company foundCompany = companyRepository.findById(offerDto.getCompanyId()).orElseThrow(
+                () -> new ResourceNotFoundException("Company with id: " + offerDto.getCompanyId() + " not found")
+        );
+        Localization foundLocalization = localizationRepository.findById(offerDto.getLocalizationId()).orElseThrow(
+                () -> new ResourceNotFoundException("Localization with id: " + offerDto.getLocalizationId() + " not found")
         );
         Set<Category> categories =
-                offerCreationDto.getCategoryIds().stream().map(
+                offerDto.getCategoryIds().stream().map(
                         categoryId -> categoryRepository.findById(categoryId).orElseThrow(
                                 () -> new ResourceNotFoundException("Category with id: " + categoryId + " not found")
                         )).collect(Collectors.toSet());
-        User foundCurrentUser = userRepository.getByEmail(currentUser.getEmail());
-        Set<Expectation> expectations = StreamUtils.zipWithIndex(offerCreationDto.getExpectations().stream())
+        Set<Expectation> expectations = StreamUtils.zipWithIndex(offerDto.getExpectations().stream())
                 .map(indexedExpectation ->
                         Expectation.builder()
                                 .description(indexedExpectation.getValue().getDescription())
                                 .orderNumber(indexedExpectation.getValue().getOrderNumber())
                                 .required(indexedExpectation.getValue().isRequired())
-                                .offer(newOffer).build())
+                                .offer(updatedOffer).build())
                 .collect(Collectors.toSet());
-        Set<OfferAdvantage> offerAdvantages = StreamUtils.zipWithIndex(offerCreationDto.getOfferAdvantages().stream())
-                        .map(indexedOfferAdvantage ->
-                                OfferAdvantage.builder()
-                                        .description(indexedOfferAdvantage.getValue().getDescription())
-                                        .orderNumber(indexedOfferAdvantage.getValue().getOrderNumber())
-                                        .offer(newOffer).build())
-                                .collect(Collectors.toSet());
-        boolean remotePossibility = offerCreationDto.getRemotePossibility() == null ? false : offerCreationDto.getRemotePossibility();
-        boolean firstJobPossibility = offerCreationDto.getFirstJobPossibility() == null ? false : offerCreationDto.getFirstJobPossibility();
+        Set<OfferAdvantage> offerAdvantages = StreamUtils.zipWithIndex(offerDto.getOfferAdvantages().stream())
+                .map(indexedOfferAdvantage ->
+                        OfferAdvantage.builder()
+                                .description(indexedOfferAdvantage.getValue().getDescription())
+                                .orderNumber(indexedOfferAdvantage.getValue().getOrderNumber())
+                                .offer(updatedOffer).build())
+                .collect(Collectors.toSet());
+        boolean remotePossibility = offerDto.getRemotePossibility() == null ? false : offerDto.getRemotePossibility();
+        boolean firstJobPossibility = offerDto.getFirstJobPossibility() == null ? false : offerDto.getFirstJobPossibility();
 
-        
-        newOffer.setTitle(offerCreationDto.getTitle());
-        newOffer.setDescription(offerCreationDto.getDescription());
-        newOffer.setAddress(offerCreationDto.getAddress());
-        newOffer.setLocalization(foundLocalization);
-        newOffer.setCompany(foundCompany);
-        newOffer.setCreationDate(LocalDate.now());
-        newOffer.setClosingDate(offerCreationDto.getClosingDate());
-        newOffer.setMinSalaryPln(offerCreationDto.getMinSalaryPln());
-        newOffer.setMaxSalaryPln(offerCreationDto.getMaxSalaryPln());
-        newOffer.setFirstJobPossibility(firstJobPossibility);
-        newOffer.setRemotePossibility(remotePossibility);
-        newOffer.setAuthor(foundCurrentUser);
-        newOffer.setExpectations(expectations);
-        newOffer.setOfferAdvantages(offerAdvantages);
-        newOffer.setCategories(categories);
 
-        foundCompany.getOffers().add(newOffer);
-        foundLocalization.getOffers().add(newOffer);
-        foundCurrentUser.getCreatedOffers().add(newOffer);
-        categories.forEach(category -> category.getOffers().add(newOffer));
+        updatedOffer.setTitle(offerDto.getTitle());
+        updatedOffer.setDescription(offerDto.getDescription());
+        updatedOffer.setAddress(offerDto.getAddress());
+        updatedOffer.setLocalization(foundLocalization);
+        updatedOffer.setCompany(foundCompany);
+        updatedOffer.setCreationDate(LocalDate.now());
+        updatedOffer.setClosingDate(offerDto.getClosingDate());
+        updatedOffer.setMinSalaryPln(offerDto.getMinSalaryPln());
+        updatedOffer.setMaxSalaryPln(offerDto.getMaxSalaryPln());
+        updatedOffer.setFirstJobPossibility(firstJobPossibility);
+        updatedOffer.setRemotePossibility(remotePossibility);
+        updatedOffer.setExpectations(expectations);
+        updatedOffer.setOfferAdvantages(offerAdvantages);
+        updatedOffer.setCategories(categories);
 
-        return offerRepository.save(newOffer).getId();
+        foundCompany.getOffers().add(updatedOffer);
+        foundLocalization.getOffers().add(updatedOffer);
+        categories.forEach(category -> category.getOffers().add(updatedOffer));
+
+        return updatedOffer;
     }
 }

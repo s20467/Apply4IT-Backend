@@ -86,4 +86,10 @@ public class OfferController {
     public Integer createOffer(@RequestBody OfferCreationRequestDto offerCreationDto) {
         return offerService.createOffer(offerCreationDto, getCurrentUser());
     }
+
+    @PreAuthorize("hasRole('ADMIN') or (hasRole('USER') and @customAuthenticationManager.isOfferAuthor(authentication, #offerId))")
+    @PutMapping("/{offerId}")
+    public Integer createOffer(@RequestBody OfferCreationRequestDto offerCreationDto, @PathVariable Integer offerId) {
+        return offerService.updateOffer(offerId, offerCreationDto);
+    }
 }
