@@ -31,6 +31,8 @@ public class OfferServiceImpl implements OfferService{
     private final CompanyRepository companyRepository;
     private final LocalizationRepository localizationRepository;
     private final CategoryRepository categoryRepository;
+    private final ExpectationRepository expectationRepository;
+    private final OfferAdvantageRepository offerAdvantageRepository;
     private final OfferMapper offerMapper;
 
     @Override
@@ -129,10 +131,54 @@ public class OfferServiceImpl implements OfferService{
     @Override
     @Transactional
     public Integer createOffer(OfferCreationRequestDto offerCreationDto, User currentUser) {
+        Offer newOffer = new Offer();
+        Company foundCompany = companyRepository.findById(offerCreationDto.getCompanyId()).orElseThrow(
+                () -> new ResourceNotFoundException("Company with id: " + offerCreationDto.getCompanyId() + " not found")
+        );
+        Localization foundLocalization = localizationRepository.findById(offerCreationDto.getLocalizationId()).orElseThrow(
+                () -> new ResourceNotFoundException("Localization with id: " + offerCreationDto.getLocalizationId() + " not found")
+        );
+        Set<Category> categories =
+                offerCreationDto.getCategoryIds().stream().map(
+                        categoryId -> categoryRepository.findById(categoryId).orElseThrow(
+                                () -> new ResourceNotFoundException("Category with id: " + categoryId + " not found")
+                        )).collect(Collectors.toSet());
+        Set<Expectation> expectations = offerCreationDto.getExpectations().stream().map(
+                expectation -> Expectation.builder()
+                        .description(expectation.getDescription())
+                        .orderNumber(expectation.getOrderNumber())
+                        .required(expectation.isRequired())
+                        .offer(newOffer).build())
+                .collect(Collectors.toSet());
+        Set<OfferAdvantage> offerAdvantages = offerCreationDto.getOfferAdvantages().stream().map(
+                offerAdvantage -> OfferAdvantage.builder()
+                        .description(offerAdvantage.getDescription())
+                        .orderNumber(offerAdvantage.getOrderNumber())
+                        .offer(newOffer).build())
+                .collect(Collectors.toSet());
+        boolean remotePossibility = offerCreationDto.getRemotePossibility() == null ? false : offerCreationDto.getRemotePossibility();
+        boolean firstJobPossibility = offerCreationDto.getFirstJobPossibility() == null ? false : offerCreationDto.getFirstJobPossibility();
+
+
+        newOffer.setTitle(offerCreationDto.getTitle());
+        newOffer.setDescription(offerCreationDto.getDescription());
+        newOffer.setAddress(offerCreationDto.getAddress());
+        newOffer.setLocalization(foundLocalization);
+        newOffer.setCompany(foundCompany);
+        newOffer.setCreationDate(LocalDate.now());
+        newOffer.setClosingDate(offerCreationDto.getClosingDate());
+        newOffer.setMinSalaryPln(offerCreationDto.getMinSalaryPln());
+        newOffer.setMaxSalaryPln(offerCreationDto.getMaxSalaryPln());
+        newOffer.setFirstJobPossibility(firstJobPossibility);
+        newOffer.setRemotePossibility(remotePossibility);
+        newOffer.setExpectations(expectations);
+        newOffer.setOfferAdvantages(offerAdvantages);
+        newOffer.setCategories(categories);
+
+        foundCompany.getOffers().add(newOffer);
+        foundLocalization.getOffers().add(newOffer);
+        categories.forEach(category -> category.getOffers().add(newOffer));
         User foundCurrentUser = userRepository.getByEmail(currentUser.getEmail());
-
-        Offer newOffer = updateOfferWithOfferCreationRequestDto(new Offer(), offerCreationDto);
-
         newOffer.setAuthor(foundCurrentUser);
         foundCurrentUser.getCreatedOffers().add(newOffer);
 
@@ -145,14 +191,69 @@ public class OfferServiceImpl implements OfferService{
         Offer updatedOffer = offerRepository.findById(offerId).orElseThrow(
                 () -> new ResourceNotFoundException("Offer with id: " + offerId + " not found")
         );
-        return offerRepository.save(
-                updateOfferWithOfferCreationRequestDto(updatedOffer, offerCreationDto)
-        ).getId();
+
+        Company foundCompany = companyRepository.findById(offerCreationDto.getCompanyId()).orElseThrow(
+                () -> new ResourceNotFoundException("Company with id: " + offerCreationDto.getCompanyId() + " not found")
+        );
+        Localization foundLocalization = localizationRepository.findById(offerCreationDto.getLocalizationId()).orElseThrow(
+                () -> new ResourceNotFoundException("Localization with id: " + offerCreationDto.getLocalizationId() + " not found")
+        );
+        Set<Category> categories =
+                offerCreationDto.getCategoryIds().stream().map(
+                        categoryId -> categoryRepository.findById(categoryId).orElseThrow(
+                                () -> new ResourceNotFoundException("Category with id: " + categoryId + " not found")
+                        )).collect(Collectors.toSet());
+        Set<Expectation> expectations = offerCreationDto.getExpectations().stream().map(
+                expectation -> Expectation.builder()
+                        .description(expectation.getDescription())
+                        .orderNumber(expectation.getOrderNumber())
+                        .required(expectation.isRequired())
+                        .offer(updatedOffer).build())
+                .collect(Collectors.toSet());
+        Set<OfferAdvantage> offerAdvantages = offerCreationDto.getOfferAdvantages().stream().map(
+                offerAdvantage -> OfferAdvantage.builder()
+                        .description(offerAdvantage.getDescription())
+                        .orderNumber(offerAdvantage.getOrderNumber())
+                        .offer(updatedOffer).build())
+                .collect(Collectors.toSet());
+        boolean remotePossibility = offerCreationDto.getRemotePossibility() == null ? false : offerCreationDto.getRemotePossibility();
+        boolean firstJobPossibility = offerCreationDto.getFirstJobPossibility() == null ? false : offerCreationDto.getFirstJobPossibility();
+
+
+        updatedOffer.setTitle(offerCreationDto.getTitle());
+        updatedOffer.setDescription(offerCreationDto.getDescription());
+        updatedOffer.setAddress(offerCreationDto.getAddress());
+        if(foundLocalization != updatedOffer.getLocalization()) {
+            updatedOffer.getLocalization().getOffers().remove(updatedOffer);
+            foundLocalization.getOffers().add(updatedOffer);
+        }
+        updatedOffer.setLocalization(foundLocalization);
+        if(foundCompany != updatedOffer.getCompany()) {
+            updatedOffer.getCompany().getOffers().remove(updatedOffer);
+            foundCompany.getOffers().add(updatedOffer);
+        }
+        updatedOffer.setCompany(foundCompany);
+        updatedOffer.setClosingDate(offerCreationDto.getClosingDate());
+        updatedOffer.setMinSalaryPln(offerCreationDto.getMinSalaryPln());
+        updatedOffer.setMaxSalaryPln(offerCreationDto.getMaxSalaryPln());
+        updatedOffer.setFirstJobPossibility(firstJobPossibility);
+        updatedOffer.setRemotePossibility(remotePossibility);
+        updatedOffer.getExpectations().removeAll(updatedOffer.getExpectations());
+        updatedOffer.getExpectations().addAll(expectations);
+//        updatedOffer.setExpectations(expectations);
+        updatedOffer.getOfferAdvantages().removeAll(updatedOffer.getOfferAdvantages());
+        updatedOffer.getOfferAdvantages().addAll(offerAdvantages);
+//        updatedOffer.setOfferAdvantages(offerAdvantages);
+        updatedOffer.getCategories().forEach(category -> category.getOffers().remove(updatedOffer));
+        updatedOffer.setCategories(categories);
+        categories.forEach(category -> category.getOffers().add(updatedOffer));
+
+        return offerRepository.save(updatedOffer).getId();
     }
 
 
 
-    Offer updateOfferWithOfferCreationRequestDto(Offer updatedOffer, OfferCreationRequestDto offerDto) {
+    Offer updateOfferWithOfferCreationRequestDto(Offer updatedOffer, OfferCreationRequestDto offerDto, boolean editMode) {
         Company foundCompany = companyRepository.findById(offerDto.getCompanyId()).orElseThrow(
                 () -> new ResourceNotFoundException("Company with id: " + offerDto.getCompanyId() + " not found")
         );

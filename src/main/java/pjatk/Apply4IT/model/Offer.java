@@ -50,11 +50,11 @@ public class Offer {
     private Set<Application> applications = new HashSet<>();
 
     @Builder.Default
-    @OneToMany(mappedBy = "offer", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "offer", cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<Expectation> expectations = new HashSet<>();
 
     @Builder.Default
-    @OneToMany(mappedBy = "offer", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "offer", cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<OfferAdvantage> offerAdvantages = new HashSet<>();
 
     @Builder.Default

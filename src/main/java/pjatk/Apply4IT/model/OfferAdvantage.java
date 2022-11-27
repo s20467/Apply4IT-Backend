@@ -19,6 +19,6 @@ public class OfferAdvantage {
     private String description;
     private Integer orderNumber;
 
-    @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.REFRESH, CascadeType.MERGE})
+    @ManyToOne
     private Offer offer;
 }

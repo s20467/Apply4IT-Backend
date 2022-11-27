@@ -20,6 +20,6 @@ public class Expectation {
     private boolean required;
     private Integer orderNumber;
 
-    @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.REFRESH, CascadeType.MERGE})
+    @ManyToOne
     private Offer offer;
 }
