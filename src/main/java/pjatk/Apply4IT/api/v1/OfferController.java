@@ -6,8 +6,10 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.data.web.SortDefault;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
+import pjatk.Apply4IT.api.v1.dto.OfferCreationRequestDto;
 import pjatk.Apply4IT.api.v1.dto.OfferFullDto;
 import pjatk.Apply4IT.api.v1.dto.OfferMinimalDto;
 import pjatk.Apply4IT.api.v1.dto.OfferSearchSpecification;
@@ -76,5 +78,12 @@ public class OfferController {
     @DeleteMapping("/{offerId}")
     public void deleteOffer(@PathVariable Integer offerId) {
         offerService.deleteById(offerId);
+    }
+
+    @ResponseStatus(HttpStatus.CREATED)
+    @PreAuthorize("hasRole('ADMIN') or (hasRole('USER') and @customAuthenticationManager.isCompanyOwnerOrRecruitingFor(authentication, #offerCreationDto.companyId))")
+    @PostMapping
+    public Integer createOffer(@RequestBody OfferCreationRequestDto offerCreationDto) {
+        return offerService.createOffer(offerCreationDto, getCurrentUser());
     }
 }

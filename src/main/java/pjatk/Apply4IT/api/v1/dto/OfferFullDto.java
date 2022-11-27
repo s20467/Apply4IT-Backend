@@ -30,7 +30,7 @@ public class OfferFullDto {
     @Builder.Default
     private Set<ExpectationMinimalDto> expectations = new HashSet<>();
     @Builder.Default
-    private Set<String> offerAdvantages = new HashSet<>();
+    private Set<OfferAdvantageMinimalDto> offerAdvantages = new HashSet<>();
     @Builder.Default
     private Set<String> categories = new HashSet<>();
 

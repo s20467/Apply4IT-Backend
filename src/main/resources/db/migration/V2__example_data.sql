@@ -62,9 +62,9 @@ insert into offer (city, country, street, zip, user_id, closing_date, company_id
             false, 1, 12000, 8000, true, 'tItLe3');
 insert into category (title) values ('cAtEgOry1 cAtEgOry1');
 insert into category (title) values ('cAtEgOry2');
-insert into expectation (description, offer_id, required)
+insert into expectation (description, offer_id, required, order_number)
     values ('dESCRPtion3 dESCRPtion3 dESCRPtion3 dESCRPtion3 dESCRPtion3 dESCRPtion3 dESCRPtion3 dESCRPtion3 dESCRPtion3 dESCRPtion3 dESCRPtion3 dESCRPtion3 dESCRPtion3 dESCRPtion3 dESCRPtion3 dESCRPtion3 dESCRPtion3 dESCRPtion3 dESCRPtion3',
-        1, false);
+        1, false, 0);
 insert into user (account_non_expired, account_non_locked, city, country, street, zip, birthdate, credentials_non_expired, description, email, enabled, first_name, last_name, password, photo)
     values (true, true, 'Miasto', 'Kraj', 'Ulica', 'ZIPCODE', '2022-11-05', true,
         'DescripTION4 DescripTION4 DescripTION4 DescripTION4 DescripTION4 DescripTION4 DescripTION4 DescripTION4DescripTION4 DescripTION4 DescripTION4 DescripTION4 DescripTION4 DescripTION4 DescripTION4 DescripTION4 DescripTION4DescripTION4 DescripTION4 DescripTION4 DescripTION4 DescripTION4',
@@ -77,8 +77,8 @@ insert into offer (city, country, street, zip, user_id, closing_date, company_id
     values ('Miasto miasto miasto miasto', 'Kraj kraj kraj kraj', 'Ulica ulica ulica ulica','ZIPZIPZIP' , 2, '2022-12-07', 2, '2022-11-07',
             'DeScRiption2 DeScRiption2 DeScRiption2 DeScRiption2 DeScRiption2 DeScRiption2 DeScRiption2 DeScRiption2 DeScRiption2 DeScRiption2 DeScRiption2 DeScRiption2 DeScRiption2 DeScRiption2 DeScRiption2 DeScRiption2 DeScRiption2DeScRiption2 DeScRiption2 DeScRiption2 DeScRiption2 DeScRiption2 DeScRiption2 DeScRiption2 DeScRiption2 DeScRiption2DeScRiption2 DeScRiption2 DeScRiption2 DeScRiption2',
             true, 1, 24000, 12000, false, 'Junior java developer Junior java develop');
-insert into expectation (description, offer_id, required) values ('dESCripTIOn2 dESCripTIOn2 dESCripTIOn2 dESCripTIOn2 dESCripTIOn2 dESCripTIOn2dESCripTIOn2 dESCripTIOn2', 2, true);
-insert into offer_advantage (description, offer_id) values ('dEsCrIpTION3 dEsCrIpTION3 dEsCrIpTION3 dEsCrIpTION3 dEsCrIpTION3 dEsCrIpTION3dEsCrIpTION3 dEsCrIpTION3 dEsCrIpTION3 dEsCrIpTION3 dEsCrIpTION3', 2);
+insert into expectation (description, offer_id, required, order_number) values ('dESCripTIOn2 dESCripTIOn2 dESCripTIOn2 dESCripTIOn2 dESCripTIOn2 dESCripTIOn2dESCripTIOn2 dESCripTIOn2', 2, true, 1);
+insert into offer_advantage (description, order_number, offer_id) values ('dEsCrIpTION3 dEsCrIpTION3 dEsCrIpTION3 dEsCrIpTION3 dEsCrIpTION3 dEsCrIpTION3dEsCrIpTION3 dEsCrIpTION3 dEsCrIpTION3 dEsCrIpTION3 dEsCrIpTION3', 0, 2);
 insert into localization (name) values ('lOcAlIzAtIoN1');
 insert into offer (city, country, street, zip, user_id, closing_date, company_id, creation_date, description, first_job_possibility, localization_id, max_salary_pln, min_salary_pln, remote_possibility, title)
     values ('Miasto', 'Kraj', 'Ulica', 'ZIP', 2, '2022-12-05', 1, '2022-11-05',
@@ -510,9 +510,9 @@ values ('Miasto', 'Kraj', 'Ulica', 'ZIP', 2, '2022-12-05', 1, '2022-11-05',
         true, 2, 10000, 6000, true, 'tItLe1 tItLe1 tItLe1 tItLe1 tItLe1 tItLe1 tItLe1');
 
 insert into category (title) values ('cAtEgOry3 cAtEgOry3 cAtEgOry3');
-insert into expectation (description, offer_id, required) values ('dEsCrIption1 dEsCrIption1 dEsCrIption1 dEsCrIption1 dEsCrIption1 dEsCrIption1', 3, false);
-insert into offer_advantage (description, offer_id) values ('dEsCrIpTION1 dEsCrIpTION1 dEsCrIpTION1 dEsCrIpTION1 dEsCrIpTION1 dEsCrIpTION1dEsCrIpTION1 dEsCrIpTION1 dEsCrIpTION1 dEsCrIpTION1 dEsCrIpTION1 dEsCrIpTION1 dEsCrIpTION1', 3);
-insert into offer_advantage (description, offer_id) values ('dEsCrIpTION2 dEsCrIpTION2 dEsCrIpTION2 dEsCrIpTION2 dEsCrIpTION2 dEsCrIpTION2dEsCrIpTION2', 3);
+insert into expectation (description, offer_id, required, order_number) values ('dEsCrIption1 dEsCrIption1 dEsCrIption1 dEsCrIption1 dEsCrIption1 dEsCrIption1', 3, false, 2);
+insert into offer_advantage (description, order_number, offer_id) values ('dEsCrIpTION1 dEsCrIpTION1 dEsCrIpTION1 dEsCrIpTION1 dEsCrIpTION1 dEsCrIpTION1dEsCrIpTION1 dEsCrIpTION1 dEsCrIpTION1 dEsCrIpTION1 dEsCrIpTION1 dEsCrIpTION1 dEsCrIpTION1', 1, 3);
+insert into offer_advantage (description, order_number, offer_id) values ('dEsCrIpTION2 dEsCrIpTION2 dEsCrIpTION2 dEsCrIpTION2 dEsCrIpTION2 dEsCrIpTION2dEsCrIpTION2', 2, 3);
 update application set application_date='2022-11-05', cv=null, offer_id=3, candidate_id=2 where id=1;
 update application set application_date='2022-11-05', cv=null, offer_id=3, candidate_id=2 where id=2;
 update application set application_date='2022-11-05', cv=null, offer_id=3, candidate_id=3 where id=3;

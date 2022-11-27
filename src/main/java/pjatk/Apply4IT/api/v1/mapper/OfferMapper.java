@@ -3,7 +3,6 @@ package pjatk.Apply4IT.api.v1.mapper;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.Named;
-import pjatk.Apply4IT.api.v1.dto.ExpectationMinimalDto;
 import pjatk.Apply4IT.api.v1.dto.OfferFullDto;
 import pjatk.Apply4IT.api.v1.dto.OfferMinimalDto;
 import pjatk.Apply4IT.model.*;
@@ -23,8 +22,6 @@ public interface OfferMapper {
     @Mapping(source = "localization", target = "localization", qualifiedByName = "localizationToString")
     @Mapping(source = "categories", target = "categories", qualifiedByName = "categoriesToStrings")
     @Mapping(source = "applications", target = "applicationsNumber", qualifiedByName = "applicationsToApplicationsNumber")
-    @Mapping(source = "expectations", target = "expectations", qualifiedByName = "expectationsToExpectationMinimalDtos")
-    @Mapping(source = "offerAdvantages", target = "offerAdvantages", qualifiedByName = "offerAdvantagesToStrings")
     OfferFullDto offerToOfferFullDto(Offer offer);
 
     @Named("localizationToString")
@@ -44,13 +41,4 @@ public interface OfferMapper {
         return applications.size();
     }
 
-    @Named("expectationsToExpectationMinimalDtos")
-    static Set<ExpectationMinimalDto> expectationsToExpectationMinimalDtos(Set<Expectation> expectations) {
-        return expectations.stream().map((expectation) -> new ExpectationMinimalDto(expectation.getDescription(), expectation.isRequired())).collect(Collectors.toSet());
-    }
-
-    @Named("offerAdvantagesToStrings")
-    static Set<String> offerAdvantagesToStrings(Set<OfferAdvantage> offerAdvantages) {
-        return offerAdvantages.stream().map(OfferAdvantage::getDescription).collect(Collectors.toSet());
-    }
 }
