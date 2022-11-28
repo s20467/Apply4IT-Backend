@@ -2,6 +2,7 @@ package pjatk.Apply4IT.api.v1.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.util.List;
@@ -9,6 +10,7 @@ import java.util.List;
 @Getter
 @Setter
 @AllArgsConstructor
+@NoArgsConstructor
 public class OfferSearchSpecification {
         private OfferSearchSpecificationStringSearchSection stringSearchSection;
         private Boolean remotePossibilityEqual;
@@ -20,6 +22,7 @@ public class OfferSearchSpecification {
         @Getter
         @Setter
         @AllArgsConstructor
+        @NoArgsConstructor
         public static class OfferSearchSpecificationStringSearchSection {
                 private String titleLike;
                 private String descriptionLike;
