@@ -30,7 +30,7 @@ public class User implements UserDetails {
     @Embedded
     private Address address;
 
-    private Byte[] photo;
+    private String photo;
     private String description;
 
     @Builder.Default
@@ -115,5 +115,9 @@ public class User implements UserDetails {
     @Override
     public String getUsername() {
         return getEmail();
+    }
+
+    public boolean isAdmin() {
+        return getAuthorities().stream().anyMatch(authority -> authority.getAuthority().equals("ROLE_ADMIN"));
     }
 }

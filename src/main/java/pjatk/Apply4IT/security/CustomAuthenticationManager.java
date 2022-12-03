@@ -47,4 +47,12 @@ public class CustomAuthenticationManager {
         );
         return foundOffer.getAuthor().getEmail().equals(authenticatedUser.getEmail());
     }
+
+    public boolean getIsCompanyOwner(Authentication authentication, Integer companyId) {
+        User authenticatedUser = (User) authentication.getPrincipal();
+        Company foundCompany = companyRepository.findById(companyId).orElseThrow(
+                () -> new ResourceNotFoundException("Company with id: " + companyId + " not found")
+        );
+        return foundCompany.getOwner().getEmail().equals(authenticatedUser.getEmail());
+    }
 }

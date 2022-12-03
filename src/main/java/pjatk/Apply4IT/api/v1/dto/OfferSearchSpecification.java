@@ -17,9 +17,10 @@ public class OfferSearchSpecification {
         private List<Integer> anyCategoryIdEqual;
         private List<Integer> anyLocalizationIdEqual;
         private Boolean firstJobPossibilityEqual;
+        private Integer companyIdEqual;
 
 
-        @Getter
+    @Getter
         @Setter
         @AllArgsConstructor
         @NoArgsConstructor

@@ -24,6 +24,9 @@ public class Company {
 
     private String logoPhoto;
 
+    @Embedded
+    private Address address;
+
     @Builder.Default
     @OneToMany(mappedBy = "company", cascade = {CascadeType.PERSIST, CascadeType.REFRESH, CascadeType.MERGE})
     private Set<Offer> offers = new HashSet<>();

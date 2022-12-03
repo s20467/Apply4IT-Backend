@@ -30,6 +30,13 @@ public class CompanyController {
     private final CompanyService companyService;
 
     @PreAuthorize("permitAll()")
+    @GetMapping("/{companyId}")
+    public CompanyFullDto getCompanyById(@PathVariable Integer companyId) {
+        User currentUser = getCurrentUser();
+        return companyService.getById(companyId, currentUser);
+    }
+
+    @PreAuthorize("permitAll()")
     @PostMapping("/search")
     public Page<CompanyListItemDto> searchCompaniesByName(
             @RequestBody(required = false) CompanySearchSpecification companySearchSpecification,
@@ -52,5 +59,23 @@ public class CompanyController {
     public List<CompanyMinimalDto> getOwnedAndRecruitingForCompanies() {
         User currentUser = getCurrentUser();
         return companyService.getOwnedAndRecruitingFor(currentUser);
+    }
+
+    @PreAuthorize("hasRole('ADMIN') or (hasRole('USER') and @customAuthenticationManager.isCompanyOwner(authentication, #companyId))")
+    @GetMapping("{companyId}/recruiters")
+    public List<UserMinimalDto> removeUserFromCompanyRecruiters(@PathVariable Integer companyId) {
+        return companyService.getCompanyRecruiters(companyId);
+    }
+
+    @PreAuthorize("hasRole('ADMIN') or (hasRole('USER') and @customAuthenticationManager.isCompanyOwner(authentication, #companyId))")
+    @DeleteMapping("{companyId}/recruiters/{userEmail}")
+    public void removeUserFromCompanyRecruiters(@PathVariable Integer companyId, @PathVariable String userEmail) {
+        companyService.removeUserFromCompanyRecruiters(companyId, userEmail);
+    }
+
+    @PreAuthorize("hasRole('ADMIN') or (hasRole('USER') and @customAuthenticationManager.isCompanyOwner(authentication, #companyId))")
+    @PostMapping("{companyId}/recruiters/{userEmail}")
+    public void addUserToCompanyRecruiters(@PathVariable Integer companyId, @PathVariable String userEmail) {
+        companyService.addUserToCompanyRecruiters(companyId, userEmail);
     }
 }
