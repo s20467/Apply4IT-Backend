@@ -53,8 +53,9 @@ public class CompanyController {
                 pageable);
     }
 
-    @PostMapping(value = "/{companyId}/upload-image", consumes = {MediaType.MULTIPART_FORM_DATA_VALUE}) //todo secure
-    public void uploadCompanyLogoImage(@PathVariable Integer companyId, @RequestParam("image") MultipartFile image) {
+    @PreAuthorize("hasRole('ADMIN') or (hasRole('USER') and @customAuthenticationManager.isCompanyOwner(authentication, #companyId))")
+    @PostMapping(value = "/{companyId}/upload-image", consumes = {MediaType.MULTIPART_FORM_DATA_VALUE})
+    public void uploadCompanyLogoImage(@PathVariable Integer companyId, @RequestParam("logo") MultipartFile image) {
         companyService.setCompanyLogoPhoto(companyId, image);
     }
 
