@@ -8,6 +8,7 @@ import pjatk.Apply4IT.api.v1.dto.CompanyFullDto;
 import pjatk.Apply4IT.api.v1.dto.CompanyListItemDto;
 import pjatk.Apply4IT.api.v1.dto.CompanyMinimalDto;
 import pjatk.Apply4IT.api.v1.dto.UserMinimalDto;
+import pjatk.Apply4IT.model.Address;
 import pjatk.Apply4IT.model.Company;
 import pjatk.Apply4IT.model.User;
 
@@ -28,4 +29,10 @@ public interface CompanyService {
     void addUserToCompanyRecruiters(Integer companyId, String userEmail);
 
     List<UserMinimalDto> getCompanyRecruiters(Integer companyId);
+
+    void editCompanyDescription(Integer companyId, String Description);
+
+    void editCompanyAddress(Integer companyId, Address address);
+
+    void deleteById(Integer companyId);
 }

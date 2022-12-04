@@ -28,7 +28,7 @@ public class Company {
     private Address address;
 
     @Builder.Default
-    @OneToMany(mappedBy = "company", cascade = {CascadeType.PERSIST, CascadeType.REFRESH, CascadeType.MERGE})
+    @OneToMany(mappedBy = "company", cascade = {CascadeType.PERSIST, CascadeType.REFRESH, CascadeType.MERGE}, orphanRemoval = true)
     private Set<Offer> offers = new HashSet<>();
 
     @Builder.Default

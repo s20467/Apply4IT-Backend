@@ -7,11 +7,14 @@ import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.data.web.SortDefault;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.server.ResponseStatusException;
 import pjatk.Apply4IT.api.v1.dto.*;
+import pjatk.Apply4IT.model.Address;
 import pjatk.Apply4IT.model.Company;
 import pjatk.Apply4IT.model.User;
 import pjatk.Apply4IT.service.CompanyService;
@@ -19,6 +22,7 @@ import pjatk.Apply4IT.specification.CompanySpecifications;
 import pjatk.Apply4IT.specification.OfferSpecifications;
 
 import java.util.List;
+import java.util.Map;
 
 import static pjatk.Apply4IT.security.SecurityUtils.getCurrentUser;
 
@@ -78,4 +82,27 @@ public class CompanyController {
     public void addUserToCompanyRecruiters(@PathVariable Integer companyId, @PathVariable String userEmail) {
         companyService.addUserToCompanyRecruiters(companyId, userEmail);
     }
+
+    @PreAuthorize("hasRole('ADMIN') or (hasRole('USER') and @customAuthenticationManager.isCompanyOwner(authentication, #companyId))")
+    @PostMapping("{companyId}/edit-description")
+    public void editCompanyDescription(@PathVariable Integer companyId, @RequestBody Map<String, String> body) {
+        String description = body.get("description");
+        if(description == null) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Invalid request body - does not contain description field");
+        }
+        companyService.editCompanyDescription(companyId, description);
+    }
+
+    @PreAuthorize("hasRole('ADMIN') or (hasRole('USER') and @customAuthenticationManager.isCompanyOwner(authentication, #companyId))")
+    @PostMapping("{companyId}/edit-address")
+    public void editCompanyAddress(@PathVariable Integer companyId, @RequestBody Address address) {
+        companyService.editCompanyAddress(companyId, address);
+    }
+
+    @PreAuthorize("hasRole('ADMIN') or (hasRole('USER') and @customAuthenticationManager.isCompanyOwner(authentication, #companyId))")
+    @DeleteMapping("{companyId}")
+    public void deleteCompany(@PathVariable Integer companyId) {
+        companyService.deleteById(companyId);
+    }
+
 }

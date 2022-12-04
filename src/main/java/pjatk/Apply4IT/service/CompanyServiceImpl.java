@@ -17,6 +17,7 @@ import pjatk.Apply4IT.api.v1.mapper.UserMapper;
 import pjatk.Apply4IT.exception.ImageUploadException;
 import pjatk.Apply4IT.exception.ResourceConflictException;
 import pjatk.Apply4IT.exception.ResourceNotFoundException;
+import pjatk.Apply4IT.model.Address;
 import pjatk.Apply4IT.model.Company;
 import pjatk.Apply4IT.model.User;
 import pjatk.Apply4IT.repository.CompanyRepository;
@@ -119,6 +120,49 @@ public class CompanyServiceImpl implements CompanyService{
         return foundCompany.getRecruiters()
                 .stream().map(userMapper::userToUserMinimalDto)
                 .collect(Collectors.toList());
+    }
+
+    @Override
+    public void editCompanyDescription(Integer companyId, String description) {
+        Company foundCompany = companyRepository.findById(companyId).orElseThrow(
+                () -> new ResourceNotFoundException("Company with id: " + companyId + " not found")
+        );
+        foundCompany.setDescription(description);
+        this.companyRepository.save(foundCompany);
+    }
+
+    @Override
+    public void editCompanyAddress(Integer companyId, Address address) {
+        Company foundCompany = companyRepository.findById(companyId).orElseThrow(
+                () -> new ResourceNotFoundException("Company with id: " + companyId + " not found")
+        );
+        foundCompany.setAddress(address);
+        this.companyRepository.save(foundCompany);
+    }
+
+    @Override
+    @Transactional
+    public void deleteById(Integer companyId) {
+        Company foundCompany = companyRepository.findById(companyId).orElseThrow(
+                () -> new ResourceNotFoundException("Company with id: " + companyId + " not found")
+        );
+        foundCompany.getOffers().forEach(offer -> {
+                offer.getAuthor().getCreatedOffers().remove(offer);
+                offer.getApplications().forEach(application ->
+                        application.getCandidate().getApplications().remove(application)
+                );
+                offer.getCategories().forEach(category ->
+                        category.getOffers().remove(offer)
+                );
+                offer.getUsersWhoSaved().forEach(user ->
+                        user.getSavedOffers().remove(offer)
+                );
+        });
+        foundCompany.getRecruiters().forEach(recruiter ->
+                recruiter.getIsRecruiterFor().remove(foundCompany)
+        );
+//        foundCompany.getOwner().getOwnedCompanies().remove(foundCompany);
+        companyRepository.delete(foundCompany);
     }
 
     @Override

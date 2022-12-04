@@ -115,8 +115,8 @@ public class OfferServiceImpl implements OfferService{
         Offer foundOffer = offerRepository.findOfferFullDtoBaseById(offerId).orElseThrow(
                 () -> new ResourceNotFoundException("Offer with id: " + offerId + " not found")
         );
-        foundOffer.getCompany().getOffers().remove(foundOffer);
-        foundOffer.getAuthor().getCreatedOffers().remove(foundOffer);
+//        foundOffer.getCompany().getOffers().remove(foundOffer);
+//        foundOffer.getAuthor().getCreatedOffers().remove(foundOffer);
         foundOffer.getApplications().forEach((Application application) ->
             application.getCandidate().getApplications().remove(application)
         );
