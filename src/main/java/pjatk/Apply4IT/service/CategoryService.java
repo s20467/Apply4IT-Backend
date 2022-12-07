@@ -8,4 +8,10 @@ import java.util.List;
 public interface CategoryService {
 
     List<CategoryFullDto> getAllCategories();
+
+    void editCategory(CategoryFullDto category);
+
+    void createCategory(CategoryFullDto category);
+
+    void deleteById(Integer categoryId);
 }

@@ -24,4 +24,8 @@ public class Category {
     @Builder.Default
     @ManyToMany(mappedBy = "categories", cascade = {CascadeType.PERSIST, CascadeType.REFRESH, CascadeType.MERGE})
     private Set<Offer> offers = new HashSet<>();
+
+    public Category(String title) {
+        this.title = title;
+    }
 }

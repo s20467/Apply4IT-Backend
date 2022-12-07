@@ -2,11 +2,8 @@ package pjatk.Apply4IT.api.v1;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import pjatk.Apply4IT.api.v1.dto.LocalizationFullDto;
-import pjatk.Apply4IT.service.CategoryService;
 import pjatk.Apply4IT.service.LocalizationService;
 
 import java.util.List;
@@ -22,5 +19,23 @@ public class LocalizationController {
     @GetMapping
     public List<LocalizationFullDto> getAllLocalizations() {
         return localizationService.getAllLocalizations();
+    }
+
+    @PreAuthorize("hasRole('ADMIN')")
+    @PutMapping
+    public void editLocalization(@RequestBody LocalizationFullDto localization) {
+        localizationService.editLocalization(localization);
+    }
+
+    @PreAuthorize("hasRole('ADMIN')")
+    @PostMapping
+    public void createLocalization(@RequestBody LocalizationFullDto localization) {
+        localizationService.createLocalization(localization);
+    }
+
+    @PreAuthorize("hasRole('ADMIN')")
+    @DeleteMapping("/{localizationId}")
+    public void deleteLocalization(@PathVariable Integer localizationId) {
+        localizationService.deleteById(localizationId);
     }
 }

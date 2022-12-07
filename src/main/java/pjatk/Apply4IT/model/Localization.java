@@ -24,4 +24,8 @@ public class Localization {
     @Builder.Default
     @OneToMany(mappedBy = "localization", cascade = {CascadeType.PERSIST, CascadeType.REFRESH, CascadeType.MERGE})
     private Set<Offer> offers = new HashSet<>();
+
+    public Localization(String name) {
+        this.name = name;
+    }
 }

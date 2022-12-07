@@ -20,4 +20,22 @@ public class CategoryController {
     public List<CategoryFullDto> getAllCategories() {
         return categoryService.getAllCategories();
     }
+
+    @PreAuthorize("hasRole('ADMIN')")
+    @PutMapping
+    public void editCategory(@RequestBody CategoryFullDto category) {
+        categoryService.editCategory(category);
+    }
+
+    @PreAuthorize("hasRole('ADMIN')")
+    @PostMapping
+    public void createCategory(@RequestBody CategoryFullDto category) {
+        categoryService.createCategory(category);
+    }
+
+    @PreAuthorize("hasRole('ADMIN')")
+    @DeleteMapping("/{categoryId}")
+    public void deleteCategory(@PathVariable Integer categoryId) {
+        categoryService.deleteById(categoryId);
+    }
 }
