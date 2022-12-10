@@ -7,10 +7,9 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
+import pjatk.Apply4IT.api.v1.dto.UserMinimalDto;
 import pjatk.Apply4IT.exception.JWTVerificationExceptionHandler;
 import pjatk.Apply4IT.model.User;
 import pjatk.Apply4IT.security.JwtService;
@@ -19,6 +18,7 @@ import pjatk.Apply4IT.service.UserService;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.List;
 import java.util.Map;
 
 @RestController
@@ -46,5 +46,23 @@ public class UserController {
         } else {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "No refresh token attached in authorization header");
         }
+    }
+
+    @PreAuthorize("hasRole('ADMIN')")
+    @GetMapping("admins")
+    public List<UserMinimalDto> getAdmins() {
+        return userService.getAllAdmins();
+    }
+
+    @PreAuthorize("hasRole('ADMIN')")
+    @PostMapping("admins/{userEmail}")
+    public void addAdmin(@PathVariable String userEmail) {
+        userService.addAdmin(userEmail);
+    }
+
+    @PreAuthorize("hasRole('ADMIN')")
+    @DeleteMapping("admins/{userEmail}")
+    public void deleteAdmin(@PathVariable String userEmail) {
+        userService.deleteAdmin(userEmail);
     }
 }

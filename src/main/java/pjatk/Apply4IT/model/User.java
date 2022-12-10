@@ -4,6 +4,7 @@ import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
+import pjatk.Apply4IT.exception.ResourceConflictException;
 
 import javax.persistence.*;
 import java.time.LocalDate;
@@ -119,5 +120,9 @@ public class User implements UserDetails {
 
     public boolean isAdmin() {
         return getAuthorities().stream().anyMatch(authority -> authority.getAuthority().equals("ROLE_ADMIN"));
+    }
+
+    public Set<Authority> getDomainAuthorities() {
+        return this.authorities;
     }
 }
