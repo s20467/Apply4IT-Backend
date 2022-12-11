@@ -38,4 +38,9 @@ public class Company {
     @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.REFRESH, CascadeType.MERGE})
     @JoinColumn(name = "USER_ID")
     private User owner;
+
+    @Builder.Default
+    private boolean enabled = false;
+
+    private String contactEmail;
 }

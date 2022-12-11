@@ -15,4 +15,11 @@ public class CompanySpecifications {
                         "%" + name.toLowerCase() + "%");
     }
 
+    public static Specification<Company> enabledEqual(Boolean isEnabled) {
+        if(isEnabled == null) {
+            return Specification.where(null);
+        }
+        return (root, query, criteriaBuilder) ->
+                criteriaBuilder.equal(root.get("enabled"), isEnabled);
+    }
 }

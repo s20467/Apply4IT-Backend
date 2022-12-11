@@ -6,6 +6,7 @@ import org.mapstruct.Named;
 import pjatk.Apply4IT.api.v1.dto.CompanyFullDto;
 import pjatk.Apply4IT.api.v1.dto.CompanyListItemDto;
 import pjatk.Apply4IT.api.v1.dto.CompanyMinimalDto;
+import pjatk.Apply4IT.api.v1.dto.CompanyRegisterRequestDto;
 import pjatk.Apply4IT.model.Company;
 import pjatk.Apply4IT.model.Offer;
 
@@ -15,6 +16,7 @@ import java.util.Set;
 public interface CompanyMapper {
 
 
+    @Mapping(target = "contactEmail", ignore = true)
     CompanyFullDto companyToCompanyFullDto(Company company);
     CompanyMinimalDto companyToCompanyMinimalDto(Company company);
 
@@ -26,4 +28,5 @@ public interface CompanyMapper {
         return offers.size();
     }
 
+    Company companyRegisterRequestDtoToCompany(CompanyRegisterRequestDto companyRegisterRequestDto);
 }

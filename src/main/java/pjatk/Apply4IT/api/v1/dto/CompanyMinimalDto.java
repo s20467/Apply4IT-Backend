@@ -19,5 +19,5 @@ public class CompanyMinimalDto {
     private Integer id;
     private String name;
     private String logoPhoto;
-
+    private Boolean enabled;
 }

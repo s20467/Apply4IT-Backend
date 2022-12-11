@@ -14,5 +14,5 @@ public class CompanyListItemDto {
     private String name;
     private String logoPhoto;
     private Integer offersNumber;
-
+    private Boolean enabled;
 }

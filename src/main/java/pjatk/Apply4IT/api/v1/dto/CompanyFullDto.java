@@ -30,6 +30,8 @@ public class CompanyFullDto {
     @Builder.Default
     private Set<UserMinimalDto> recruitersSample = new HashSet<>();
 
+    private Boolean enabled;
+    private String contactEmail;
     private Boolean isCurrentUserOwner;
     private Boolean isCurrentUserRecruiter;
 }

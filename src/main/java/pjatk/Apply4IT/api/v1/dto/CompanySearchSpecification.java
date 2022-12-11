@@ -13,4 +13,5 @@ import lombok.Setter;
 public class CompanySearchSpecification {
 
         private String nameLike;
+        private Boolean enabledEqual;
 }

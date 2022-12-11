@@ -10,6 +10,7 @@ import org.springframework.data.web.SortDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.parameters.P;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.server.ResponseStatusException;
@@ -19,7 +20,6 @@ import pjatk.Apply4IT.model.Company;
 import pjatk.Apply4IT.model.User;
 import pjatk.Apply4IT.service.CompanyService;
 import pjatk.Apply4IT.specification.CompanySpecifications;
-import pjatk.Apply4IT.specification.OfferSpecifications;
 
 import java.util.List;
 import java.util.Map;
@@ -36,8 +36,7 @@ public class CompanyController {
     @PreAuthorize("permitAll()")
     @GetMapping("/{companyId}")
     public CompanyFullDto getCompanyById(@PathVariable Integer companyId) {
-        User currentUser = getCurrentUser();
-        return companyService.getById(companyId, currentUser);
+        return companyService.getById(companyId, getCurrentUser());
     }
 
     @PreAuthorize("permitAll()")
@@ -46,11 +45,21 @@ public class CompanyController {
             @RequestBody(required = false) CompanySearchSpecification companySearchSpecification,
             @PageableDefault(size = 10, page = 0) @SortDefault(sort = "name", direction = Sort.Direction.ASC) Pageable pageable
     ) {
-        Specification<Company> specification = companySearchSpecification == null ?
-                Specification.where(null) : CompanySpecifications.likeName(companySearchSpecification.getNameLike());
-        return companyService.getCompaniesByNameLike(
-                specification,
-                pageable);
+        Specification<Company> specification;
+        if(companySearchSpecification == null) {
+            specification = Specification.where(null);
+        }
+        else if(!companySearchSpecification.getEnabledEqual() && getCurrentUser() == null) {
+            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED);
+        }
+        else if(!companySearchSpecification.getEnabledEqual() && !getCurrentUser().isAdmin()) {
+            throw new ResponseStatusException(HttpStatus.FORBIDDEN);
+        }
+        else {
+            specification = CompanySpecifications.likeName(companySearchSpecification.getNameLike())
+                    .and(CompanySpecifications.enabledEqual(companySearchSpecification.getEnabledEqual()));
+        }
+        return companyService.getAll(specification, pageable);
     }
 
     @PreAuthorize("hasRole('ADMIN') or (hasRole('USER') and @customAuthenticationManager.isCompanyOwner(authentication, #companyId))")
@@ -62,8 +71,7 @@ public class CompanyController {
     @PreAuthorize("isFullyAuthenticated()")
     @GetMapping("owned-and-recruiting-for")
     public List<CompanyMinimalDto> getOwnedAndRecruitingForCompanies() {
-        User currentUser = getCurrentUser();
-        return companyService.getOwnedAndRecruitingFor(currentUser);
+        return companyService.getOwnedAndRecruitingFor(getCurrentUser());
     }
 
     @PreAuthorize("hasRole('ADMIN') or (hasRole('USER') and @customAuthenticationManager.isCompanyOwner(authentication, #companyId))")
@@ -100,10 +108,27 @@ public class CompanyController {
         companyService.editCompanyAddress(companyId, address);
     }
 
+    @PreAuthorize("isFullyAuthenticated()")
+    @PostMapping("register")
+    public Integer registerCompany(@RequestBody CompanyRegisterRequestDto companyRegisterRequestDto) {
+        return companyService.registerCompany(companyRegisterRequestDto, getCurrentUser());
+    }
+
+    @PreAuthorize("hasRole('ADMIN')")
+    @PutMapping("{companyId}/enable")
+    public void enableCompany(@PathVariable Integer companyId) {
+        companyService.enableCompany(companyId);
+    }
+
     @PreAuthorize("hasRole('ADMIN') or (hasRole('USER') and @customAuthenticationManager.isCompanyOwner(authentication, #companyId))")
     @DeleteMapping("{companyId}")
     public void deleteCompany(@PathVariable Integer companyId) {
         companyService.deleteById(companyId);
     }
 
+    @PreAuthorize("isFullyAuthenticated()")
+    @GetMapping("{companyName}/is-name-free")
+    public Boolean checkIfCompanyNameIsFree(@PathVariable String companyName) {
+        return companyService.checkIfCompanyNameIsFree(companyName);
+    }
 }
