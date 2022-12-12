@@ -1,6 +1,7 @@
 package pjatk.Apply4IT.service;
 
 import org.springframework.security.core.userdetails.UserDetailsService;
+import pjatk.Apply4IT.api.v1.dto.UserCreationDto;
 import pjatk.Apply4IT.api.v1.dto.UserMinimalDto;
 import pjatk.Apply4IT.model.User;
 
@@ -14,4 +15,8 @@ public interface UserService extends UserDetailsService {
     void addAdmin(String userEmail);
 
     void deleteAdmin(String userEmail);
+
+    Boolean checkIfEmailIsFree(String email);
+
+    Integer createUser(UserCreationDto userCreationDto);
 }

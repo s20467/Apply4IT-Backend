@@ -9,6 +9,7 @@ import org.springframework.http.MediaType;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
+import pjatk.Apply4IT.api.v1.dto.UserCreationDto;
 import pjatk.Apply4IT.api.v1.dto.UserMinimalDto;
 import pjatk.Apply4IT.exception.JWTVerificationExceptionHandler;
 import pjatk.Apply4IT.model.User;
@@ -64,5 +65,17 @@ public class UserController {
     @DeleteMapping("admins/{userEmail}")
     public void deleteAdmin(@PathVariable String userEmail) {
         userService.deleteAdmin(userEmail);
+    }
+
+    @PreAuthorize("permitAll()")
+    @GetMapping("users/{email}/is-email-free")
+    public Boolean checkIfEmailIsFree(@PathVariable String email) {
+        return userService.checkIfEmailIsFree(email);
+    }
+
+    @PreAuthorize("permitAll()")
+    @PostMapping("users")
+    public Integer createUser(@RequestBody UserCreationDto userCreationDto) {
+        return userService.createUser(userCreationDto);
     }
 }
