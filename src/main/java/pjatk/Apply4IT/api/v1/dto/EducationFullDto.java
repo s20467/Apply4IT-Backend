@@ -1,30 +1,21 @@
-package pjatk.Apply4IT.model;
+package pjatk.Apply4IT.api.v1.dto;
 
 import lombok.*;
 
-import javax.persistence.*;
 import java.time.LocalDate;
-import java.util.Objects;
 
-@Entity
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
 @Setter
-public class Education {
+public class EducationFullDto {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
-
     private LocalDate startDate;
     private LocalDate endDate;
     private Boolean stillStudying;
     private String universityName;
     private String major;
     private String specialization;
-
-    @ManyToOne(cascade = {CascadeType.REFRESH, CascadeType.MERGE})
-    private User user;
 }

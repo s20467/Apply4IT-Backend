@@ -93,7 +93,7 @@ public class CompanyController {
     }
 
     @PreAuthorize("hasRole('ADMIN') or (hasRole('USER') and @customAuthenticationManager.isCompanyOwner(authentication, #companyId))")
-    @PostMapping("{companyId}/edit-description")
+    @PostMapping("{companyId}/edit-description") //todo change to put
     public void editCompanyDescription(@PathVariable Integer companyId, @RequestBody Map<String, String> body) {
         String description = body.get("description");
         if(description == null) {
@@ -103,7 +103,7 @@ public class CompanyController {
     }
 
     @PreAuthorize("hasRole('ADMIN') or (hasRole('USER') and @customAuthenticationManager.isCompanyOwner(authentication, #companyId))")
-    @PostMapping("{companyId}/edit-address")
+    @PostMapping("{companyId}/edit-address") //todo change to put
     public void editCompanyAddress(@PathVariable Integer companyId, @RequestBody Address address) {
         companyService.editCompanyAddress(companyId, address);
     }

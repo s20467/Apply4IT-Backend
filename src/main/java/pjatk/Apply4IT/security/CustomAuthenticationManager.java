@@ -27,7 +27,7 @@ public class CustomAuthenticationManager {
     }
 
     @Transactional
-    public boolean getIsCompanyOwnerOrRecruitingFor(Authentication authentication, Integer companyId) {
+    public boolean isCompanyOwnerOrRecruitingFor(Authentication authentication, Integer companyId) {
         User authenticatedUser = (User) authentication.getPrincipal();
         Company foundCompany = companyRepository.findById(companyId).orElseThrow(
                 () -> new ResourceNotFoundException("Company with id: " + companyId + " not found")
@@ -40,7 +40,7 @@ public class CustomAuthenticationManager {
         return isRecruiter || isOwner;
     }
 
-    public boolean getIsOfferAuthor(Authentication authentication, Integer offerId) {
+    public boolean isOfferAuthor(Authentication authentication, Integer offerId) {
         User authenticatedUser = (User) authentication.getPrincipal();
         Offer foundOffer = offerRepository.findById(offerId).orElseThrow(
                 () -> new ResourceNotFoundException("Offer with id: " + offerId + " not found")
@@ -48,11 +48,19 @@ public class CustomAuthenticationManager {
         return foundOffer.getAuthor().getEmail().equals(authenticatedUser.getEmail());
     }
 
-    public boolean getIsCompanyOwner(Authentication authentication, Integer companyId) {
+    public boolean isCompanyOwner(Authentication authentication, Integer companyId) {
         User authenticatedUser = (User) authentication.getPrincipal();
         Company foundCompany = companyRepository.findById(companyId).orElseThrow(
                 () -> new ResourceNotFoundException("Company with id: " + companyId + " not found")
         );
         return foundCompany.getOwner().getEmail().equals(authenticatedUser.getEmail());
+    }
+
+    public boolean isCurrentUser(Authentication authentication, String userEmail) {
+        User authenticatedUser = (User) authentication.getPrincipal();
+        if(authenticatedUser == null) {
+            return false;
+        }
+        return authenticatedUser.getEmail().equals(userEmail);
     }
 }

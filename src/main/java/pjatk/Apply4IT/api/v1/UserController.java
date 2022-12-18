@@ -8,10 +8,11 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.server.ResponseStatusException;
-import pjatk.Apply4IT.api.v1.dto.UserCreationDto;
-import pjatk.Apply4IT.api.v1.dto.UserMinimalDto;
+import pjatk.Apply4IT.api.v1.dto.*;
 import pjatk.Apply4IT.exception.JWTVerificationExceptionHandler;
+import pjatk.Apply4IT.model.Address;
 import pjatk.Apply4IT.model.User;
 import pjatk.Apply4IT.security.JwtService;
 import pjatk.Apply4IT.service.UserService;
@@ -21,6 +22,8 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.List;
 import java.util.Map;
+
+import static pjatk.Apply4IT.security.SecurityUtils.getCurrentUser;
 
 @RestController
 @RequiredArgsConstructor
@@ -78,4 +81,89 @@ public class UserController {
     public Integer createUser(@RequestBody UserCreationDto userCreationDto) {
         return userService.createUser(userCreationDto);
     }
+
+    @PreAuthorize("isFullyAuthenticated()")
+    @GetMapping("users/current-user-details")
+    public UserFullDto getCurrentUserDetails() {
+        return userService.getUserFullDtoByEmail(getCurrentUser().getEmail());
+    }
+
+    @PreAuthorize("permitAll()") //todo admin albo rekruter firmy ogłoszenia na które aplikuje
+    @GetMapping("users/{email}/user-details")
+    public UserFullDto getUserDetails(@PathVariable String email) {
+        return userService.getUserFullDtoByEmail(email);
+    }
+
+    @PreAuthorize("hasRole('ADMIN')")
+    @PostMapping(value = "users/{userEmail}/upload-photo", consumes = {MediaType.MULTIPART_FORM_DATA_VALUE})
+    public void uploadUserPhoto(@PathVariable String userEmail, @RequestParam("photo") MultipartFile image) {
+        userService.setUserImagePhoto(userEmail, image);
+    }
+
+    @PreAuthorize("isFullyAuthenticated()")
+    @PostMapping(value = "users/upload-photo", consumes = {MediaType.MULTIPART_FORM_DATA_VALUE})
+    public void uploadCurrentUserPhoto(@RequestParam("photo") MultipartFile image) {
+        userService.setUserImagePhoto(getCurrentUser().getEmail(), image);
+    }
+
+    @PreAuthorize("hasRole('ADMIN') or (hasRole('USER') and @customAuthenticationManager.isCurrentUser(authentication, #userEmail))")
+    @PatchMapping("users/{userEmail}")
+    public void updateUser(@PathVariable String userEmail, @RequestBody UserPatchDto userPatchDto) {
+        userService.updateUser(userEmail, userPatchDto);
+    }
+
+    @PreAuthorize("hasRole('ADMIN') or (hasRole('USER') and @customAuthenticationManager.isCurrentUser(authentication, #userEmail))")
+    @DeleteMapping("users/{userEmail}")
+    public void deleteUser(@PathVariable String userEmail) {
+        userService.deleteByEmail(userEmail);
+    }
+
+    @PreAuthorize("hasRole('ADMIN') or (hasRole('USER') and @customAuthenticationManager.isCurrentUser(authentication, #userEmail))")
+    @DeleteMapping("users/{userEmail}/education/{educationId}")
+    public void deleteUserEducation(@PathVariable String userEmail, @PathVariable Integer educationId) {
+        userService.deleteUserEducation(userEmail, educationId);
+    }
+
+    @PreAuthorize("hasRole('ADMIN') or (hasRole('USER') and @customAuthenticationManager.isCurrentUser(authentication, #userEmail))")
+    @DeleteMapping("users/{userEmail}/experience/{experienceId}")
+    public void deleteUserExperience(@PathVariable String userEmail, @PathVariable Integer experienceId) {
+        userService.deleteUserExperience(userEmail, experienceId);
+    }
+
+    @PreAuthorize("hasRole('ADMIN') or (hasRole('USER') and @customAuthenticationManager.isCurrentUser(authentication, #userEmail))")
+    @GetMapping("users/{userEmail}/education/{educationId}")
+    public EducationFullDto getUserEducation(@PathVariable String userEmail, @PathVariable Integer educationId) {
+        return userService.getUserEducation(userEmail, educationId);
+    }
+
+    @PreAuthorize("hasRole('ADMIN') or (hasRole('USER') and @customAuthenticationManager.isCurrentUser(authentication, #userEmail))")
+    @GetMapping("users/{userEmail}/experience/{experienceId}")
+    public ExperienceFullDto getUserExperience(@PathVariable String userEmail, @PathVariable Integer experienceId) {
+        return userService.getUserExperience(userEmail, experienceId);
+    }
+
+    @PreAuthorize("hasRole('ADMIN') or (hasRole('USER') and @customAuthenticationManager.isCurrentUser(authentication, #userEmail))")
+    @PostMapping("users/{userEmail}/education")
+    public EducationFullDto createUserEducation(@PathVariable String userEmail, @RequestBody EducationFullDto educationFullDto) {
+        return userService.createUserEducation(userEmail, educationFullDto);
+    }
+
+    @PreAuthorize("hasRole('ADMIN') or (hasRole('USER') and @customAuthenticationManager.isCurrentUser(authentication, #userEmail))")
+    @PostMapping("users/{userEmail}/experience")
+    public ExperienceFullDto createUserExperience(@PathVariable String userEmail, @RequestBody ExperienceFullDto experienceFullDto) {
+        return userService.createUserExperience(userEmail, experienceFullDto);
+    }
+
+    @PreAuthorize("hasRole('ADMIN') or (hasRole('USER') and @customAuthenticationManager.isCurrentUser(authentication, #userEmail))")
+    @PutMapping("users/{userEmail}/education/{educationId}")
+    public EducationFullDto updateUserEducation(@PathVariable String userEmail, @PathVariable Integer educationId, @RequestBody EducationFullDto educationFullDto) {
+        return userService.updateUserEducation(userEmail, educationId, educationFullDto);
+    }
+
+    @PreAuthorize("hasRole('ADMIN') or (hasRole('USER') and @customAuthenticationManager.isCurrentUser(authentication, #userEmail))")
+    @PutMapping("users/{userEmail}/experience/{experienceId}")
+    public ExperienceFullDto updateUserExperience(@PathVariable String userEmail, @PathVariable Integer experienceId, @RequestBody ExperienceFullDto experienceFullDto) {
+        return userService.updateUserExperience(userEmail, experienceId, experienceFullDto);
+    }
+
 }
