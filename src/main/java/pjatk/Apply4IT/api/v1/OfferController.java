@@ -11,13 +11,12 @@ import org.springframework.http.MediaType;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-import pjatk.Apply4IT.api.v1.dto.OfferCreationRequestDto;
-import pjatk.Apply4IT.api.v1.dto.OfferFullDto;
-import pjatk.Apply4IT.api.v1.dto.OfferMinimalDto;
-import pjatk.Apply4IT.api.v1.dto.OfferSearchSpecification;
+import pjatk.Apply4IT.api.v1.dto.*;
 import pjatk.Apply4IT.model.User;
 import pjatk.Apply4IT.service.OfferService;
 import pjatk.Apply4IT.specification.OfferSpecifications;
+
+import java.util.List;
 
 import static pjatk.Apply4IT.security.SecurityUtils.getCurrentUser;
 
@@ -106,4 +105,11 @@ public class OfferController {
     public void applyForOffer(@PathVariable Integer offerId) {
         offerService.applyForOffer(offerId, null, getCurrentUser());
     }
+
+    @PreAuthorize("isFullyAuthenticated()") //todo admin albo rekruter
+    @GetMapping(value = "/{offerId}/candidates")
+    public List<UserCandidateDto> getOfferCandidates(@PathVariable Integer offerId) {
+        return offerService.getOfferCandidates(offerId);
+    }
+
 }

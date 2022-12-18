@@ -11,7 +11,9 @@ import org.springframework.web.multipart.MultipartFile;
 import pjatk.Apply4IT.api.v1.dto.OfferCreationRequestDto;
 import pjatk.Apply4IT.api.v1.dto.OfferFullDto;
 import pjatk.Apply4IT.api.v1.dto.OfferMinimalDto;
+import pjatk.Apply4IT.api.v1.dto.UserCandidateDto;
 import pjatk.Apply4IT.api.v1.mapper.OfferMapper;
+import pjatk.Apply4IT.api.v1.mapper.UserMapper;
 import pjatk.Apply4IT.exception.FileUploadException;
 import pjatk.Apply4IT.exception.ResourceConflictException;
 import pjatk.Apply4IT.exception.ResourceNotFoundException;
@@ -21,6 +23,7 @@ import pjatk.Apply4IT.repository.*;
 import java.time.LocalDate;
 import java.util.Arrays;
 import java.util.Base64;
+import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -35,6 +38,7 @@ public class OfferServiceImpl implements OfferService{
     private final CategoryRepository categoryRepository;
     private final ApplicationRepository applicationRepository;
     private final OfferMapper offerMapper;
+    private final UserMapper userMapper;
 
     @Override
     public Page<OfferMinimalDto> getOffers(
@@ -278,6 +282,29 @@ public class OfferServiceImpl implements OfferService{
         }
     }
 
+    @Override
+    @Transactional
+    public List<UserCandidateDto> getOfferCandidates(Integer offerId) {
+        Offer foundOffer = offerRepository.findById(offerId).orElseThrow(
+                () -> new ResourceNotFoundException("Offer with id: " + offerId + " not found")
+        );
+        return foundOffer.getApplications().stream().map(application -> {
+            UserCandidateDto userCandidateDto = userMapper.userToUserCandidateDto(application.getCandidate());
+            userCandidateDto.setUserId(application.getCandidate().getId());
+            userCandidateDto.setApplicationId(application.getId());
+            userCandidateDto.setHasCv(application.getCv() != null);
+            return userCandidateDto;
+        }).collect(Collectors.toList());
+    }
+
+    @Override
+    public byte[] getApplicationCv(Integer applicationId) {
+        Application foundApplication = applicationRepository.findById(applicationId).orElseThrow(
+                () -> new ResourceNotFoundException("Application with id: " + applicationId + " not found")
+        );
+        return unwrapBytesArray(foundApplication.getCv());
+    }
+
 
     Offer updateOfferWithOfferCreationRequestDto(Offer updatedOffer, OfferCreationRequestDto offerDto, boolean editMode) {
         Company foundCompany = companyRepository.findById(offerDto.getCompanyId()).orElseThrow(
@@ -341,5 +368,14 @@ public class OfferServiceImpl implements OfferService{
             wrappedBytes[i++] = b;
         }
         return wrappedBytes;
+    }
+
+    private byte[] unwrapBytesArray(Byte[] bytes) {
+        byte[] unwrappedBytes = new byte[bytes.length];
+        int i=0;
+        for(Byte b: bytes) {
+            unwrappedBytes[i++] = b;
+        }
+        return unwrappedBytes;
     }
 }
