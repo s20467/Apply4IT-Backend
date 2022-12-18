@@ -11,7 +11,7 @@ import pjatk.Apply4IT.api.v1.dto.*;
 import pjatk.Apply4IT.api.v1.mapper.EducationMapper;
 import pjatk.Apply4IT.api.v1.mapper.ExperienceMapper;
 import pjatk.Apply4IT.api.v1.mapper.UserMapper;
-import pjatk.Apply4IT.exception.ImageUploadException;
+import pjatk.Apply4IT.exception.FileUploadException;
 import pjatk.Apply4IT.exception.ResourceConflictException;
 import pjatk.Apply4IT.exception.ResourceNotFoundException;
 import pjatk.Apply4IT.exception.UserWithGivenEmailNotFound;
@@ -137,7 +137,7 @@ public class UserServiceImpl implements UserService {
             userRepository.save(foundUser);
         }
         catch(Exception exc) {
-            throw new ImageUploadException("Uploading image failed with given message: " + exc.getMessage());
+            throw new FileUploadException("Uploading image failed with given message: " + exc.getMessage());
         }
     }
 

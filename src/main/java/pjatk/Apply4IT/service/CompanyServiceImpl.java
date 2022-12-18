@@ -13,7 +13,7 @@ import pjatk.Apply4IT.api.v1.dto.*;
 import pjatk.Apply4IT.api.v1.mapper.CompanyMapper;
 import pjatk.Apply4IT.api.v1.mapper.OfferMapper;
 import pjatk.Apply4IT.api.v1.mapper.UserMapper;
-import pjatk.Apply4IT.exception.ImageUploadException;
+import pjatk.Apply4IT.exception.FileUploadException;
 import pjatk.Apply4IT.exception.ResourceConflictException;
 import pjatk.Apply4IT.exception.ResourceNotFoundException;
 import pjatk.Apply4IT.model.Address;
@@ -53,7 +53,7 @@ public class CompanyServiceImpl implements CompanyService{
             companyRepository.save(foundCompany);
         }
         catch(Exception exc) {
-            throw new ImageUploadException("Uploading image failed with given message: " + exc.getMessage());
+            throw new FileUploadException("Uploading image failed with given message: " + exc.getMessage());
         }
     }
 

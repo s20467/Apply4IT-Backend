@@ -6,21 +6,23 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 import pjatk.Apply4IT.api.v1.dto.OfferCreationRequestDto;
 import pjatk.Apply4IT.api.v1.dto.OfferFullDto;
 import pjatk.Apply4IT.api.v1.dto.OfferMinimalDto;
 import pjatk.Apply4IT.api.v1.mapper.OfferMapper;
+import pjatk.Apply4IT.exception.FileUploadException;
 import pjatk.Apply4IT.exception.ResourceConflictException;
 import pjatk.Apply4IT.exception.ResourceNotFoundException;
 import pjatk.Apply4IT.model.*;
 import pjatk.Apply4IT.repository.*;
 
 import java.time.LocalDate;
+import java.util.Arrays;
+import java.util.Base64;
 import java.util.Set;
 import java.util.stream.Collectors;
-import java.util.stream.IntStream;
 
 @Service
 @RequiredArgsConstructor
@@ -31,8 +33,7 @@ public class OfferServiceImpl implements OfferService{
     private final CompanyRepository companyRepository;
     private final LocalizationRepository localizationRepository;
     private final CategoryRepository categoryRepository;
-    private final ExpectationRepository expectationRepository;
-    private final OfferAdvantageRepository offerAdvantageRepository;
+    private final ApplicationRepository applicationRepository;
     private final OfferMapper offerMapper;
 
     @Override
@@ -251,6 +252,31 @@ public class OfferServiceImpl implements OfferService{
         return offerRepository.save(updatedOffer).getId();
     }
 
+    @Override
+    @Transactional
+    public void applyForOffer(Integer offerId, MultipartFile cv, User currentUser) {
+        User applyingUser = userRepository.getByEmail(currentUser.getEmail());
+        Offer foundOffer = offerRepository.findById(offerId).orElseThrow(
+                () -> new ResourceNotFoundException("Offer with id: " + offerId + " not found")
+        );
+        if(applicationRepository.findByTargetOfferAndCandidate(foundOffer, applyingUser).isPresent()) {
+            throw new ResourceConflictException("User already applied for this offer");
+        }
+        try {
+            Application newApplication = Application.builder()
+                    .applicationDate(LocalDate.now())
+                    .cv(cv == null ? null : wrapBytesArray(cv.getBytes()))
+                    .targetOffer(foundOffer)
+                    .candidate(applyingUser)
+                    .build();
+            applyingUser.getApplications().add(newApplication);
+            foundOffer.getApplications().add(newApplication);
+            applicationRepository.save(newApplication);
+        }
+        catch(Exception exc) {
+            throw new FileUploadException("Uploading cv failed with given message: " + exc.getMessage());
+        }
+    }
 
 
     Offer updateOfferWithOfferCreationRequestDto(Offer updatedOffer, OfferCreationRequestDto offerDto, boolean editMode) {
@@ -304,5 +330,16 @@ public class OfferServiceImpl implements OfferService{
         categories.forEach(category -> category.getOffers().add(updatedOffer));
 
         return updatedOffer;
+    }
+
+
+
+    private Byte[] wrapBytesArray(byte[] bytes) {
+        Byte[] wrappedBytes = new Byte[bytes.length];
+        int i=0;
+        for(byte b: bytes) {
+            wrappedBytes[i++] = b;
+        }
+        return wrappedBytes;
     }
 }

@@ -7,8 +7,10 @@ import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.data.web.SortDefault;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 import pjatk.Apply4IT.api.v1.dto.OfferCreationRequestDto;
 import pjatk.Apply4IT.api.v1.dto.OfferFullDto;
 import pjatk.Apply4IT.api.v1.dto.OfferMinimalDto;
@@ -91,5 +93,17 @@ public class OfferController {
     @PutMapping("/{offerId}")
     public Integer createOffer(@RequestBody OfferCreationRequestDto offerCreationDto, @PathVariable Integer offerId) {
         return offerService.updateOffer(offerId, offerCreationDto);
+    }
+
+    @PreAuthorize("isFullyAuthenticated()")
+    @PostMapping(value = "/{offerId}/apply", consumes = {MediaType.MULTIPART_FORM_DATA_VALUE})
+    public void applyForOffer(@PathVariable Integer offerId, @RequestParam("cv") MultipartFile cv) {
+        offerService.applyForOffer(offerId, cv, getCurrentUser());
+    }
+
+    @PreAuthorize("isFullyAuthenticated()")
+    @PostMapping(value = "/{offerId}/apply")
+    public void applyForOffer(@PathVariable Integer offerId) {
+        offerService.applyForOffer(offerId, null, getCurrentUser());
     }
 }
