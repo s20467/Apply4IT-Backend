@@ -28,4 +28,10 @@ public interface OfferService {
     List<UserCandidateDto> getOfferCandidates(Integer offerId);
 
     byte[] getApplicationCv(Integer applicationId);
+
+    List<OfferMinimalDto> getUserSavedOffers(String email);
+
+    List<OfferMinimalDto> getAppliedForOffers(String email);
+
+    List<OfferMinimalDto> getUserOffers(String email);
 }

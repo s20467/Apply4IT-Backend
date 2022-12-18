@@ -39,8 +39,26 @@ public class OfferController {
                 pageable);
     }
 
+    @PreAuthorize("isFullyAuthenticated()")
+    @GetMapping("/saved")
+    public List<OfferMinimalDto> getSavedOffers() {
+        return offerService.getUserSavedOffers(getCurrentUser().getEmail());
+    }
+
+    @PreAuthorize("isFullyAuthenticated()")
+    @GetMapping("/applied-for")
+    public List<OfferMinimalDto> getAppliedForOffers() {
+        return offerService.getAppliedForOffers(getCurrentUser().getEmail());
+    }
+
+    @PreAuthorize("isFullyAuthenticated()")
+    @GetMapping("/my-offers")
+    public List<OfferMinimalDto> getMyOffers() {
+        return offerService.getUserOffers(getCurrentUser().getEmail());
+    }
+
     @PreAuthorize("permitAll()")
-    @GetMapping("/{offerId}")
+    @GetMapping("/{offerId}/details")
     public OfferFullDto getOfferById(@PathVariable Integer offerId) {
         return offerService.getById(
                 offerId,

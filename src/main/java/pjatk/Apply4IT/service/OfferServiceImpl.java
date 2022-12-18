@@ -21,10 +21,7 @@ import pjatk.Apply4IT.model.*;
 import pjatk.Apply4IT.repository.*;
 
 import java.time.LocalDate;
-import java.util.Arrays;
-import java.util.Base64;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -41,6 +38,7 @@ public class OfferServiceImpl implements OfferService{
     private final UserMapper userMapper;
 
     @Override
+    @Transactional
     public Page<OfferMinimalDto> getOffers(
             User currentUser,
             Specification<Offer> specification,
@@ -58,6 +56,47 @@ public class OfferServiceImpl implements OfferService{
             offerDto.setIsSavedByCurrentUser(foundUser.getSavedOffers().contains(offer));
             return offerDto;
         });
+    }
+
+
+    @Override
+    @Transactional
+    public List<OfferMinimalDto> getUserSavedOffers(String email) {
+        User foundUser = userRepository.getByEmail(email);
+        return foundUser.getSavedOffers().stream()
+                .sorted(Comparator.comparing(Offer::getCreationDate))
+                .map(offer -> {
+                    OfferMinimalDto offerMinimalDto = offerMapper.offerToOfferMinimalDto(offer);
+                    offerMinimalDto.setIsSavedByCurrentUser(true);
+                    return offerMinimalDto;
+                }).collect(Collectors.toList());
+    }
+
+    @Override
+    @Transactional
+    public List<OfferMinimalDto> getAppliedForOffers(String email) {
+        User foundUser = userRepository.getByEmail(email);
+        return foundUser.getApplications().stream()
+                .map(Application::getTargetOffer)
+                .sorted(Comparator.comparing(Offer::getCreationDate))
+                .map(offer -> {
+                    OfferMinimalDto offerMinimalDto = offerMapper.offerToOfferMinimalDto(offer);
+                    offerMinimalDto.setIsSavedByCurrentUser(foundUser.getSavedOffers().contains(offer));
+                    return offerMinimalDto;
+                }).collect(Collectors.toList());
+    }
+
+    @Override
+    @Transactional
+    public List<OfferMinimalDto> getUserOffers(String email) {
+        User foundUser = userRepository.getByEmail(email);
+        return foundUser.getCreatedOffers().stream()
+                .sorted(Comparator.comparing(Offer::getCreationDate))
+                .map(offer -> {
+                    OfferMinimalDto offerMinimalDto = offerMapper.offerToOfferMinimalDto(offer);
+                    offerMinimalDto.setIsSavedByCurrentUser(foundUser.getSavedOffers().contains(offer));
+                    return offerMinimalDto;
+                }).collect(Collectors.toList());
     }
 
     @Override
