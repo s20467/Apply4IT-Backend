@@ -38,4 +38,6 @@ public interface CompanyService {
     void enableCompany(Integer companyId);
 
     Boolean checkIfCompanyNameIsFree(String companyName);
+
+    List<CompanyListItemDto> getOwnedCompanies(User currentUser);
 }

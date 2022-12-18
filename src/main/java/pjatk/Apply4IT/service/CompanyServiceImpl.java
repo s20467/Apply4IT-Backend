@@ -210,6 +210,13 @@ public class CompanyServiceImpl implements CompanyService{
 
     @Override
     @Transactional
+    public List<CompanyListItemDto> getOwnedCompanies(User currentUser) {
+        User foundUser = userRepository.getByEmail(currentUser.getEmail());
+        return foundUser.getOwnedCompanies().stream().map(companyMapper::companyToCompanyListItemDto).collect(Collectors.toList());
+    }
+
+    @Override
+    @Transactional
     public void addUserToCompanyRecruiters(Integer companyId, String userEmail) {
         Company foundCompany = companyRepository.findById(companyId).orElseThrow(
                 () -> new ResourceNotFoundException("Company with id: " + companyId + " not found")

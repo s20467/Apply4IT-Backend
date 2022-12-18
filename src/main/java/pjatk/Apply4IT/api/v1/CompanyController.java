@@ -34,7 +34,7 @@ public class CompanyController {
     private final CompanyService companyService;
 
     @PreAuthorize("permitAll()")
-    @GetMapping("/{companyId}")
+    @GetMapping("/{companyId}/details")
     public CompanyFullDto getCompanyById(@PathVariable Integer companyId) {
         return companyService.getById(companyId, getCurrentUser());
     }
@@ -72,6 +72,12 @@ public class CompanyController {
     @GetMapping("owned-and-recruiting-for")
     public List<CompanyMinimalDto> getOwnedAndRecruitingForCompanies() {
         return companyService.getOwnedAndRecruitingFor(getCurrentUser());
+    }
+
+    @PreAuthorize("isFullyAuthenticated()")
+    @GetMapping("owned")
+    public List<CompanyListItemDto> getOwnedCompanies() {
+        return companyService.getOwnedCompanies(getCurrentUser());
     }
 
     @PreAuthorize("hasRole('ADMIN') or (hasRole('USER') and @customAuthenticationManager.isCompanyOwner(authentication, #companyId))")
