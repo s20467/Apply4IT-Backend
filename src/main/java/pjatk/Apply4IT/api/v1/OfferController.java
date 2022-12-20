@@ -124,7 +124,7 @@ public class OfferController {
         offerService.applyForOffer(offerId, null, getCurrentUser());
     }
 
-    @PreAuthorize("isFullyAuthenticated()") //todo admin albo rekruter
+    @PreAuthorize("hasRole('ADMIN') or (hasRole('USER') and @customAuthenticationManager.isOfferAuthor(authentication, #offerId))")
     @GetMapping(value = "/{offerId}/candidates")
     public List<UserCandidateDto> getOfferCandidates(@PathVariable Integer offerId) {
         return offerService.getOfferCandidates(offerId);

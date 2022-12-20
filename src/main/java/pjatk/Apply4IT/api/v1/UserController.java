@@ -88,7 +88,7 @@ public class UserController {
         return userService.getUserFullDtoByEmail(getCurrentUser().getEmail());
     }
 
-    @PreAuthorize("permitAll()") //todo admin albo rekruter firmy ogłoszenia na które aplikuje
+    @PreAuthorize("hasRole('ADMIN') or (hasRole('USER') and (@customAuthenticationManager.isRecruiterForAnyUserApplicationTargetOffer(authentication, #email) or @customAuthenticationManager.isCurrentUser(authentication, #email)))")
     @GetMapping("users/{email}/user-details")
     public UserFullDto getUserDetails(@PathVariable String email) {
         return userService.getUserFullDtoByEmail(email);
