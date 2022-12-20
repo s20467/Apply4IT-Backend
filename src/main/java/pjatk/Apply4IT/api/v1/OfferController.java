@@ -16,6 +16,7 @@ import pjatk.Apply4IT.model.User;
 import pjatk.Apply4IT.service.OfferService;
 import pjatk.Apply4IT.specification.OfferSpecifications;
 
+import javax.validation.Valid;
 import java.util.List;
 
 import static pjatk.Apply4IT.security.SecurityUtils.getCurrentUser;
@@ -102,13 +103,13 @@ public class OfferController {
     @ResponseStatus(HttpStatus.CREATED)
     @PreAuthorize("hasRole('ADMIN') or (hasRole('USER') and @customAuthenticationManager.isCompanyOwnerOrRecruitingFor(authentication, #offerCreationDto.companyId))")
     @PostMapping
-    public Integer createOffer(@RequestBody OfferCreationRequestDto offerCreationDto) {
+    public Integer createOffer(@RequestBody @Valid OfferCreationRequestDto offerCreationDto) {
         return offerService.createOffer(offerCreationDto, getCurrentUser());
     }
 
     @PreAuthorize("hasRole('ADMIN') or (hasRole('USER') and @customAuthenticationManager.isOfferAuthor(authentication, #offerId))")
     @PutMapping("/{offerId}")
-    public Integer createOffer(@RequestBody OfferCreationRequestDto offerCreationDto, @PathVariable Integer offerId) {
+    public Integer createOffer(@RequestBody @Valid OfferCreationRequestDto offerCreationDto, @PathVariable Integer offerId) {
         return offerService.updateOffer(offerId, offerCreationDto);
     }
 

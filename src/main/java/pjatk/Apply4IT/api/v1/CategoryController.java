@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.*;
 import pjatk.Apply4IT.api.v1.dto.CategoryFullDto;
 import pjatk.Apply4IT.service.CategoryService;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @RestController
@@ -23,13 +24,13 @@ public class CategoryController {
 
     @PreAuthorize("hasRole('ADMIN')")
     @PutMapping
-    public void editCategory(@RequestBody CategoryFullDto category) {
+    public void editCategory(@RequestBody @Valid CategoryFullDto category) {
         categoryService.editCategory(category);
     }
 
     @PreAuthorize("hasRole('ADMIN')")
     @PostMapping
-    public void createCategory(@RequestBody CategoryFullDto category) {
+    public void createCategory(@RequestBody @Valid CategoryFullDto category) {
         categoryService.createCategory(category);
     }
 

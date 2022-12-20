@@ -21,6 +21,7 @@ import pjatk.Apply4IT.model.User;
 import pjatk.Apply4IT.service.CompanyService;
 import pjatk.Apply4IT.specification.CompanySpecifications;
 
+import javax.validation.Valid;
 import java.util.List;
 import java.util.Map;
 
@@ -100,8 +101,8 @@ public class CompanyController {
 
     @PreAuthorize("hasRole('ADMIN') or (hasRole('USER') and @customAuthenticationManager.isCompanyOwner(authentication, #companyId))")
     @PostMapping("{companyId}/edit-description") //todo change to put
-    public void editCompanyDescription(@PathVariable Integer companyId, @RequestBody Map<String, String> body) {
-        String description = body.get("description");
+    public void editCompanyDescription(@PathVariable Integer companyId, @RequestBody @Valid CompanyDescriptionEditDto companyDescriptionEditDto) {
+        String description = companyDescriptionEditDto.getDescription();
         if(description == null) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Invalid request body - does not contain description field");
         }
@@ -110,13 +111,13 @@ public class CompanyController {
 
     @PreAuthorize("hasRole('ADMIN') or (hasRole('USER') and @customAuthenticationManager.isCompanyOwner(authentication, #companyId))")
     @PostMapping("{companyId}/edit-address") //todo change to put
-    public void editCompanyAddress(@PathVariable Integer companyId, @RequestBody Address address) {
+    public void editCompanyAddress(@PathVariable Integer companyId, @RequestBody @Valid Address address) {
         companyService.editCompanyAddress(companyId, address);
     }
 
     @PreAuthorize("isFullyAuthenticated()")
     @PostMapping("register")
-    public Integer registerCompany(@RequestBody CompanyRegisterRequestDto companyRegisterRequestDto) {
+    public Integer registerCompany(@RequestBody @Valid CompanyRegisterRequestDto companyRegisterRequestDto) {
         return companyService.registerCompany(companyRegisterRequestDto, getCurrentUser());
     }
 

@@ -19,6 +19,7 @@ import pjatk.Apply4IT.service.UserService;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.validation.Valid;
 import java.io.IOException;
 import java.util.List;
 import java.util.Map;
@@ -78,7 +79,7 @@ public class UserController {
 
     @PreAuthorize("permitAll()")
     @PostMapping("users")
-    public Integer createUser(@RequestBody UserCreationDto userCreationDto) {
+    public Integer createUser(@RequestBody @Valid UserCreationDto userCreationDto) {
         return userService.createUser(userCreationDto);
     }
 
@@ -108,7 +109,7 @@ public class UserController {
 
     @PreAuthorize("hasRole('ADMIN') or (hasRole('USER') and @customAuthenticationManager.isCurrentUser(authentication, #userEmail))")
     @PatchMapping("users/{userEmail}")
-    public void updateUser(@PathVariable String userEmail, @RequestBody UserPatchDto userPatchDto) {
+    public void updateUser(@PathVariable String userEmail, @RequestBody @Valid UserPatchDto userPatchDto) {
         userService.updateUser(userEmail, userPatchDto);
     }
 
@@ -144,25 +145,25 @@ public class UserController {
 
     @PreAuthorize("hasRole('ADMIN') or (hasRole('USER') and @customAuthenticationManager.isCurrentUser(authentication, #userEmail))")
     @PostMapping("users/{userEmail}/education")
-    public EducationFullDto createUserEducation(@PathVariable String userEmail, @RequestBody EducationFullDto educationFullDto) {
+    public EducationFullDto createUserEducation(@PathVariable String userEmail, @RequestBody @Valid EducationFullDto educationFullDto) {
         return userService.createUserEducation(userEmail, educationFullDto);
     }
 
     @PreAuthorize("hasRole('ADMIN') or (hasRole('USER') and @customAuthenticationManager.isCurrentUser(authentication, #userEmail))")
     @PostMapping("users/{userEmail}/experience")
-    public ExperienceFullDto createUserExperience(@PathVariable String userEmail, @RequestBody ExperienceFullDto experienceFullDto) {
+    public ExperienceFullDto createUserExperience(@PathVariable String userEmail, @RequestBody @Valid ExperienceFullDto experienceFullDto) {
         return userService.createUserExperience(userEmail, experienceFullDto);
     }
 
     @PreAuthorize("hasRole('ADMIN') or (hasRole('USER') and @customAuthenticationManager.isCurrentUser(authentication, #userEmail))")
     @PutMapping("users/{userEmail}/education/{educationId}")
-    public EducationFullDto updateUserEducation(@PathVariable String userEmail, @PathVariable Integer educationId, @RequestBody EducationFullDto educationFullDto) {
+    public EducationFullDto updateUserEducation(@PathVariable String userEmail, @PathVariable Integer educationId, @RequestBody @Valid EducationFullDto educationFullDto) {
         return userService.updateUserEducation(userEmail, educationId, educationFullDto);
     }
 
     @PreAuthorize("hasRole('ADMIN') or (hasRole('USER') and @customAuthenticationManager.isCurrentUser(authentication, #userEmail))")
     @PutMapping("users/{userEmail}/experience/{experienceId}")
-    public ExperienceFullDto updateUserExperience(@PathVariable String userEmail, @PathVariable Integer experienceId, @RequestBody ExperienceFullDto experienceFullDto) {
+    public ExperienceFullDto updateUserExperience(@PathVariable String userEmail, @PathVariable Integer experienceId, @RequestBody @Valid ExperienceFullDto experienceFullDto) {
         return userService.updateUserExperience(userEmail, experienceId, experienceFullDto);
     }
 

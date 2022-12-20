@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.*;
 import pjatk.Apply4IT.api.v1.dto.LocalizationFullDto;
 import pjatk.Apply4IT.service.LocalizationService;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @RestController
@@ -23,13 +24,13 @@ public class LocalizationController {
 
     @PreAuthorize("hasRole('ADMIN')")
     @PutMapping
-    public void editLocalization(@RequestBody LocalizationFullDto localization) {
+    public void editLocalization(@RequestBody @Valid LocalizationFullDto localization) {
         localizationService.editLocalization(localization);
     }
 
     @PreAuthorize("hasRole('ADMIN')")
     @PostMapping
-    public void createLocalization(@RequestBody LocalizationFullDto localization) {
+    public void createLocalization(@RequestBody @Valid LocalizationFullDto localization) {
         localizationService.createLocalization(localization);
     }
 
