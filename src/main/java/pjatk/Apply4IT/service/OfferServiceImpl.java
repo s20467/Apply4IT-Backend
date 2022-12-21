@@ -108,11 +108,15 @@ public class OfferServiceImpl implements OfferService{
 
         if(currentUser == null) {
             offerDto.setApplicationsNumber(null);
+            offerDto.setHasCurrentUserApplied(null);
         }
         else {
             User foundUser = userRepository.getUserWithSavedOffersByEmail(currentUser.getEmail());
             offerDto.setIsSavedByCurrentUser(
                     foundUser.getSavedOffers().contains(foundOffer)
+            );
+            offerDto.setHasCurrentUserApplied(
+                    applicationRepository.findByTargetOfferAndCandidate(foundOffer, foundUser).isPresent()
             );
         }
         return offerDto;

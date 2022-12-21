@@ -36,4 +36,5 @@ public class OfferFullDto {
 
     private Boolean remotePossibility;
     private Boolean isSavedByCurrentUser;
+    private Boolean hasCurrentUserApplied;
 }
