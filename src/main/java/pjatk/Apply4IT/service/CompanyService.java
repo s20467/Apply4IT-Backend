@@ -15,7 +15,7 @@ public interface CompanyService {
 
     void setCompanyLogoPhoto(Integer companyId, MultipartFile imageFile);
 
-    List<CompanyMinimalDto> getOwnedAndRecruitingFor(User currentUser);
+    List<CompanyMinimalDto> getEnabledOwnedAndRecruitingFor(User currentUser);
 
     Page<CompanyListItemDto> getAll(Specification<Company> specification, Pageable pageable);
 
@@ -39,5 +39,5 @@ public interface CompanyService {
 
     Boolean checkIfCompanyNameIsFree(String companyName);
 
-    List<CompanyListItemDto> getOwnedCompanies(User currentUser);
+    List<CompanyListItemDto> getEnabledOwnedCompanies(User currentUser);
 }

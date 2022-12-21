@@ -59,13 +59,13 @@ public class CompanyServiceImpl implements CompanyService{
 
     @Override
     @Transactional
-    public List<CompanyMinimalDto> getOwnedAndRecruitingFor(User currentUser) {
+    public List<CompanyMinimalDto> getEnabledOwnedAndRecruitingFor(User currentUser) {
         User foundUser = userRepository.getByEmail(currentUser.getEmail());
 
         List<CompanyMinimalDto> resultCompaniesList = new ArrayList<>();
 
-        foundUser.getOwnedCompanies().stream().map(companyMapper::companyToCompanyMinimalDto).forEach(resultCompaniesList::add);
-        foundUser.getIsRecruiterFor().stream().map(companyMapper::companyToCompanyMinimalDto).forEach(resultCompaniesList::add);
+        foundUser.getOwnedCompanies().stream().filter(Company::isEnabled).map(companyMapper::companyToCompanyMinimalDto).forEach(resultCompaniesList::add);
+        foundUser.getIsRecruiterFor().stream().filter(Company::isEnabled).map(companyMapper::companyToCompanyMinimalDto).forEach(resultCompaniesList::add);
 
         return resultCompaniesList;
     }
@@ -210,9 +210,9 @@ public class CompanyServiceImpl implements CompanyService{
 
     @Override
     @Transactional
-    public List<CompanyListItemDto> getOwnedCompanies(User currentUser) {
+    public List<CompanyListItemDto> getEnabledOwnedCompanies(User currentUser) {
         User foundUser = userRepository.getByEmail(currentUser.getEmail());
-        return foundUser.getOwnedCompanies().stream().map(companyMapper::companyToCompanyListItemDto).collect(Collectors.toList());
+        return foundUser.getOwnedCompanies().stream().filter(Company::isEnabled).map(companyMapper::companyToCompanyListItemDto).collect(Collectors.toList());
     }
 
     @Override

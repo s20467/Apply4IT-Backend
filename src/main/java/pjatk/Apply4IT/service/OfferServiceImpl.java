@@ -183,6 +183,9 @@ public class OfferServiceImpl implements OfferService{
         Company foundCompany = companyRepository.findById(offerCreationDto.getCompanyId()).orElseThrow(
                 () -> new ResourceNotFoundException("Company with id: " + offerCreationDto.getCompanyId() + " not found")
         );
+        if(!foundCompany.isEnabled()) {
+            throw new ResourceNotFoundException("Company with id: " + offerCreationDto.getCompanyId() + " not found");
+        }
         Localization foundLocalization = localizationRepository.findById(offerCreationDto.getLocalizationId()).orElseThrow(
                 () -> new ResourceNotFoundException("Localization with id: " + offerCreationDto.getLocalizationId() + " not found")
         );
@@ -239,10 +242,12 @@ public class OfferServiceImpl implements OfferService{
         Offer updatedOffer = offerRepository.findById(offerId).orElseThrow(
                 () -> new ResourceNotFoundException("Offer with id: " + offerId + " not found")
         );
-
         Company foundCompany = companyRepository.findById(offerCreationDto.getCompanyId()).orElseThrow(
                 () -> new ResourceNotFoundException("Company with id: " + offerCreationDto.getCompanyId() + " not found")
         );
+        if(!foundCompany.isEnabled()) {
+            throw new ResourceNotFoundException("Company with id: " + offerCreationDto.getCompanyId() + " not found");
+        }
         Localization foundLocalization = localizationRepository.findById(offerCreationDto.getLocalizationId()).orElseThrow(
                 () -> new ResourceNotFoundException("Localization with id: " + offerCreationDto.getLocalizationId() + " not found")
         );

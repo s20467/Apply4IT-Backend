@@ -10,20 +10,17 @@ import org.springframework.data.web.SortDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.security.core.parameters.P;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.server.ResponseStatusException;
 import pjatk.Apply4IT.api.v1.dto.*;
 import pjatk.Apply4IT.model.Address;
 import pjatk.Apply4IT.model.Company;
-import pjatk.Apply4IT.model.User;
 import pjatk.Apply4IT.service.CompanyService;
 import pjatk.Apply4IT.specification.CompanySpecifications;
 
 import javax.validation.Valid;
 import java.util.List;
-import java.util.Map;
 
 import static pjatk.Apply4IT.security.SecurityUtils.getCurrentUser;
 
@@ -72,13 +69,13 @@ public class CompanyController {
     @PreAuthorize("isFullyAuthenticated()")
     @GetMapping("owned-and-recruiting-for")
     public List<CompanyMinimalDto> getOwnedAndRecruitingForCompanies() {
-        return companyService.getOwnedAndRecruitingFor(getCurrentUser());
+        return companyService.getEnabledOwnedAndRecruitingFor(getCurrentUser());
     }
 
     @PreAuthorize("isFullyAuthenticated()")
     @GetMapping("owned")
-    public List<CompanyListItemDto> getOwnedCompanies() {
-        return companyService.getOwnedCompanies(getCurrentUser());
+    public List<CompanyListItemDto> getEnabledOwnedCompanies() {
+        return companyService.getEnabledOwnedCompanies(getCurrentUser());
     }
 
     @PreAuthorize("hasRole('ADMIN') or (hasRole('USER') and @customAuthenticationManager.isCompanyOwner(authentication, #companyId))")
