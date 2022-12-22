@@ -37,6 +37,8 @@ public class OfferServiceImpl implements OfferService{
     private final OfferMapper offerMapper;
     private final UserMapper userMapper;
 
+
+
     @Override
     @Transactional
     public Page<OfferMinimalDto> getOffers(
