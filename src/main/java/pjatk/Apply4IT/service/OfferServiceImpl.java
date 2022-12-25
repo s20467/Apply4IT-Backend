@@ -295,10 +295,8 @@ public class OfferServiceImpl implements OfferService{
         updatedOffer.setRemotePossibility(remotePossibility);
         updatedOffer.getExpectations().removeAll(updatedOffer.getExpectations());
         updatedOffer.getExpectations().addAll(expectations);
-//        updatedOffer.setExpectations(expectations);
         updatedOffer.getOfferAdvantages().removeAll(updatedOffer.getOfferAdvantages());
         updatedOffer.getOfferAdvantages().addAll(offerAdvantages);
-//        updatedOffer.setOfferAdvantages(offerAdvantages);
         updatedOffer.getCategories().forEach(category -> category.getOffers().remove(updatedOffer));
         updatedOffer.setCategories(categories);
         categories.forEach(category -> category.getOffers().add(updatedOffer));
