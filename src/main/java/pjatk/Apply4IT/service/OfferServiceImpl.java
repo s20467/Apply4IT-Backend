@@ -102,6 +102,7 @@ public class OfferServiceImpl implements OfferService{
     }
 
     @Override
+    @Transactional
     public OfferFullDto getById(Integer offerId, User currentUser) {
         Offer foundOffer = offerRepository.findOfferFullDtoBaseById(offerId).orElseThrow(
                 () -> new ResourceNotFoundException("Offer with id: " + offerId + " not found")
