@@ -15,6 +15,9 @@ public class SalaryRangeValidator implements
 
     @Override
     public boolean isValid(OfferCreationRequestDto offerCreationRequestDto, ConstraintValidatorContext cxt) {
+        if(offerCreationRequestDto.getMinSalaryPln() == null || offerCreationRequestDto.getMaxSalaryPln() == null) {
+            return true;
+        }
         return offerCreationRequestDto.getMinSalaryPln() < offerCreationRequestDto.getMaxSalaryPln();
     }
 }

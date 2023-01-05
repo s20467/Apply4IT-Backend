@@ -12,9 +12,12 @@ public class OfferClosingDateValidator implements
     }
 
     @Override
-    public boolean isValid(LocalDate birthdate, ConstraintValidatorContext cxt) {
-        return birthdate.isAfter(LocalDate.now()) &&
-                birthdate.isBefore(LocalDate.now().plusYears(1));
+    public boolean isValid(LocalDate closingDate, ConstraintValidatorContext cxt) {
+        if(closingDate == null) {
+            return true;
+        }
+        return closingDate.isAfter(LocalDate.now()) &&
+                closingDate.isBefore(LocalDate.now().plusYears(1));
     }
 
 }

@@ -16,19 +16,15 @@ import java.time.LocalDate;
 @Setter
 public class UserPatchDto {
 
-    @NotNull
     @Size(min = 4, max = 20)
     private String password;
 
-    @NotNull
     @Size(min = 2, max = 30)
     private String firstName;
 
-    @NotNull
     @Size(min = 2, max = 50)
     private String lastName;
 
-    @NotNull
     @Birthdate
     private LocalDate birthdate;
 

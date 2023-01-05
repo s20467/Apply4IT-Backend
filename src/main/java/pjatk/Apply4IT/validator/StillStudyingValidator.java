@@ -14,6 +14,9 @@ public class StillStudyingValidator implements
 
     @Override
     public boolean isValid(EducationFullDto educationFullDto, ConstraintValidatorContext cxt) {
+        if(educationFullDto.getStillStudying() == null) {
+            return true;
+        }
         return (educationFullDto.getStillStudying() && educationFullDto.getEndDate() == null) ||
                 (!educationFullDto.getStillStudying() && educationFullDto.getEndDate() != null);
     }

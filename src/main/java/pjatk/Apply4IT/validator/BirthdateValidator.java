@@ -13,6 +13,9 @@ public class BirthdateValidator implements
 
     @Override
     public boolean isValid(LocalDate birthdate, ConstraintValidatorContext cxt) {
+        if(birthdate == null) {
+            return true;
+        }
         return birthdate.isAfter(LocalDate.of(1900, 1, 1)) &&
                 birthdate.isBefore(LocalDate.now());
     }

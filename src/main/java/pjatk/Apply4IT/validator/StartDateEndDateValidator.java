@@ -14,6 +14,9 @@ public class StartDateEndDateValidator implements
 
     @Override
     public boolean isValid(Period periodObject, ConstraintValidatorContext cxt) {
+        if(periodObject.getStartDate() == null || periodObject.getEndDate() == null) {
+            return true;
+        }
         return periodObject.getStartDate().isBefore(periodObject.getEndDate());
     }
 }
