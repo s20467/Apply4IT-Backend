@@ -3,6 +3,7 @@ package pjatk.Apply4IT.service;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 import pjatk.Apply4IT.api.v1.dto.OfferCreationRequestDto;
 import pjatk.Apply4IT.api.v1.dto.OfferFullDto;
@@ -20,6 +21,9 @@ public interface OfferService {
     void saveOffer(Integer offerId, User user);
     void unsaveOffer(Integer offerId, User currentUser);
     void deleteById(Integer offerId);
+
+    void delete(Offer offer);
+
     Integer createOffer(OfferCreationRequestDto offerCreationDto, User currentUser);
     Integer updateOffer(Integer offerId, OfferCreationRequestDto offerCreationDto);
 

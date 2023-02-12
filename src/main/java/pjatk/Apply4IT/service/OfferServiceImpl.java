@@ -181,8 +181,25 @@ public class OfferServiceImpl implements OfferService{
 
     @Override
     @Transactional
+    public void delete(Offer offer) {
+//        foundOffer.getCompany().getOffers().remove(foundOffer);
+//        foundOffer.getAuthor().getCreatedOffers().remove(foundOffer);
+        offer.getApplications().forEach((Application application) ->
+                application.getCandidate().getApplications().remove(application)
+        );
+        offer.getCategories().forEach((Category category) ->
+                category.getOffers().remove(offer));
+        offer.getUsersWhoSaved().forEach((User user) ->
+                user.getSavedOffers().remove(offer));
+
+        offerRepository.delete(offer);
+    }
+
+    @Override
+    @Transactional
     public Integer createOffer(OfferCreationRequestDto offerCreationDto, User currentUser) {
         Offer newOffer = new Offer();
+        User foundCurrentUser = userRepository.getByEmail(currentUser.getEmail());
         Company foundCompany = companyRepository.findById(offerCreationDto.getCompanyId()).orElseThrow(
                 () -> new ResourceNotFoundException("Company with id: " + offerCreationDto.getCompanyId() + " not found")
         );
@@ -232,7 +249,6 @@ public class OfferServiceImpl implements OfferService{
         foundCompany.getOffers().add(newOffer);
         foundLocalization.getOffers().add(newOffer);
         categories.forEach(category -> category.getOffers().add(newOffer));
-        User foundCurrentUser = userRepository.getByEmail(currentUser.getEmail());
         newOffer.setAuthor(foundCurrentUser);
         foundCurrentUser.getCreatedOffers().add(newOffer);
 

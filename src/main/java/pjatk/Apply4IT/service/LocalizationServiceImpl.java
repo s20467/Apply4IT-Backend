@@ -18,6 +18,7 @@ public class LocalizationServiceImpl implements LocalizationService {
 
     private final LocalizationRepository localizationRepository;
     private final LocalizationMapper localizationMapper;
+    private final OfferService offerService;
 
     @Override
     public List<LocalizationFullDto> getAllLocalizations() {
@@ -41,11 +42,13 @@ public class LocalizationServiceImpl implements LocalizationService {
     }
 
     @Override
-    @Transactional
     public void deleteById(Integer localizationId) {
-        Localization foundLocalization = localizationRepository.findById(localizationId).orElseThrow(
+        Localization foundLocalization = localizationRepository.findWithOffersById(localizationId).orElseThrow(
                 () -> new ResourceNotFoundException("Localization with id: " + localizationId + " not found")
         );
-        localizationRepository.delete(foundLocalization);
+        foundLocalization.getOffers().forEach(offer ->
+            offerService.deleteById(offer.getId())
+        );
+        localizationRepository.deleteById(foundLocalization.getId());
     }
 }

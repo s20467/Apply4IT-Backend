@@ -161,7 +161,7 @@ public class UserServiceImpl implements UserService {
         User foundUser = userRepository.findByEmail(userEmail).orElseThrow(
                 () -> new ResourceNotFoundException("User with email: " + userEmail + " not found")
         );
-        foundUser.getCreatedOffers().forEach(offer -> offerService.deleteById(offer.getId()));
+        foundUser.getCreatedOffers().forEach(offerService::delete);
         foundUser.getOwnedCompanies().forEach(company -> companyService.deleteById(company.getId()));
         foundUser.getIsRecruiterFor().forEach(company -> company.getRecruiters().remove(foundUser));
         foundUser.getDomainAuthorities().forEach(authority -> authority.getUsers().remove(foundUser));

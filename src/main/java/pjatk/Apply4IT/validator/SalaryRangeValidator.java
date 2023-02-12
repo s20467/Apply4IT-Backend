@@ -18,6 +18,6 @@ public class SalaryRangeValidator implements
         if(offerCreationRequestDto.getMinSalaryPln() == null || offerCreationRequestDto.getMaxSalaryPln() == null) {
             return true;
         }
-        return offerCreationRequestDto.getMinSalaryPln() < offerCreationRequestDto.getMaxSalaryPln();
+        return offerCreationRequestDto.getMinSalaryPln() <= offerCreationRequestDto.getMaxSalaryPln();
     }
 }
