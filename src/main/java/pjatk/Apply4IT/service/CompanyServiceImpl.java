@@ -92,7 +92,7 @@ public class CompanyServiceImpl implements CompanyService{
         }
         companyDto.setIsCurrentUserRecruiter(false);
         if(currentUser != null) {
-            companyDto.setIsCurrentUserOwner(
+            companyDto.setIsCurrentUserRecruiter(
                     foundCompany.getRecruiters().stream().anyMatch(
                             user -> user.getEmail().equals(currentUser.getEmail())
                     )
