@@ -16,7 +16,7 @@ public class ApplicationController {
 
     private final OfferService offerService;
 
-    @PreAuthorize("hasRole('ADMIN') or (hasRole('USER') and @customAuthenticationManager.isOfferAuthorByApplicationId(authentication, #offerId))")
+    @PreAuthorize("hasRole('ADMIN') or (hasRole('USER') and @customAuthenticationManager.isOfferAuthorByApplicationId(authentication, #applicationId))")
     @GetMapping(value = "/{applicationId}/cv", produces = {MediaType.APPLICATION_PDF_VALUE})
     public InputStreamResource get(@PathVariable Integer applicationId) {
         return new InputStreamResource(new ByteArrayInputStream(offerService.getApplicationCv(applicationId)));
